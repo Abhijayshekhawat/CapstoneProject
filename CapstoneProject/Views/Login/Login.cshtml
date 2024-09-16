@@ -1,0 +1,36 @@
+﻿@{
+    Layout = null; //no layout
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="@Url.Content("/css/LoginStyles.css")"> <!-- Correct CSS path resolution -->
+
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <img src="@Url.Content("/images/bell_tower.jpg")" alt="Temple Bell Tower">
+        </div>
+        <div class="right">
+            <div class="login-box">
+                <img src="@Url.Content("/images/templeTlogo.png")" alt="Temple Logo" class="logo">
+                <h2>Login to your account</h2>
+                <form action="" method="POST">
+                    <input type="email" name="email" placeholder="email@temple.edu" required>
+                    <input type="password" name="password" placeholder="password" required>
+                    <button type="submit">Log In</button>
+                    <div class="or-divider">or continue with</div>
+                    <button type="button" class="sso-button">Temple SSO</button>
+                </form>
+                <p>By clicking continue, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
