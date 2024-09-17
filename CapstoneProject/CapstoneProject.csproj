@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Folder Include="secure\" />
+    <Folder Include="Views\Admin\" />
   </ItemGroup>
 
   <ItemGroup>

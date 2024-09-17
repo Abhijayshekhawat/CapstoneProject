@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
+//should be used for admin to manage all user profiles
 namespace CapstoneProject.Controllers.Admin
 {
-    public class AdminProfileController : Controller
+    public class AdminProfilesController : Controller
     {
         public IActionResult Index()
         {
