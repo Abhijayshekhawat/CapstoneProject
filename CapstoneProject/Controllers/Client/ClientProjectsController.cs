@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-//can be used for client projects such as submitted projects
+
 namespace CapstoneProject.Controllers.Client
 {
-    public class ProjectsController : Controller
+    public class ClientProjectsController : Controller
     {
         public IActionResult Index()
         {

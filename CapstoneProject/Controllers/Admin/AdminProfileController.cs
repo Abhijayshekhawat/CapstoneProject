@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-//dashboard controller for admin/reviewer
+
 namespace CapstoneProject.Controllers.Admin
 {
-    public class DashboardController : Controller
+    public class AdminProfileController : Controller
     {
         public IActionResult Index()
         {
