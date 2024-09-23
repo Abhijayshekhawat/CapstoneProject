@@ -7,12 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="secure\**" />
+    <Content Remove="secure\**" />
+    <EmbeddedResource Remove="secure\**" />
+    <None Remove="secure\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\css\LoginStyles.css" />
     <Content Remove="wwwroot\Images\templeTlogo.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="secure\" />
     <Folder Include="Views\Admin\" />
   </ItemGroup>
 
