@@ -8,5 +8,9 @@ namespace CapstoneProject.Controllers.Admin
         {
             return View();
         }
+        public IActionResult ManageProjects()
+        {
+            return View("~/Views/Admin/AdminManageProjects.cshtml");
+        }
     }
 }
