@@ -8,5 +8,10 @@ namespace CapstoneProject.Controllers.Admin
         {
             return View();
         }
+
+        public IActionResult ManageProfiles()
+        {
+            return View("~/Views/Admin/AdminManageProfiles.cshtml");
+        }
     }
 }
