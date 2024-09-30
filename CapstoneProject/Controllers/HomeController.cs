@@ -15,7 +15,7 @@ namespace CapstoneProject.Controllers
 
         public IActionResult Index()
         {
-            return View("Login");
+            return View();
         }
 
         public IActionResult Privacy()
