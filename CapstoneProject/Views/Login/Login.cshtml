@@ -20,17 +20,25 @@
             <div class="login-box">
                 <img src="@Url.Content("/images/templeTlogo.png")" alt="Temple Logo" class="logo">
                 <h2>Login to your account</h2>
-                <form action="" method="POST">
+                <form id="loginForm" action="/Login/Submit" method="POST">
                     <input type="email" name="email" placeholder="email@temple.edu" required>
                     <input type="password" name="password" placeholder="password" required>
-                    <button type="submit">Log In</button>
+                    <button type="submit" name="action" value="login">Log In</button>
                     <div class="or-divider">or continue with</div>
-                    <button type="button" class="sso-button">Temple SSO</button>
+                    <button type="button" class="sso-button" id="ssoButton">Temple SSO</button>
                 </form>
                 <p>By clicking continue, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></p>
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById("ssoButton").addEventListener("click", function() {
+            // Change the form action to SSO and submit
+            const form = document.getElementById("loginForm");
+            form.action = "/Login/Sso";
+            form.submit();
+        });
+    </script>
 </body>
 </html>
 
