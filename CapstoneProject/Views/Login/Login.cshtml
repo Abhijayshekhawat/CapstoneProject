@@ -33,10 +33,8 @@
     </div>
     <script>
         document.getElementById("ssoButton").addEventListener("click", function() {
-            // Change the form action to SSO and submit
-            const form = document.getElementById("loginForm");
-            form.action = "/Login/Sso";
-            form.submit();
+            // Redirect to the desired page without submitting the form
+            window.location.href = "/Secure";
         });
     </script>
 </body>
