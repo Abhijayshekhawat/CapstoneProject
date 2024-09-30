@@ -19,5 +19,10 @@ namespace CapstoneProject.Controllers
             return View();
         }
 
+        public IActionResult ClientProjects()
+        {
+            return View();
+        }
+
     }
 }
