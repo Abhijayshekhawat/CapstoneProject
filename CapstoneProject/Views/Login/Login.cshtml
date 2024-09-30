@@ -1,5 +1,6 @@
 ﻿@{
     Layout = null; //no layout
+    string routePrefix = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development" ? "/cis4396-f04" : "";
 }
 
 <!DOCTYPE html>
@@ -32,9 +33,12 @@
         </div>
     </div>
     <script>
+        const routePrefix = "@(routePrefix)";
         document.getElementById("ssoButton").addEventListener("click", function() {
+            const redirectUrl = routePrefix + "/Secure/Index";
+            console.log("Redirecting to:", redirectUrl);
             // Redirect to the Secure Index action
-            window.location.href = "/Secure/Index";
+            window.location.href = redirectUrl;
         });
     </script>
 </body>
