@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace CapstoneProject.Controllers
 {
@@ -6,25 +7,26 @@ namespace CapstoneProject.Controllers
     {
         public IActionResult Index()
         {
+            // Get all headers
+            var headers = GetAllHeaders();
+
+            // Pass headers to the view using ViewData
+            ViewData["Headers"] = headers;
+
             return View("~/Views/Secure/Index.cshtml");
         }
 
-
-
-        protected string GetShibbolethHeaderAttributes()
+        protected Dictionary<string, string> GetAllHeaders()
         {
-            string employeeNumber = Request.Headers["employeeNumber"]; //Use this to retrieve the user's information via the web services  
-            HttpContext.Session.SetString("SSO_Attribute_employeeNumber", employeeNumber);
+            var headersDictionary = new Dictionary<string, string>();
 
+            // Loop through all headers and add them to the dictionary
+            foreach (var header in Request.Headers)
+            {
+                headersDictionary.Add(header.Key, header.Value.ToString());
+            }
 
-
-
-            return (String.IsNullOrWhiteSpace(employeeNumber)) ? "N/A" : employeeNumber;
-        }
-
-        private bool IsLocalRequest()
-        {
-            return HttpContext.Connection.RemoteIpAddress.Equals(HttpContext.Connection.LocalIpAddress);
+            return headersDictionary;
         }
     }
 }

@@ -1,14 +1,37 @@
-﻿
-@{
-
-
+﻿@{
     ViewData["Title"] = "Capstone Home Page";
     Layout = "_ClientLayout";
-
 }
 
 <div class="text-center">
-
     <h1 class="display-4">Welcome to 4396</h1>
-   
+
+    <h3>Request Headers</h3>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Header Name</th>
+                <th>Header Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewData["Headers"] is Dictionary<string, string> headers)
+            {
+                foreach (var header in headers)
+                {
+                    <tr>
+                        <td>@header.Key</td>
+                        <td>@header.Value</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2">No headers found</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
