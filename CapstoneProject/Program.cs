@@ -4,6 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+string connectionString = builder.Configuration.GetConnectionString("Connection_Database");
 app.UsePathBase("/cis4396-f04");
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
