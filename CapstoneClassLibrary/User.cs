@@ -1,9 +1,12 @@
 ﻿using CapstoneClassLibrary;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utilities;
 
 
 //UserID INT PRIMARY KEY,
@@ -62,7 +65,43 @@ namespace CapstoneClassLibrary
 
         public int IsActive { get {  return isactive; } set {  isactive = value; } }
 
-        
+        public int Login(string email, string password)
+        {
+            //// Create an instance of the Connection class
+            //using (Connection objDB = new Connection())
+            //{
+            //    // Open the connection
+            //    if (!objDB.Open())
+            //    {
+            //        // Handle the case where the connection couldn't be opened
+            //        throw new Exception("Could not open database connection.");
+            //    }
+
+            //    // Create a SqlCommand object
+            //    SqlCommand objCommand = new SqlCommand
+            //    {
+            //        CommandType = CommandType.StoredProcedure,
+            //        CommandText = "UserLogin"
+            //    };
+
+            //    // Add parameters to the command
+            //    SqlParameter inputParameter = new SqlParameter("@Email", email);
+            //    objCommand.Parameters.Add(inputParameter);
+
+            //    SqlParameter inputParameter2 = new SqlParameter("@Password", password);
+            //    objCommand.Parameters.Add(inputParameter2);
+
+            //    // Use the Connection class's method to execute the SqlCommand and get a DataSet
+            //    DataSet ds = objDB.GetDataSetUsingCmdObj(objCommand);
+
+            //    // Check if there are any rows in the dataset to determine if the login was successful
+            //    int SuccessfulLogin = ds.Tables[0].Rows.Count;
+
+            //    // Return the result
+            //    return SuccessfulLogin;
+            //}
+            return 1;
+        }
 
     }
 }

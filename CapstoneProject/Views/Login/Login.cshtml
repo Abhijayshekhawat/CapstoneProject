@@ -1,4 +1,5 @@
-﻿@{
+﻿@model CapstoneProject.Models.LoginModel
+@{
     Layout = null; //no layout
     string routePrefix = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development" ? "/cis4396-f04" : "";
 }
@@ -21,9 +22,18 @@
             <div class="login-box">
                 <img src="@Url.Content("images/templeTlogo.png")" alt="Temple Logo" class="logo">
                 <h2>Login to your account</h2>
-                <form id="loginForm" action="/Login/Submit" method="POST">
-                    <input type="email" name="email" placeholder="email@temple.edu" required>
-                    <input type="password" name="password" placeholder="password" required>
+                <form asp-controller="Login" asp-action="Login" method="post">
+                    <div class="login-link">
+                        <label>New Here? </label>
+                        <a asp-controller="Account" asp-action="CreateAccount">Join us</a>
+                    </div>
+                    <input type="email" asp-for="Email" class="form-control input__field" placeholder="email@temple.edu" value="@ViewBag.Email" />
+                    <br />
+                    <span asp-validation-for="Email" class="text-danger error-message"></span>
+                    <input type="password" asp-for="Password" class="form-control input__field" placeholder="Password" value="@ViewBag.Pwd" />
+                    <br />
+                    <span asp-validation-for="Password" class="text-danger error-message"></span>
+
                     <button type="submit" name="action" value="login">Log In</button>
                     <div class="or-divider">or continue with</div>
                     <button type="button" class="sso-button" id="ssoButton">Temple SSO</button>

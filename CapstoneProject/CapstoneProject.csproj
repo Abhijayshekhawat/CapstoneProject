@@ -27,4 +27,12 @@
     <None Include="wwwroot\Images\templeTlogo.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CapstoneClassLibrary\CapstoneClassLibrary.csproj" />
+  </ItemGroup>
+
 </Project>
