@@ -7,13 +7,14 @@ namespace Utilities
 {
     public class Connection : IDisposable
     {
-        readonly String SqlConnectString = ConfigurationManager.ConnectionStrings["Connection_Database"].ConnectionString;
+        private string SqlConnectString;
         SqlConnection myConnectionSql;
         DataSet ds;
 
-        public Connection()
+        public Connection(string connectionString)
         {
-            myConnectionSql = new SqlConnection(SqlConnectString + ConfigurationManager.AppSettings["Connection_DB_Password"]);
+            SqlConnectString = connectionString;
+            myConnectionSql = new SqlConnection(SqlConnectString);
         }
 
 

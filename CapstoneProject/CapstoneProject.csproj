@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>b58783cf-8392-4618-8e40-7287e20278db</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +26,16 @@
   <ItemGroup>
     <None Include="wwwroot\css\LoginStyles.css" />
     <None Include="wwwroot\Images\templeTlogo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CapstoneClassLibrary\CapstoneClassLibrary.csproj" />
+    <ProjectReference Include="..\Utilities\Utilities.csproj" />
   </ItemGroup>
 
 </Project>
