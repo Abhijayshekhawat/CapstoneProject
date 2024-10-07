@@ -23,7 +23,12 @@ app.UseAuthorization();
 
 string routePrefix = app.Environment.IsProduction() ? "cis4396-f04" : "";
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Login}/{action=Login}/{id?}");
+  name: "default",
+pattern: "{controller=Login}/{action=Login}/{id?}");
 
 app.Run();
+
+//string routePrefix = app.Environment.IsProduction() ? "cis4396-f04" : "";
+//app.MapControllerRoute(
+//  name: "default",
+//pattern: "{controller=Login}/{action=Login}/{id?}");
