@@ -25,5 +25,10 @@ namespace CapstoneProject.Controllers
         {
             return View();
         }
+
+        public IActionResult Registration()
+        {
+            return View("~/Views/Account/CreateAccount.cshtml");
+        }
     }
 }
