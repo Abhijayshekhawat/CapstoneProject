@@ -52,19 +52,17 @@ namespace CapstoneProject.Controllers
             string fullConnectionString = $"{baseConnectionString}Password={passwordPart};";
 
             // Pass this connection string to the utilities project
-            using (var connection = new Connection(fullConnectionString))
-            {
-                User user = new User();
-                int loginSuccess = user.Login(Request.Form["Email"].ToString(), Request.Form["Password"].ToString());
+            // Pass this connection string to the User class method
+            User user = new User();
+            int loginSuccess = user.Login(Request.Form["Email"].ToString(), Request.Form["Password"].ToString(), fullConnectionString);
 
-                if (loginSuccess > 0)
-                {
-                    return View("~/Views/Home/index.cshtml");
-                }
-                else
-                {
-                    ViewBag.ErrorMessage = "Incorrect Password/UserName. Please try again!";
-                }
+            if (loginSuccess > 0)
+            {
+                return View("~/Views/Home/index.cshtml");
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Incorrect Password/UserName. Please try again!";
             }
 
             return View();

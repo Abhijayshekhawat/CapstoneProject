@@ -65,10 +65,10 @@ namespace CapstoneClassLibrary
 
         public int IsActive { get {  return isactive; } set {  isactive = value; } }
 
-        public int Login(string email, string password)
+        public int Login(string email, string password, string connectionString)
         {
-            // Create an instance of the Connection class
-            using (Connection objDB = new Connection())
+            // Create an instance of the Connection class with the connection string
+            using (Connection objDB = new Connection(connectionString))
             {
                 // Open the connection
                 if (!objDB.Open())
