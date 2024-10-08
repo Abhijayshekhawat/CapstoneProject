@@ -11,6 +11,11 @@ namespace CapstoneProject.Controllers.Admin
 
         public IActionResult ManageProfiles()
         {
+            ViewBag.AdminViewProfiles = null; //null for now
+
+            //Use stored procedure to get profile data from datatable
+            //create profile objects and add them to the viewbag
+
             return View("~/Views/Admin/AdminManageProfiles.cshtml");
         }
     }

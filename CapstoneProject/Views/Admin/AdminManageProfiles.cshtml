@@ -1,3 +1,4 @@
+@model CapstoneProject.Models.AdminModel
 @{
     ViewData["Title"] = "Manage Profiles";
     Layout = "_ClientLayout";
@@ -63,5 +64,30 @@
             <th>Pending</th>
             <th><button>View Profile</button></th>
         </tr>
+
+        @* We create a project object for each project and save those in a viewbag
+        We use the viewbag to populate the Admin's view
+        *@
+        @if (ViewBag.AdminViewProfiles == null || ViewBag.AdminViewfiles.Count == 0)
+        {
+            <center>
+                <label>There are no profiles</label>
+            </center>
+        }
+        else
+        {
+            foreach (var profile in ViewBag.AdminViewProfiles)
+            {
+                <tr>
+                    <th>@profile.ProfileID</th>
+                    <th>@profile.FirstName</th>
+                    <th>@profile.LastName</th>
+                    <th>@profile.Organization</th>
+                    <th>@profile.Email</th>
+                    <th>@profile.ReviewStatus</th>
+                    <th><button>View Profile</button></th>
+                </tr>
+            }
+        }
     </table>
 </div>

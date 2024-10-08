@@ -1,3 +1,4 @@
+@model CapstoneProject.Models.AdminModel
 @{
     ViewData["Title"] = "Manage Projects";
     Layout = "_ClientLayout";
@@ -40,4 +41,27 @@
         <th>We don't like it</th>
         <th><button>View Project</button></th>
     </tr>
+
+    @* We create a project object for each project and save those in a viewbag
+        We use the viewbag to populate the Admin's view
+    *@
+    @if (ViewBag.AdminViewProjects == null || ViewBag.AdminViewProjects.Count == 0)
+    {
+        <center>
+            <label>There are no projects</label>
+        </center>
+    }
+    else
+    {
+        foreach (var project in ViewBag.AdminViewProjects)
+        {
+            <tr>
+                <th>@project.ProjectName</th>
+                <th>@project.ShortDesc</th>
+                <th>@project.ProjectStatus</th>
+                <th>@project.Comments</th>
+                <th><button>View Details</button></th>
+            </tr>
+        }
+    }
 </table>
