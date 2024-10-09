@@ -2,7 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-namespace CapstoneProject.Models
+namespace CapstoneProject.Models.Utilities
 {
     public class EncryptionHelper
     {

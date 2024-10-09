@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using CapstoneClassLibrary;
+using CapstoneProject.Models.ClassLibrary;
+
 
 namespace CapstoneProject.Controllers.API
 {

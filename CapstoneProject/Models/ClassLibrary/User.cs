@@ -1,13 +1,11 @@
-﻿using CapstoneClassLibrary;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using CapstoneProject.Models;
-using Utilities;
+using CapstoneProject.Models.Utilities;
 
 
 
@@ -22,7 +20,7 @@ using Utilities;
 //   IsActive BIT NOT NULL,
 //   FOREIGN KEY (ProfileID) REFERENCES Profile(ProfileID)
 
-namespace CapstoneClassLibrary
+namespace CapstoneProject.Models.ClassLibrary
 {
 
     public class User

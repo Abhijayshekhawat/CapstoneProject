@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using CapstoneClassLibrary;
+using CapstoneProject.Models.ClassLibrary;
 using CapstoneProject.Models;
 using System.Data;
 using System.Net;
 using System.Text.Json;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using Utilities;
 
 namespace CapstoneProject.Controllers
 {

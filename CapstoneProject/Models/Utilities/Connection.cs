@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace CapstoneProject.Models
+namespace CapstoneProject.Models.Utilities
 {
     public class Connection : IDisposable
     {
@@ -46,7 +46,7 @@ namespace CapstoneProject.Models
             CloseConnection();
         }
 
-        public DataSet GetDataSet(String SqlSelect)
+        public DataSet GetDataSet(string SqlSelect)
         {
             // Input parameter is a SELECT SQL statement. Return is the Dataset
             // Note: The Dataset is also stored as a class variable for use in the GetField function
