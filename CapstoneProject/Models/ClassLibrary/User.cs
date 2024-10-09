@@ -32,7 +32,7 @@ namespace CapstoneProject.Models.ClassLibrary
         private string lastname;
         private string passwordhash;
         private string usertype;
-        private int isactive; 
+        private int isactive;
 
         public User() { }
 
@@ -49,27 +49,27 @@ namespace CapstoneProject.Models.ClassLibrary
 
         }
 
-        
-        public int UserID { get { return userid; } set {  userid = value; } }
 
-        public int ProfileID { get { return profileid; } set {  profileid = value; } }
+        public int UserID { get { return userid; } set { userid = value; } }
+
+        public int ProfileID { get { return profileid; } set { profileid = value; } }
 
         public string Email { get { return email; } set { email = value; } }
 
-        public string FirstName { get {  return firstname; } set {  firstname = value; } }
+        public string FirstName { get { return firstname; } set { firstname = value; } }
 
-        public string LastName { get { return lastname; } set {  lastname = value; } }
+        public string LastName { get { return lastname; } set { lastname = value; } }
 
-        public string PasswordHash { get {  return passwordhash; } set {  passwordhash = value; } }
+        public string PasswordHash { get { return passwordhash; } set { passwordhash = value; } }
 
-        public string UserType { get {  return usertype; } set { usertype = value;  } }
+        public string UserType { get { return usertype; } set { usertype = value; } }
 
-        public int IsActive { get {  return isactive; } set {  isactive = value; } }
+        public int IsActive { get { return isactive; } set { isactive = value; } }
 
-        public int Login(string email, string password, string connectionString)
+        public int Login(string email, string password)
         {
             // Create an instance of the Connection class with the connection string
-            using (Connection objDB = new Connection(connectionString))
+            using (Connection objDB = new Connection())
             {
                 // Open the connection
                 if (!objDB.Open())

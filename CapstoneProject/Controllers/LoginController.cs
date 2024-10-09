@@ -11,13 +11,8 @@ namespace CapstoneProject.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly IConfiguration _configuration;
         string TestAPI_Url = "https://localhost:7277/api/Account";
         string AccountAPI_Url = "https://cis-iis2.temple.edu/Spring2024/CIS3342_tuh18229/WebAPITest/api/Account";
-        public LoginController(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
 
         public IActionResult Index()
         {
@@ -42,18 +37,8 @@ namespace CapstoneProject.Controllers
             {
                 return View(model);
             }
-
-            // Fetch the connection string parts from appsettings and User Secrets
-            string baseConnectionString = _configuration.GetConnectionString("Connection_Database");
-            string passwordPart = _configuration["ConnectionStrings:Connection_Database_Password"]; // from secrets.json
-
-            // Combine them to form the full connection string
-            string fullConnectionString = $"{baseConnectionString}Password={passwordPart};";
-
-            // Pass this connection string to the utilities project
-            // Pass this connection string to the User class method
             User user = new User();
-            int loginSuccess = user.Login(Request.Form["Email"].ToString(), Request.Form["Password"].ToString(), fullConnectionString);
+            int loginSuccess = user.Login(Request.Form["Email"].ToString(), Request.Form["Password"].ToString());
 
             if (loginSuccess > 0)
             {

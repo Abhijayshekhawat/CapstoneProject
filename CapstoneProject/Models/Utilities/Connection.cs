@@ -10,11 +10,21 @@ namespace CapstoneProject.Models.Utilities
         private string SqlConnectString;
         SqlConnection myConnectionSql;
         DataSet ds;
-
-        public Connection(string connectionString)
+        public Connection()
         {
-            SqlConnectString = connectionString;
-            myConnectionSql = new SqlConnection(SqlConnectString);
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddUserSecrets<Connection>() // Load secrets.json
+                .Build();
+
+            // Retrieve the base connection string from appsettings.json
+            string baseConnectionString = configuration.GetConnectionString("Connection_Database");
+            // Retrieve the password from secrets.json
+            string passwordPart = configuration["ConnectionStrings:Connection_Database_Password"];
+
+            // Combine them to form the full connection string
+            string fullConnectionString = $"{baseConnectionString}Password={passwordPart};";
+            myConnectionSql = new SqlConnection(fullConnectionString);
         }
 
 
