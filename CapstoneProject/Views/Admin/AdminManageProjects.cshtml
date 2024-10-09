@@ -1,4 +1,4 @@
-@model CapstoneProject.Models.AdminModel
+@model List<CapstoneProject.Models.ClassLibrary.Project>
 @{
     ViewData["Title"] = "Manage Projects";
     Layout = "_ClientLayout";
@@ -30,21 +30,6 @@
                     </thead>
                     <tbody>
                         @* Iterate Database data into table rows *@
-                        <tr>
-                            <td>Class Registration</td>
-                            <td>Faster way to register for classes</td>
-                            <td>Pending Review</td>
-                            <td>None</td>
-                            <td><a href="#" class="btn btn-primary">View Project</a></td>
-                        </tr>
-                        <tr>
-                            <td>Food Truck App</td>
-                            <td>Ordering from food trucks on campus through GrubHub</td>
-                            <td>Denied</td>
-                            <td>We don't like it</td>
-                            <td><a href="#" class="btn btn-primary">View Project</a></td>
-                        </tr>
-
                         @* Check if there are any projects to display *@
                         @if (ViewBag.AdminViewProjects == null || ViewBag.AdminViewProjects.Count == 0)
                         {
@@ -52,19 +37,17 @@
                                 <td colspan="5" class="text-center">There are no projects</td>
                             </tr>
                         }
-                        else
+                        @foreach (var project in ViewBag.AdminViewProjects)
                         {
-                            foreach (var project in ViewBag.AdminViewProjects)
-                            {
-                                <tr>
-                                    <td>@project.ProjectName</td>
-                                    <td>@project.ShortDesc</td>
-                                    <td>@project.ProjectStatus</td>
-                                    <td>@project.Comments</td>
-                                    <td><a href="#" class="btn btn-primary">View Details</a></td>
-                                </tr>
-                            }
+                            <tr>
+                                <td>@project.ProjectName</td>
+                                <td>@project.ShortDesc</td>
+                                <td>@project.ProjectStatus</td>
+                                <td>@project.Comments</td>
+                                <td><a href="#" class="btn btn-primary">View Details</a></td>
+                            </tr>
                         }
+                        
                     </tbody>
                 </table>
             </div>
