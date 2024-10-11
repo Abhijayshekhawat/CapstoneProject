@@ -1,4 +1,4 @@
-@model CapstoneProject.Models.AdminModel
+@model List<CapstoneProject.Models.ClassLibrary.Profile>
 @{
     ViewData["Title"] = "Manage Profiles";
     Layout = "_ClientLayout";
@@ -55,20 +55,10 @@
         </tr>
 
         @*Iterate Database data into table rows*@
-        <tr>
-            <th>Neel1234</th>
-            <th>Neel</th>
-            <th>Patel</th>
-            <th>Temple University</th>
-            <th>Neel@JP.com</th>
-            <th>Pending</th>
-            <th><button>View Profile</button></th>
-        </tr>
-
         @* We create a profile object for each profile and save those in a viewbag
         We use the viewbag to populate the Admin's view
         *@
-        @if (ViewBag.AdminViewProfiles == null || ViewBag.AdminViewfiles.Count == 0)
+        @if (ViewBag.AdminViewProfiles == null || ViewBag.AdminViewProfiles.Count == 0)
         {
             <center>
                 <label>There are no profiles</label>
@@ -84,7 +74,7 @@
                     <th>@profile.LastName</th>
                     <th>@profile.Organization</th>
                     <th>@profile.Email</th>
-                    <th>@profile.ReviewStatus</th>
+                    <th>@profile.Status</th>
                     <th><button>View Profile</button></th>
                 </tr>
             }

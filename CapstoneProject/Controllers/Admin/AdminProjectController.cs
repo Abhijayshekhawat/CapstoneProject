@@ -25,17 +25,17 @@ namespace CapstoneProject.Controllers.Admin
 
             List<Project> theProjects = new List<Project>(); //list of project objects
 
-            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0) //if the dataset is not null or empty
             {
                 foreach (DataRow row in ds.Tables[0].Rows) //each record in the ds
                 {
-                    Project project = new Project();
+                    Project project = new Project(); //create a project object for each record
                     project.ProjectID = Convert.ToInt32(row["ProjectID"]);
                     project.ProfileID = Convert.ToInt32(row["ProfileID"]);
-                    project.ProjectName = row["ProjectType"].ToString();
+                    project.ProjectName = row["ProjectName"].ToString();
                     project.ShortDesc = row["ProjectDescription"].ToString();
 
-                    int status = Convert.ToInt32(row["LastUpdatedStatus"]);
+                    int status = Convert.ToInt32(row["LastUpdatedStatus"]); //project status is stored as an int in db, for the admin view we want to show the string
                     if (status == 1)
                     {
                         project.ProjectStatus = "Approved";
@@ -53,8 +53,7 @@ namespace CapstoneProject.Controllers.Admin
                 }
             }
             
-            ViewBag.AdminViewProjects = theProjects;
-            Debug.WriteLine($"Found {theProjects.Count} projects");
+            ViewBag.AdminViewProjects = theProjects; //viewbag containing the list of projects
 
             return View("~/Views/Admin/AdminManageProjects.cshtml", theProjects);
         }
