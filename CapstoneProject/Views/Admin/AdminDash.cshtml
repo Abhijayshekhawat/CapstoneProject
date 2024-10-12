@@ -2,62 +2,65 @@
     ViewData["Title"] = "Admin Dashboard";
     Layout = "_ClientLayout";
 }
-@*Temp Styling*@
 
 <head>
-    <style>
-        table,
-        th,
-        td {
-            border: 1px solid black;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/GridView.css" asp-append-version="true" />
 </head>
 
-<div class="text-center">
-    <h1 class="display-4">Admin Dashboard</h1>
+<div class="container mt-5">
+    <h1 class="display-4 text-center mb-4">Admin Dashboard</h1>
 
-    <div class="flexbox-container" style="display:flex;">
-        <div class="sidebar" style="flex:1;">
-            <h2>Projects To Be Reviewed</h2>
-            <table style="width:100%">
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Submitted By:</th>
-                    <th>View Project</th>
-                </tr>
-                @*Iterate database data here into table rows*@
-                <tr>
-                    <th>Class Registration</th>
-                    <th>An updated way to register for class</th>
-                    <th>Temple University</th>
-                    <th><button>View Project</button></th>
-                </tr>
+    <div class="mb-5">
+        <h3 class="mb-3">Projects To Be Reviewed</h3>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover shadow-sm">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Submitted By</th>
+                        <th>View Project</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @* Iterate database data here into table rows *@
+                    <tr>
+                        <td>Class Registration</td>
+                        <td>An updated way to register for classes</td>
+                        <td>Temple University</td>
+                        <td><a href="#" class="btn btn-primary">View Project</a></td>
+                    </tr>
+                    @* Additional rows would be added dynamically here *@
+                </tbody>
             </table>
         </div>
+    </div>
 
-        &nbsp;
-        &nbsp;
-        &nbsp;
-
-        <div class="main" style="flex:1;">
-            <h2>Profiles To Be Reviewed</h2>
-            <table style="width:100%">
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Organization</th>
-                    <th>View Profile</th>
-                </tr>
-
-                @*Iterate database data here into table rows*@
-                <tr>
-                    <th>Jeet</th>
-                    <th>Jeet@JP.com</th>
-                    <th>JP Morgan</th>
-                    <th><button>View Profile</button></th>
-                </tr>
+    <div>
+        <h3 class="mb-3">Profiles To Be Reviewed</h3>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover shadow-sm">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Organization</th>
+                        <th>View Profile</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @* Iterate database data here into table rows *@
+                    <tr>
+                        <td>Jeet</td>
+                        <td>Jeet@JP.com</td>
+                        <td>JP Morgan</td>
+                        <td><a href="#" class="btn btn-primary">View Profile</a></td>
+                    </tr>
+                    @* Additional rows would be added dynamically here *@
+                </tbody>
             </table>
         </div>
     </div>
