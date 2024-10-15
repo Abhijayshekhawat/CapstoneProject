@@ -77,7 +77,6 @@ namespace CapstoneProject.Models.ClassLibrary
                     // Handle the case where the connection couldn't be opened
                     throw new Exception("Could not open database connection.");
                 }
-
                 // Create a SqlCommand object
                 SqlCommand objCommand = new SqlCommand
                 {
@@ -103,5 +102,40 @@ namespace CapstoneProject.Models.ClassLibrary
             }
         }
 
+        public string CheckUserType(string email)
+        {
+            // Create an instance of the Connection class with the connection string
+            using (Connection objDB = new Connection())
+            {
+                // Open the connection
+                if (!objDB.Open())
+                {
+                    // Handle the case where the connection couldn't be opened
+                    throw new Exception("Could not open database connection.");
+                }
+                // Create a SqlCommand object
+                SqlCommand objCommand = new SqlCommand
+                {
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "GetUserTypeByEmail"
+                };
+
+                // Add parameters to the command
+                SqlParameter inputParameter = new SqlParameter("@Email", email);
+                objCommand.Parameters.Add(inputParameter);
+
+                SqlParameter returnParameter = new SqlParameter("@UserTypeName", SqlDbType.VarChar, 50);
+                returnParameter.Direction = ParameterDirection.Output;
+                objCommand.Parameters.Add(returnParameter);
+                // Use the Connection class's method to execute
+                objDB.DoUpdateUsingCmdObj(objCommand); // This will execute the stored procedure
+
+                // Retrieve the value of the output parameter
+                string userTypeName = returnParameter.Value.ToString();
+
+                // Return the UserTypeName or a message if not found
+                return string.IsNullOrEmpty(userTypeName) ? "None" : userTypeName;
+            }
+        }
     }
 }
