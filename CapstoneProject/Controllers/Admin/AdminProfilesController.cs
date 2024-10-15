@@ -34,22 +34,31 @@ namespace CapstoneProject.Controllers.Admin
                    profile.Organization = row["Organization"].ToString();
                    profile.Email = row["Email"].ToString();
 
-                   int status = Convert.ToInt32(row["LastUpdatedStatus"]);
-                   
-                   if (status == 1)
-                    {
-                        profile.Status = "Approved";
-                    }
-                   else if (status == 2)
-                    {
-                        profile.Status = "Pending";
-                    }
+                   if (row["LastUpdatedStatus"].Equals(DBNull.Value))
+                   {
+                        profile.Status = "NULL Value";
+                        profiles.Add(profile);
+                   }
                    else
                     {
-                        profile.Status = "Rejected";
+                        int status = Convert.ToInt32(row["LastUpdatedStatus"]);
+
+                        if (status == 1)
+                        {
+                            profile.Status = "Approved";
+                        }
+                        else if (status == 2)
+                        {
+                            profile.Status = "Pending";
+                        }
+                        else
+                        {
+                            profile.Status = "Rejected";
+                        }
+                        profiles.Add(profile);
                     }
-                   profiles.Add(profile);
                 }
+                   
             }
 
             ViewBag.AdminViewProfiles = profiles; //viewbag containing the profiles
