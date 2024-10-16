@@ -10,24 +10,18 @@ namespace CapstoneProject.Controllers.API
     public class AccountController : ControllerBase
     {
         [HttpPost("Login")]
-
-        public bool Login([FromBody] User user)
+        public string Login([FromBody] User user)
         {
-            return false;
-            //bool result;
-            //User privateinfo = user;
+            string result;
+            string userType = user.CheckUserType(user.Email);
+            int Login = user.Login(user.Email, user.PasswordHash);
 
-            //int Login = user.Login(user.Email, user.PasswordHash);
-
-            //if (Login > 0)
-            //{
-            //    result = true;
-            //}
-            //else { result = false; }
-            //return result;
-
-
-
+            if (Login > 0 && userType != null)
+            {
+                result = userType;
+            }
+            else { result = ""; }
+            return result;
         }
     }
 }

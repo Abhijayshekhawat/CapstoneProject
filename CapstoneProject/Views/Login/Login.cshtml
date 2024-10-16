@@ -36,12 +36,13 @@
                 </form>
                 <p>New User? <a asp-controller="Account" asp-action="CreateAccount">Register</a></p>
                 <p>By clicking continue, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></p>
+                <p>@ViewBag.ErrorMessage</p>
             </div>
         </div>
     </div>
     <script>
         const routePrefix = "@(routePrefix)";
-        document.getElementById("ssoButton").addEventListener("click", function() {
+        document.getElementById("ssoButton").addEventListener("click", function () {
             const redirectUrl = routePrefix + "/Secure/Index";
             console.log("Redirecting to:", redirectUrl);
             // Redirect to the Secure Index action
