@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Data;
 //should be used for clients to edit their profile
 namespace CapstoneProject.Controllers
 {
@@ -21,6 +22,12 @@ namespace CapstoneProject.Controllers
 
         public IActionResult ClientProjects()
         {
+            //Use stored procedure to get project data from datatable
+            //create project objects and add them to the viewbag
+            DataSet ds = new DataSet();
+                
+            //will need to use user.GetProjectsById in order to pass list of projects by current user
+
             return View();
         }
 

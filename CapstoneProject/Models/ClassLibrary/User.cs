@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CapstoneProject.Models.Utilities;
+using static CapstoneProject.Models.AdminModel;
 
 
 
@@ -135,6 +136,37 @@ namespace CapstoneProject.Models.ClassLibrary
 
                 // Return the UserTypeName or a message if not found
                 return string.IsNullOrEmpty(userTypeName) ? "None" : userTypeName;
+            }
+        }
+
+        public DataSet GetProjectsById()
+        {
+            using (Connection objDB = new Connection())
+            {
+                // Open the connection
+                if (!objDB.Open())
+                {
+                    // Handle the case where the connection couldn't be opened 
+                    throw new Exception("Could not open database connection.");
+                }
+
+                // Create a SqlCommand object
+                SqlCommand objCommand = new SqlCommand
+                {
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "GetProjectsByUser",
+                };
+
+                //objCommand.Parameters.AddWithValue("@ProfileId", INTEGER REPRESENTING PROFILE ID);
+                objCommand.Parameters.AddWithValue("@ProfileId", 1);
+                //stored procedure needs a @ProfileId Integer as parameter
+                //NOTE we do not have a way of getting user id in our stored procedures yet
+                //we need to return userid when they sucesfully login.. 1 is used as a testing number above
+
+                // Use the Connection class's method to execute the SqlCommand and get a DataSet
+                DataSet ds = objDB.GetDataSetUsingCmdObj(objCommand);
+
+                return ds;
             }
         }
     }
