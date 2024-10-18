@@ -63,8 +63,10 @@ namespace CapstoneProject.Controllers.Admin
             return View("~/Views/Admin/AdminManageProjects.cshtml");
         }
 
-        public IActionResult ViewAProject()
+        public IActionResult ViewAProject(int ProjectID)
         {
+            Debug.WriteLine("The projectID for this Project is " + ProjectID); //testing to see that the profileID and projectID is being passed to the view
+            
             return View("~/Views/Admin/AdminViewProject.cshtml");
         }
     }

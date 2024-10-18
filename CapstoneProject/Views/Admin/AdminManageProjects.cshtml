@@ -44,7 +44,7 @@
                                 <td>@project.ShortDesc</td>
                                 <td>@project.ProjectStatus</td>
                                 <td>@project.Comments</td>
-                                <td><a class="btn btn-primary" asp-area="" asp-controller="AdminProject" asp-action="ViewAProject">View Details</a></td>
+                                <td><a class="btn btn-primary" asp-area="" asp-controller="AdminProject" asp-action="ViewAProject" asp-route-ProjectID="@project.ProjectID">View Details</a></td>
                                 
                             </tr>
                         }
