@@ -20,10 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Admin\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\css\LoginStyles.css" />
     <None Include="wwwroot\Images\templeTlogo.png" />
   </ItemGroup>
