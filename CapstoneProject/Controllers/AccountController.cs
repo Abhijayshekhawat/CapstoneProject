@@ -30,7 +30,7 @@ namespace CapstoneProject.Controllers
             newProjects.ProjectDescription = Request.Form["ProjectDescription"].ToString();
             newProjects.CreateNewProject(newProjects.ProjectName, newProjects.ProjectDescription);
         
-            return View("~/Views/Account/ClientProject.cshtml");
+            return View("~/Views/Account/ClientProject.cshtml", newProjects);
         }
 
 
