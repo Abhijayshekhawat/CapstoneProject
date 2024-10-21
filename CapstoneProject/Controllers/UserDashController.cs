@@ -10,6 +10,15 @@ namespace CapstoneProject.Controllers
             // Specify the path to the view inside the "Dashboard" folder
             return View("~/Views/Dashboard/UserDashboard.cshtml");
         }
+
+        public IActionResult CreateNewProject()
+        
+        { 
+            return View("~/Views/Account/CreateNewProject.cshtml");
+        
+        
+        }
+
     }
 }
 

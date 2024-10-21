@@ -68,11 +68,16 @@
                 </div>
             </div>
         </div>
-
-        <div class="text-center mt-4">
-            <a href="#" class="btn btn-success btn-lg">Create New Project</a>
-        </div>
+     <form asp-controller="Account" asp-action="CreateNewProject" method="post">
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-success btn-lg">Create New Project</button>
     </div>
     <div style="height: 200px;"></div>
+</form>
+
+       
+       
+    
+
 </body>
 </html>
