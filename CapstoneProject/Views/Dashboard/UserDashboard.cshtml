@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "User Dashboard";
-    Layout = "_ClientLayout"; 
-    var userName = "Jeet"; 
+    Layout = "_ClientLayout";
+    var userName = "Jeet";
 }
 
 <!DOCTYPE html>
@@ -23,7 +23,7 @@
             width: 150px;
             height: 150px;
             border-radius: 50%;
-            margin-bottom: 20px; 
+            margin-bottom: 20px;
         }
 
         .card {
@@ -39,7 +39,7 @@
             }
 
         .btn-translucent {
-            background-color: rgba(255, 0, 0, 0.7); 
+            background-color: rgba(255, 0, 0, 0.7);
             color: white;
             border: none;
         }
@@ -58,22 +58,21 @@
         }
 
         h1 {
-            color: #A50034; 
+            color: #A50034;
         }
 
         .card-title {
-            color: #A50034; 
+            color: #A50034;
         }
 
         .card-text {
-            color: #333; 
+            color: #333;
         }
 
-        
+
         .main-container {
-            
-            padding-top: 50px; 
-        }
+                    padding-top: 50px;
+                }
     </style>
 </head>
 <body>
@@ -90,26 +89,27 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Projects</h5>
-                            <p class="card-text">Add new project idea.</p>
-                            <a class="btn btn-translucent" asp-area="" asp-controller="UserDash" asp-action="CreateNewProject">Create Project</a>
+                            <p class="card-text">Add new project idea. </p>
+                            <a class="btn btn-translucent" asp-area="" asp-controller="Account" asp-action="CreateNewProject">Create Project</a>
+
                         </div>
                     </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">View Projects</h5>
-                                <p class="card-text">Check all projects.</p>
-                                <a class="btn btn-translucent" asp-area="" asp-controller="AdminProject" asp-action="ManageProjects">View Projects</a>
-                            </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">View Projects</h5>
+                            <p class="card-text">Check all projects.</p>
+                            <a class="btn btn-translucent" asp-area="" asp-controller="AdminProject" asp-action="ManageProjects">View Projects</a>
                         </div>
                     </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">View Profiles</h5>
-                                <p class="card-text">View a list of all profiles</p>
-                                <a class="btn btn-translucent" asp-area="" asp-controller="AdminProfiles" asp-action="ManageProfiles">View Profiles</a>
-                            </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">View Profiles</h5>
+                            <p class="card-text">View a list of all profiles</p>
+                            <a class="btn btn-translucent" asp-area="" asp-controller="AdminProfiles" asp-action="ManageProfiles">View Profiles</a>
                         </div>
                     </div>
                 </div>

@@ -78,7 +78,7 @@ namespace CapstoneProject.Controllers
 
                         if (!string.IsNullOrEmpty(ViewBag.UserType))
                         {
-                            return View("~/Views/Home/index.cshtml"); // Redirect to the homepage
+                            return View("~/Views/Dashboard/UserDashboard.cshtml"); // Redirect to the homepage
                         }
                     }
                     else
