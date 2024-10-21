@@ -13,7 +13,7 @@ namespace CapstoneProject.Controllers
             // Pass headers to the view using ViewData
             ViewData["Headers"] = headers;
 
-            return View("~/Views/Secure/Index.cshtml");
+            return View("~/Views/Secure/Admin/Dashboard.cshtml");
         }
 
         protected Dictionary<string, string> GetAllHeaders()
