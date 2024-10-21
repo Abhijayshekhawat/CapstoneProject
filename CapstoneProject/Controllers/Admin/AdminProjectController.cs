@@ -1,5 +1,6 @@
 ﻿using CapstoneProject.Models;
 using CapstoneProject.Models.ClassLibrary;
+using CapstoneProject.Views.Admin;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Diagnostics;
@@ -67,7 +68,47 @@ namespace CapstoneProject.Controllers.Admin
         {
             Debug.WriteLine("The projectID for this Project is " + ProjectID); //testing to see that the profileID and projectID is being passed to the view
             
-            return View("~/Views/Admin/AdminViewProject.cshtml");
+            AdminViewProject proj = new AdminViewProject();
+            DataSet ds = new DataSet();
+
+            ds = proj.GetViewedProjectDetails(ProjectID);
+
+            AdminViewProject viewedProject = new AdminViewProject();
+            List<AdminViewProject> theProject = new List<AdminViewProject>();
+
+            if (ds.Tables[0].Rows.Count > 0 && ds.Tables.Count > 0)
+            {
+                foreach (DataRow row in ds.Tables[0].Rows) //each record in the ds
+                {
+                    viewedProject.ProjectName = row["ProjectName"].ToString();
+                    viewedProject.ProjectDesc = row["ProjectDescription"].ToString();
+                    viewedProject.ProjectOwner = row["FirstName"].ToString() + " " + row["LastName"].ToString();
+                    viewedProject.Email = row["Email"].ToString();
+                    viewedProject.SubmissionDate = Convert.ToDateTime(row["SubmissionDate"]).ToString("MM/dd/yyyy");
+                    viewedProject.LastReviewed = Convert.ToDateTime(row["ReviewDate"]).ToString("MM/dd/yyyy");
+                    viewedProject.Reviewer = row["ReviewerID"].ToString();
+
+                    int status = Convert.ToInt32(row["ProjectStatus"]); //project status is stored as an int in db, for the admin view we want to show the string
+                    if (status == 1)
+                    {
+                        viewedProject.Status = "Approved";
+                    }
+                    else if (status == 2)
+                    {
+                        viewedProject.Status = "Pending";
+                    }
+                    else
+                    {
+                        viewedProject.Status = "Rejected";
+                    }
+
+                    theProject.Add(viewedProject);
+                }
+
+                ViewBag.AdminViewedProject = theProject;
+            }
+            
+            return View("~/Views/Admin/AdminViewProject.cshtml", viewedProject);
         }
     }
 }
