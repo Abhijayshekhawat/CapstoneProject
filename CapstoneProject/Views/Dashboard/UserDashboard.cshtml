@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<CapstoneProject.Models.ClassLibrary.Project>
+
+@{
     ViewData["Title"] = "User Dashboard";
     Layout = "_ClientLayout";
     var userName = "Jeet";
@@ -129,12 +131,29 @@
                     </thead>
                     <tbody>
                         @* Iterate database data here into table rows *@
-                        <tr>
-                            <td>Class Registration</td>
-                            <td>An updated way to register for classes</td>
-                            <td>Temple University</td>
-                            <td><a href="#" class="btn btn-translucent">View Project</a></td>
-                        </tr>
+                        @* Iterate Database data into table rows *@
+                        @* Check if there are any projects to display *@
+                        @if (ViewBag.AdminViewProjects != null)
+                        {
+                            @foreach (var project in ViewBag.AdminViewProjects)
+                            {
+                                <tr>
+                                    <td>@project.ProjectName</td>
+                                    <td>@project.ShortDesc</td>
+                                    <td>@project.ProjectStatus</td>
+                                    <td>@project.Comments</td>
+                                    <td><a class="btn btn-primary" asp-area="" asp-controller="AdminProject" asp-action="ViewAProject" asp-route-ProjectID="@project.ProjectID">View Details</a></td>
+
+                                </tr>
+                            }
+                           
+                        }
+                        else {
+                            <tr>
+                                <td colspan="5" class="text-center">There are no projects</td>
+                            </tr>
+                        }
+
                         @* Additional rows would be added dynamically here *@
                     </tbody>
                 </table>

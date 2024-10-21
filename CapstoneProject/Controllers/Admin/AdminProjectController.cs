@@ -56,7 +56,7 @@ namespace CapstoneProject.Controllers.Admin
             
             ViewBag.AdminViewProjects = theProjects; //viewbag containing the list of projects
 
-            return View("~/Views/Admin/AdminManageProjects.cshtml", theProjects);
+            return View("~/Views/Admin/AdminManageProjects.cshtml");
         }
 
         public IActionResult ViewProjects()
