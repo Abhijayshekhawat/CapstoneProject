@@ -13,16 +13,17 @@ namespace CapstoneProject.Controllers
          //create project objects and add them to the viewbag
 
             AdminModel p = new AdminModel();
-            DataSet ds = new DataSet();
+            Profile profile = new Profile();
+            //dataset with all profiles and projects
+            DataSet profileDs = profile.GetProfiles();
+            DataSet projectDs = p.GetProjects();
+            //list of project objects and profiles
+            List<Project> theProjects = new List<Project>(); 
+            List<Profile> profiles = new List<Profile>();
 
-            //dataset with all the projects
-            ds = p.GetProjects();
-
-            List<Project> theProjects = new List<Project>(); //list of project objects
-
-            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0) //if the dataset is not null or empty
+            if (projectDs.Tables.Count > 0 && projectDs.Tables[0].Rows.Count > 0) //if the dataset is not null or empty
             {
-                foreach (DataRow row in ds.Tables[0].Rows) //each record in the ds
+                foreach (DataRow row in projectDs.Tables[0].Rows) //each record in the ds
                 {
                     Project project = new Project(); //create a project object for each record
                     project.ProjectID = Convert.ToInt32(row["ProjectID"]);
@@ -31,28 +32,53 @@ namespace CapstoneProject.Controllers
                     project.ShortDesc = row["ProjectDescription"].ToString();
 
                     int status = Convert.ToInt32(row["LastUpdatedStatus"]); //project status is stored as an int in db, for the admin view we want to show the string
-                    if (status == 1)
-                    {
-                        project.ProjectStatus = "Approved";
-                    }
-                    else if (status == 2)
+                    if (status == 2)
                     {
                         project.ProjectStatus = "Pending";
+                        project.Comments = row["Comment"].ToString();
+                        theProjects.Add(project);
+                    }
+                   
+                }
+            }
+
+            if (profileDs.Tables.Count > 0 && profileDs.Tables[0].Rows.Count > 0) //if the dataset is not null or empty
+            {
+                foreach (DataRow row in profileDs.Tables[0].Rows) //each record in the ds
+                {
+                    Profile userProfile = new Profile();
+                    userProfile.ProfileID = Convert.ToInt32(row["ProfileID"]);
+                    userProfile.FirstName = row["FirstName"].ToString();
+                    userProfile.LastName = row["LastName"].ToString();
+                    userProfile.Organization = row["Organization"].ToString();
+                    userProfile.Email = row["Email"].ToString();
+
+                    if (row["LastUpdatedStatus"].Equals(DBNull.Value))
+                    {
+                        userProfile.Status = "NULL Value";
+                        profiles.Add(userProfile);
                     }
                     else
                     {
-                        project.ProjectStatus = "Rejected";
+                        int status = Convert.ToInt32(row["LastUpdatedStatus"]);
+
+                        if (status == 1)
+                        {
+                            userProfile.Status = "Pending";
+                            profiles.Add(userProfile);
+                        }
                     }
-                    project.Comments = row["Comment"].ToString();
-                    theProjects.Add(project);
                 }
+
             }
+
+            ViewBag.AdminViewProfiles = profiles; //viewbag containing the profiles
 
             ViewBag.AdminViewProjects = theProjects; //viewbag containing the list of projects
 
 
             // Specify the path to the view inside the "Dashboard" folder
-            return View("~/Views/Dashboard/UserDashboard.cshtml", theProjects);
+            return View("~/Views/Dashboard/UserDashboard.cshtml");
         }
 
         public IActionResult CreateNewProject()
