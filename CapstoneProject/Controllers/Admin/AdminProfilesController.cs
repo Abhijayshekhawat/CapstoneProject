@@ -1,6 +1,10 @@
 ﻿using CapstoneProject.Models.ClassLibrary;
+using CapstoneProject.Views.Admin;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using static CapstoneProject.Models.AdminModel;
+using System.Diagnostics;
+using Profile = CapstoneProject.Models.ClassLibrary.Profile;
 //should be used for admin to manage all user profiles
 namespace CapstoneProject.Controllers.Admin
 {
@@ -64,6 +68,53 @@ namespace CapstoneProject.Controllers.Admin
             ViewBag.AdminViewProfiles = profiles; //viewbag containing the profiles
 
             return View("~/Views/Admin/AdminManageProfiles.cshtml", profiles);
+        }
+
+        public IActionResult ViewAProfile(int ProfileID)
+        {
+            Debug.WriteLine("The profileID for this profile is " + ProfileID); //testing to see that the profileID and projectID is being passed to the view
+
+            ViewedProfile p = new ViewedProfile();
+            DataSet ds = new DataSet();
+
+            ds = p.GetViewedProfileDetails(ProfileID);
+
+            ViewedProfile viewedProfile = new ViewedProfile();
+            List<ViewedProfile> theProfile = new List<ViewedProfile>();
+
+            if (ds.Tables[0].Rows.Count > 0 && ds.Tables.Count > 0)
+            {
+                foreach (DataRow row in ds.Tables[0].Rows) //each record in the ds
+                {
+                    viewedProfile.ProfileID = Convert.ToInt32(row["ProfileID"]);
+                    viewedProfile.FirstName = row["FirstName"].ToString();
+                    viewedProfile.LastName = row["LastName"].ToString();
+                    viewedProfile.Organization = row["Organization"].ToString();
+                    viewedProfile.Email = row["Email"].ToString();
+                    viewedProfile.SubmissionDate = Convert.ToDateTime(row["SubmissionDate"]).ToString("MM/dd/yyyy");
+                    viewedProfile.StatusChangeDateTime = Convert.ToDateTime(row["StatusChangeDateTime"]).ToString("MM/dd/yyyy");
+                    viewedProfile.Comment = row["Comment"].ToString();
+
+                    int status = Convert.ToInt32(row["LastUpdatedStatus"]); //project status is stored as an int in db, for the admin view we want to show the string
+                    if (status == 1)
+                    {
+                        viewedProfile.Status = "Approved";
+                    }
+                    else if (status == 2)
+                    {
+                        viewedProfile.Status = "Pending";
+                    }
+                    else
+                    {
+                        viewedProfile.Status = "Rejected";
+                    }
+
+                    theProfile.Add(viewedProfile);
+                }
+                ViewBag.AdminViewedProfile = theProfile;
+            }
+
+            return View("~/Views/Admin/AdminViewProfile.cshtml",viewedProfile);
         }
     }
 }
