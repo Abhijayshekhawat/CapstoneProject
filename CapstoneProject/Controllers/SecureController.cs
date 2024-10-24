@@ -17,37 +17,52 @@ namespace CapstoneProject.Controllers
 
         public IActionResult Index()
         {
-            // Hardcoded AccessNet ID for testing
-            string accessnetID = "tuh18229";
+            string accessnetID = ExtractAccessNetID(Request.Headers["remoteuser"]);
+            TempleLDAPEntry userInfo = null;
+            string errorMessage = null;
 
-            // Retrieve user information from LDAP
-            var userInfo = _webService.GetUserInfoByAccessNet(accessnetID);
-
-            if (userInfo != null)
+            if (!string.IsNullOrEmpty(accessnetID))
             {
-                ViewData["UserInfo"] = userInfo;
+                try
+                {
+                    userInfo = _webService.GetUserInfoByAccessNet(accessnetID);
+                    if (userInfo == null)
+                    {
+                        errorMessage = accessnetID + "User not found or an error occurred.";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    errorMessage = $"Exception: {ex.Message}";
+                    Console.WriteLine(ex);  // Logs the full exception to the console for debugging.
+                }
             }
             else
             {
-                Console.WriteLine("User not found or an error occurred.");
+                errorMessage = "Invalid or missing AccessNet ID.";
             }
 
-            // Get all request headers
-            var headers = GetAllHeaders();
-            ViewData["Headers"] = headers;
+            ViewData["UserInfo"] = userInfo;
+            ViewData["ErrorMessage"] = errorMessage;
+            ViewData["Headers"] = GetAllHeaders();
 
             return View("~/Views/Secure/Index.cshtml");
+        }
+
+        private string ExtractAccessNetID(string remoteUserHeader)
+        {
+            if (string.IsNullOrEmpty(remoteUserHeader)) return null;
+            int atIndex = remoteUserHeader.IndexOf('@');
+            return atIndex > 0 ? remoteUserHeader.Substring(0, atIndex) : null;
         }
 
         private Dictionary<string, string> GetAllHeaders()
         {
             var headersDictionary = new Dictionary<string, string>();
-
             foreach (var header in Request.Headers)
             {
                 headersDictionary.Add(header.Key, header.Value.ToString());
             }
-
             return headersDictionary;
         }
     }
