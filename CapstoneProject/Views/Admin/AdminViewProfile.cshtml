@@ -1,4 +1,23 @@
-﻿@{
+﻿@model CapstoneProject.Models.ClassLibrary.ViewedProfile
+@{
     ViewData["Title"] = "Admin View Profile";
     Layout = "_ClientLayout";
+}
+
+<h1>Profile Information</h1>
+
+@if (ViewBag.AdminViewedProfile == null || ViewBag.AdminViewedProfile.Count == 0)
+{
+    <h2>There is no information about this profile</h2>
+}
+@foreach (var profile in ViewBag.AdminViewedProfile)
+{
+    <h2>First Name: @profile.FirstName</h2>
+    <h2>Last Name: @profile.LastName</h2>
+    <h2>Organization: @profile.Organization</h2>
+    <h2>Email: @profile.Email</h2>
+    <h2>Submitted On: @profile.SubmissionDate</h2>
+    <h2>Status: @profile.Status</h2>
+    <h2>Last Updated On: @profile.StatusChangeDateTime</h2>
+    <h2>Comment: @profile.Comment</h2>
 }

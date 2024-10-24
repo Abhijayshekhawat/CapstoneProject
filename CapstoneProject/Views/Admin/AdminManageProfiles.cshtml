@@ -69,13 +69,13 @@
             foreach (var profile in ViewBag.AdminViewProfiles)
             {
                 <tr>
-                    <th>@profile.ProfileID</th>
-                    <th>@profile.FirstName</th>
-                    <th>@profile.LastName</th>
-                    <th>@profile.Organization</th>
-                    <th>@profile.Email</th>
-                    <th>@profile.Status</th>
-                    <th><button>View Profile</button></th>
+                    <td>@profile.ProfileID</td>
+                    <td>@profile.FirstName</td>
+                    <td>@profile.LastName</td>
+                    <td>@profile.Organization</td>
+                    <td>@profile.Email</td>
+                    <td>@profile.Status</td>
+                    <td><a class="btn btn-primary" asp-area="" asp-controller="AdminProfiles" asp-action="ViewAProfile" asp-route-ProfileID="@profile.ProfileID">View Details</a></td>
                 </tr>
             }
         }
