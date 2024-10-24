@@ -1,26 +1,48 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CapstoneProject.Models.Utilities;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using WS_LDAP_Search;
 
 namespace CapstoneProject.Controllers
 {
     public class SecureController : Controller
     {
-        public IActionResult Index()
+        private readonly WebService _webService;
+
+        // Inject WebService through constructor
+        public SecureController(WebService webService)
         {
-            // Get all headers
-            var headers = GetAllHeaders();
-
-            // Pass headers to the view using ViewData
-            ViewData["Headers"] = headers;
-
-            return View("~/Views/Secure/Admin/Dashboard.cshtml");
+            _webService = webService;
         }
 
-        protected Dictionary<string, string> GetAllHeaders()
+        public IActionResult Index()
+        {
+            // Hardcoded AccessNet ID for testing
+            string accessnetID = "tuh18229";
+
+            // Retrieve user information from LDAP
+            var userInfo = _webService.GetUserInfoByAccessNet(accessnetID);
+
+            if (userInfo != null)
+            {
+                ViewData["UserInfo"] = userInfo;
+            }
+            else
+            {
+                Console.WriteLine("User not found or an error occurred.");
+            }
+
+            // Get all request headers
+            var headers = GetAllHeaders();
+            ViewData["Headers"] = headers;
+
+            return View("~/Views/Secure/Index.cshtml");
+        }
+
+        private Dictionary<string, string> GetAllHeaders()
         {
             var headersDictionary = new Dictionary<string, string>();
 
-            // Loop through all headers and add them to the dictionary
             foreach (var header in Request.Headers)
             {
                 headersDictionary.Add(header.Key, header.Value.ToString());

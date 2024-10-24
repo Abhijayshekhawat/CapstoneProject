@@ -1,7 +1,11 @@
+using CapstoneProject.Models.Utilities;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<WebService>();
+
 
 var app = builder.Build();
 string connectionString = builder.Configuration.GetConnectionString("Connection_Database");
