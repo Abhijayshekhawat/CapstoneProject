@@ -35,7 +35,7 @@ namespace CapstoneProject.Models.ClassLibrary
             SqlCommand objCommand = new SqlCommand();
 
             objCommand.CommandType = CommandType.StoredProcedure;
-            objCommand.CommandText = "TB_CreateNewProject_Temp";
+            objCommand.CommandText = "AddNewProject";
 
             SqlParameter inputParameter2 = new SqlParameter("@ProjectName", projectname);
             objCommand.Parameters.Add(inputParameter2);
