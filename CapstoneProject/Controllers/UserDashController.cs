@@ -62,7 +62,7 @@ namespace CapstoneProject.Controllers
                     {
                         int status = Convert.ToInt32(row["LastUpdatedStatus"]);
 
-                        if (status == 1)
+                        if (status == 2)
                         {
                             userProfile.Status = "Pending";
                             profiles.Add(userProfile);
