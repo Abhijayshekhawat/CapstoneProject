@@ -1,4 +1,5 @@
-﻿@model CapstoneProject.Models.ClassLibrary.AdminViewProject
+﻿@using CapstoneProject.Models;
+@model CapstoneProject.Models.ClassLibrary.AdminViewProject
 @{
     ViewData["Title"] = "Admin View Project";
     Layout = "_ClientLayout";
@@ -14,11 +15,33 @@
 {
     <h2>Project Name: @project.ProjectName</h2>
     <h2>Description: @project.ProjectDesc</h2>
-    <h2>Status: @project.Status</h2>
     <h2>Project Owner: @project.ProjectOwner</h2>
     <h2>Email: @project.Email</h2>
     <h2>Submitted On: @project.SubmissionDate</h2>
     <h2>Last Reviewed On: @project.LastReviewed</h2>
     <h2>Reviewed By: @project.Reviewer</h2>
-}
 
+    <h2>Project Status History</h2>
+    <table class="table align-middle mb-0 bg-white">
+        <thead class="bg-light">
+            <tr>
+                <th>Comment</th>
+                <th>Status</th>
+                <th>Date Of Change</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var comment in project.Comment)
+            {
+                <tr>
+                    <td>@comment.Description</td>
+                    <td>@comment.LastUpdatedStatus</td>
+                    <td>@comment.StatusChangeDateTime</td>
+                    <td><a class="btn btn-link btn-rounded btn-sm fw-bold" asp-area="" asp-controller="" asp-action="">Edit</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+    

@@ -40,6 +40,8 @@ namespace CapstoneProject.Models.ClassLibrary
 
         public string Reviewer { get; set; }
 
+        public List<Comment> Comment { get; set; }
+
         public List<AdminViewProject> theProject { get; set; }
 
         public DataSet GetViewedProjectDetails(int projectID)
@@ -70,5 +72,7 @@ namespace CapstoneProject.Models.ClassLibrary
                 return ds;
             }
         }
+
+
     }
 }
