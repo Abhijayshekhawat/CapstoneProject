@@ -1,5 +1,4 @@
 ﻿using CapstoneProject.Models.ClassLibrary;
-using CapstoneProject.Views.Admin;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using static CapstoneProject.Models.AdminModel;

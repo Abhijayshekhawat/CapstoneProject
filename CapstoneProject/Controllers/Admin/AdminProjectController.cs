@@ -1,6 +1,5 @@
 ﻿using CapstoneProject.Models;
 using CapstoneProject.Models.ClassLibrary;
-using CapstoneProject.Views.Admin;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Diagnostics;

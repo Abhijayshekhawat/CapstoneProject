@@ -23,7 +23,7 @@ namespace CapstoneProject.Models.ClassLibrary
         private string lastupdatedstatus;
         private string statuschangedatetime;
         private string description ;
-
+        private List<Comment> comments;
 
         public Comment() { }
 
@@ -63,6 +63,8 @@ namespace CapstoneProject.Models.ClassLibrary
 
 
         public string Description { get { return description; } set {  description = value; } }
+
+        public List<Comment> Comments { get { return comments; } set {  comments = value; } }
 
     }
 }
