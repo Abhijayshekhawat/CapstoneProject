@@ -108,6 +108,39 @@ namespace CapstoneProject.Controllers.Admin
                         viewedProfile.Status = "Rejected";
                     }
 
+                    //Get Profile Comments
+                    Comment c = new Comment();
+                    DataSet ds2 = new DataSet();
+                    ds2 = c.GetProfileComments(ProfileID);
+
+                    List<Comment> comments = new List<Comment>();
+
+                    if (ds2.Tables[0].Rows.Count > 0 && ds2.Tables.Count > 0) //goes through dataset from GetProjectComments stored procedure
+                    {
+                        foreach (DataRow row2 in ds2.Tables[0].Rows)
+                        {
+                            Comment theComment = new Comment();
+                            theComment.Description = row2["Comment"].ToString();
+                            theComment.StatusChangeDateTime = Convert.ToDateTime(row2["StatusChangeDateTime"]).ToString("MM/dd/yyyy");
+
+                            status = Convert.ToInt32(row2["LastUpdatedStatus"]); //project status is stored as an int in db, for the admin view we want to show the string
+                            if (status == 1)
+                            {
+                                theComment.LastUpdatedStatus = "Approved";
+                            }
+                            else if (status == 2)
+                            {
+                                theComment.LastUpdatedStatus = "Pending";
+                            }
+                            else
+                            {
+                                theComment.LastUpdatedStatus = "Rejected";
+                            }
+                            comments.Add(theComment);
+                        }
+                        viewedProfile.Comments = comments;
+                    }
+
                     theProfile.Add(viewedProfile);
                 }
                 ViewBag.AdminViewedProfile = theProfile;

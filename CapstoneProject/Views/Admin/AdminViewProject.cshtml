@@ -214,13 +214,12 @@
                                 <td class="comment">@comment.Description</td>
                                 <td class="status">@comment.LastUpdatedStatus</td>
                                 <td>@comment.StatusChangeDateTime</td>
-                                <td>
-                                    <span class="btn-link" onclick="openModal('@comment.Description', '@comment.LastUpdatedStatus', '@comment.StatusChangeDateTime')">Update</span>
-                                </td>
+                                <td></td>
                             </tr>
                         }
                     </tbody>
                 </table>
+                <span class="btn-link" onclick="openModal('Add comment here...', 'Approved', 'StatusChangeDateTime')">Change Status</span>
             </div>
         }
     }

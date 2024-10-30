@@ -75,6 +75,100 @@
         color: #6c757d; /* Gray color for labels */
         font-weight: bold;
     }
+
+    .btn-link {
+        color: #dc3545;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.7);
+        padding-top: 60px;
+    }
+
+    .modal-content {
+        background-color: #ffffff;
+        margin: 5% auto;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #dc3545; /* Red color for hover effect */
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    h2 {
+        color: #333;
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    select, input[type="text"], input[type="date"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        transition: border 0.2s;
+    }
+
+        select:focus, input[type="text"]:focus, input[type="date"]:focus {
+            border-color: #dc3545; /* Highlight border on focus */
+            outline: none;
+        }
+
+    .btn-save {
+        background-color: #dc3545; /* Red color for the button */
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+        .btn-save:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
 </style>
 
 <div class="profile-container">
@@ -97,7 +191,84 @@
                 <h2><span class="label">Status:</span> <span class="status">@profile.Status</span></h2>
                 <h2><span class="label">Last Updated On:</span> <span>@profile.StatusChangeDateTime</span></h2>
                 <h2><span class="label">Comment:</span> <span class="comment">@profile.Comment</span></h2>
+
+                <center>
+                    <h2>Profile Status History</h2>
+                </center>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Comment</th>
+                            <th>Status</th>
+                            <th>Date Of Change</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var comment in profile.Comments)
+                        {
+                            <tr>
+                                <td class="comment">@comment.Description</td>
+                                <td class="status">@comment.LastUpdatedStatus</td>
+                                <td>@comment.StatusChangeDateTime</td>
+                                <td></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <span class="btn-link" onclick="openModal('Add comment here...', 'Approved', 'StatusChangeDateTime')">Change Status</span>
             </div>
         }
     }
 </div>
+
+<!-- Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Update Information</h2>
+        <div class="form-group">
+            <label for="comment">Comment</label>
+            <input type="text" id="comment" />
+        </div>
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select id="status">
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+                <option value="Pending">Pending</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="date">Date of Change</label>
+            <input type="date" id="date" />
+        </div>
+        <button onclick="saveChanges()" class="btn-save">Save Changes</button>
+    </div>
+</div>
+
+<script>
+    function openModal(comment, status, date) {
+        document.getElementById("comment").value = comment;
+        document.getElementById("status").value = status;
+        document.getElementById("date").value = date;
+        document.getElementById("myModal").style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    function saveChanges() {
+        // Add your save logic here
+        alert("Changes saved!");
+        closeModal();
+    }
+
+    window.onclick = function (event) {
+        if (event.target == document.getElementById("myModal")) {
+            closeModal();
+        }
+    }
+</script>

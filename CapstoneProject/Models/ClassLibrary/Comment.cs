@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static CapstoneProject.Models.AdminModel;
 
 namespace CapstoneProject.Models.ClassLibrary
 {
@@ -89,6 +90,35 @@ namespace CapstoneProject.Models.ClassLibrary
 
                 // Add parameters to the command
                 SqlParameter inputParameter = new SqlParameter("@ProjectID", projectID);
+                objCommand.Parameters.Add(inputParameter);
+
+                // Use the Connection class's method to execute the SqlCommand and get a DataSet
+                DataSet ds = objDB.GetDataSetUsingCmdObj(objCommand);
+
+                return ds;
+            }
+        }
+
+        public DataSet GetProfileComments(int profileID)
+        {
+            using (Connection objDB = new Connection())
+            {
+                // Open the connection
+                if (!objDB.Open())
+                {
+                    // Handle the case where the connection couldn't be opened
+                    throw new Exception("Could not open database connection.");
+                }
+
+                // Create a SqlCommand object
+                SqlCommand objCommand = new SqlCommand
+                {
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "GetProfileComments"
+                };
+
+                // Add parameters to the command
+                SqlParameter inputParameter = new SqlParameter("@ProfileID", profileID);
                 objCommand.Parameters.Add(inputParameter);
 
                 // Use the Connection class's method to execute the SqlCommand and get a DataSet
