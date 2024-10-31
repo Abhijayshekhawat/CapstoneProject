@@ -148,5 +148,10 @@ namespace CapstoneProject.Controllers.Admin
 
             return View("~/Views/Admin/AdminViewProfile.cshtml",viewedProfile);
         }
+
+        public IActionResult UpdateProfileStatus(int ProfileID)
+        {
+            return RedirectToAction("ViewAProfile", new { ProfileID }); //returns the same view of the viewed profile after the update is done
+        }
     }
 }

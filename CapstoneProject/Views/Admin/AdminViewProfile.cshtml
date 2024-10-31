@@ -260,8 +260,15 @@
         document.getElementById("myModal").style.display = "none";
     }
 
+    function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
     function saveChanges() {
-        // Add your save logic here
+        const ProfileID = getQueryParam("ProfileID");
+
+        location.href = '@Url.Action("UpdateProfileStatus", "AdminProfiles")' + '?ProfileID=' + encodeURIComponent(ProfileID);
         alert("Changes saved!");
         closeModal();
     }
