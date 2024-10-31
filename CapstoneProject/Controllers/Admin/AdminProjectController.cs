@@ -141,5 +141,10 @@ namespace CapstoneProject.Controllers.Admin
             
             return View("~/Views/Admin/AdminViewProject.cshtml", viewedProject);
         }
+
+        public IActionResult UpdateProjectStatus(int ProjectID)
+        {
+            return RedirectToAction("ViewAProject", new { ProjectID }); //returns the same view of the viewed project after the update is done
+        }
     }
 }

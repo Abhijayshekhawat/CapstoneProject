@@ -31,6 +31,8 @@ namespace CapstoneProject.Models.ClassLibrary
 
         public List<ViewedProfile> TheProfile { get; set; }
 
+        public List<Comment> Comments { get; set; }
+
         public DataSet GetViewedProfileDetails(int profileID)
         {
             using (Connection objDB = new Connection())
