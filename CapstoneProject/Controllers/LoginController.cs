@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using CapstoneProject.Models.Utilities;
 using System.Text;
+using CapstoneProject.Attributes;
+
 
 namespace CapstoneProject.Controllers
 {
@@ -80,24 +82,28 @@ namespace CapstoneProject.Controllers
 
                         if (profile != null)
                         {
-                            // Use profile data as needed
-                            ViewBag.Organization = profile.Organization;
-                            ViewBag.UserType = profile.UserType;
-                            ViewBag.FirstName = profile.FirstName;
-                            ViewBag.LastName = profile.LastName;
-                            ViewBag.Email = profile.Email;
-                            ViewBag.SubmissionDate = profile.SubmissionDate;
+                            HttpContext.Session.SetString("Organization", profile.Organization);
+                            HttpContext.Session.SetString("UserType", profile.UserType);
+                            HttpContext.Session.SetString("FirstName", profile.FirstName);
+                            HttpContext.Session.SetString("LastName", profile.LastName);
+                            HttpContext.Session.SetString("Email", profile.Email);
+                            HttpContext.Session.SetString("SubmissionDate", profile.SubmissionDate.ToString());
+                            return RedirectToAction("AdminDash", "Dashboard");
 
-                            // Redirect based on UserType
-                            if (profile.UserType == "Client")
-                            {
+                            //// Redirect based on UserType
+                            //if (profile.UserType == "Client")
+                            //{
 
-                            }
-                            else
-                            {
-                                ViewBag.AdminViewProjects = PopulateAdminDashboard();
-                                return View("~/Views/Dashboard/UserDashboard.cshtml"); // Redirect to the homepage
-                            }
+                            //}
+                            //else if (profile.UserType == "Admin")
+                            //{
+                            //    ViewBag.AdminViewProjects = PopulateAdminDashboard();
+                            //    return View("~/Views/Dashboard/UserDashboard.cshtml"); // Redirect to the homepage
+                            //}
+                            //else
+                            //{
+                                
+                            //}
                         }
                     }
                     else

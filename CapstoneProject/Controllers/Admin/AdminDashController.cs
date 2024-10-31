@@ -1,3 +1,4 @@
+using CapstoneProject.Attributes;
 using CapstoneProject.Models;
 using CapstoneProject.Models.ClassLibrary;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ namespace CapstoneProject.Controllers.Admin
         {
             return View();
         }
-
+        [AuthorizeRoles("Admin", "Reviewer")]
         public IActionResult Dashboard()
         {
                 //Use stored procedure to get project data from datatable
@@ -56,7 +57,7 @@ namespace CapstoneProject.Controllers.Admin
 
                 ViewBag.AdminViewProjects = theProjects; //viewbag containing the list of projects
 
-                return View("~/Views/Admin/AdminDash.cshtml", theProjects);
+                return View("~/Views/Dashboard/UserDashboard.cshtml");
            
         }
     }

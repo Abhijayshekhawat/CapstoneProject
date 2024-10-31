@@ -4,6 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession();
 builder.Services.AddSingleton<WebService>();
 builder.Services.AddSingleton<EncryptionHelper>();
 
@@ -22,6 +23,12 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+// Enable session middleware first
+app.UseSession();
+
+app.UseMiddleware<RoleAuthorizationMiddleware>();
+
+
 
 app.UseRouting();
 

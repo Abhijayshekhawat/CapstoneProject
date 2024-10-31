@@ -98,7 +98,13 @@ namespace CapstoneProject.Controllers
 
             return View("~/Views/Account/CreateNewProject.cshtml");
         }
-
+        public IActionResult Logout()
+        {
+            // Clear all session data
+            HttpContext.Session.Clear();
+            // Redirect to login page or homepage
+            return View("~/Views/Login/Login.cshtml");
+        }
 
 
     }
