@@ -67,7 +67,7 @@ namespace CapstoneProject.Models.ClassLibrary
 
         public int IsActive { get { return isactive; } set { isactive = value; } }
 
-        public int Login(string email, string password)
+        public Profile Login(string email, string password)
         {
             // Create an instance of the Connection class with the connection string
             using (Connection objDB = new Connection())
@@ -82,14 +82,14 @@ namespace CapstoneProject.Models.ClassLibrary
                 SqlCommand objCommand = new SqlCommand
                 {
                     CommandType = CommandType.StoredProcedure,
-                    CommandText = "UserLogin"
+                    CommandText = "GetUserProfile"
                 };
 
                 // Add parameters to the command
                 SqlParameter inputParameter = new SqlParameter("@Email", email);
                 objCommand.Parameters.Add(inputParameter);
 
-                SqlParameter inputParameter2 = new SqlParameter("@Password", password);
+                SqlParameter inputParameter2 = new SqlParameter("@PasswordHash", password);
                 objCommand.Parameters.Add(inputParameter2);
 
                 // Use the Connection class's method to execute the SqlCommand and get a DataSet
@@ -97,9 +97,22 @@ namespace CapstoneProject.Models.ClassLibrary
 
                 // Check if there are any rows in the dataset to determine if the login was successful
                 int SuccessfulLogin = ds.Tables[0].Rows.Count;
-
+                Profile profile = new Profile();
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    // Assign values to the User object's properties from the first row
+                    DataRow row = ds.Tables[0].Rows[0];
+                    profile.ProfileID = Convert.ToInt32(row["ProfileID"]);
+                    profile.Organization = row["Organization"].ToString();
+                    profile.FirstName = row["FirstName"].ToString();
+                    profile.LastName = row["LastName"].ToString();
+                    profile.Email = row["Email"].ToString();
+                    profile.SubmissionDate = Convert.ToDateTime(row["SubmissionDate"]);
+                    profile.UserType = row["UserTypeName"].ToString();
+                    return profile;
+                }
                 // Return the result
-                return SuccessfulLogin;
+                return profile;
             }
         }
 

@@ -75,25 +75,29 @@ namespace CapstoneProject.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         // Read the response content (user type) as a string
-                        string data = await response.Content.ReadAsStringAsync();
+                        var responseBody = await response.Content.ReadAsStringAsync();
+                        var profile = JsonSerializer.Deserialize<Profile>(responseBody);
 
-                        // Log the user type in the console
-                        Console.WriteLine("User Type: " + data);
-
-                        // Pass the user type to the view
-                        ViewBag.UserType = data;
-
-                        if (!string.IsNullOrEmpty(ViewBag.UserType))
+                        if (profile != null)
                         {
-                            if (ViewBag.UserType == "Client")
+                            // Use profile data as needed
+                            ViewBag.Organization = profile.Organization;
+                            ViewBag.UserType = profile.UserType;
+                            ViewBag.FirstName = profile.FirstName;
+                            ViewBag.LastName = profile.LastName;
+                            ViewBag.Email = profile.Email;
+                            ViewBag.SubmissionDate = profile.SubmissionDate;
+
+                            // Redirect based on UserType
+                            if (profile.UserType == "Client")
                             {
 
                             }
                             else
                             {
                                 ViewBag.AdminViewProjects = PopulateAdminDashboard();
+                                return View("~/Views/Dashboard/UserDashboard.cshtml"); // Redirect to the homepage
                             }
-                            return View("~/Views/Dashboard/UserDashboard.cshtml"); // Redirect to the homepage
                         }
                     }
                     else

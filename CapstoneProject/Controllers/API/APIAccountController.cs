@@ -10,18 +10,11 @@ namespace CapstoneProject.Controllers.API
     public class APIAccountController : ControllerBase
     {
         [HttpPost("Login")]
-        public string Login([FromBody] User user)
+        public Profile Login([FromBody] User user)
         {
-            string result;
-            string userType = user.CheckUserType(user.Email);
-            int Login = user.Login(user.Email, user.PasswordHash);
+            Profile profile = user.Login(user.Email, user.PasswordHash);
 
-            if (Login > 0 && userType != null)
-            {
-                result = userType;
-            }
-            else { result = ""; }
-            return result;
+            return profile ?? null; // Return the profile if it exists; otherwise, return null
         }
 
         [HttpPost("CreateAccount")]
