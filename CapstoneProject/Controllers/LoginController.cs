@@ -16,7 +16,11 @@ namespace CapstoneProject.Controllers
     {
         string TestAPI_Url = "https://localhost:7151/api/Account";
         string AccountAPI_Url = "https://cis-iis2.temple.edu/Spring2024/CIS3342_tuh18229/WebAPITest/api/Account"; //need to change this to the correct URL
-
+        private readonly EncryptionHelper _encryptionHelper;
+        public LoginController(EncryptionHelper encryptionHelper)
+        {
+            _encryptionHelper = encryptionHelper;
+        }
         public IActionResult Index()
         {
             return View();

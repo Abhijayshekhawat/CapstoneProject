@@ -2,72 +2,95 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+
 namespace CapstoneProject.Models.Utilities
 {
     public class EncryptionHelper
     {
-        private const string EncryptionKey = "rwrryryy4484847458thjrthrr"; // Change this key to your own secure key
-        private const string SaltValue = "Abhijay&JohnsonMatchup2024"; // Change this salt value to your own secure value
+        private readonly string _encryptionKey;
+        private readonly string _saltValue;
 
-        public static string Encrypt(string plainText)
+        public EncryptionHelper(IConfiguration configuration)
         {
-            byte[] saltBytes = Encoding.UTF8.GetBytes(SaltValue);
+            _encryptionKey = configuration["EncryptionKey"];
+            _saltValue = configuration["SaltValue"];
+        }
+        // Encrypt a string using AES with random IV
+        public string Encrypt(string plainText)
+        {
+            byte[] saltBytes = Encoding.UTF8.GetBytes(_saltValue);
             byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
 
             using (Aes aes = Aes.Create())
             {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, saltBytes, 1000);
-                aes.Key = pdb.GetBytes(32);
-                aes.IV = pdb.GetBytes(16);
-
-                using (MemoryStream ms = new MemoryStream())
+                using (var keyDerivation = new Rfc2898DeriveBytes(_encryptionKey, saltBytes, 1000, HashAlgorithmName.SHA256))
                 {
-                    using (CryptoStream cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write))
+                    aes.Key = keyDerivation.GetBytes(32); // 256-bit key
+                    aes.GenerateIV(); // Generate a random IV
+                }
+
+                using (var ms = new MemoryStream())
+                {
+                    // Write the IV to the MemoryStream first
+                    ms.Write(aes.IV, 0, aes.IV.Length);
+
+                    using (var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write))
                     {
                         cs.Write(plainTextBytes, 0, plainTextBytes.Length);
                         cs.FlushFinalBlock();
-                        cs.Close();
                     }
-                    plainText = Convert.ToBase64String(ms.ToArray());
+
+                    // Return the encrypted data along with the IV (prepended)
+                    return Convert.ToBase64String(ms.ToArray());
                 }
             }
-            return plainText;
         }
 
-        public static string Decrypt(string encryptedText)
+
+        // Decrypt a string using AES with the IV prepended
+        public string Decrypt(string encryptedText)
         {
-            byte[] saltBytes = Encoding.UTF8.GetBytes(SaltValue);
+            byte[] saltBytes = Encoding.UTF8.GetBytes(_saltValue);
             byte[] cipherTextBytes = Convert.FromBase64String(encryptedText);
 
             using (Aes aes = Aes.Create())
             {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, saltBytes, 1000);
-                aes.Key = pdb.GetBytes(32);
-                aes.IV = pdb.GetBytes(16);
-
-                using (MemoryStream ms = new MemoryStream())
+                using (var keyDerivation = new Rfc2898DeriveBytes(_encryptionKey, saltBytes, 1000, HashAlgorithmName.SHA256))
                 {
-                    using (CryptoStream cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Write))
+                    aes.Key = keyDerivation.GetBytes(32); // 256-bit key
+                }
+
+                using (var ms = new MemoryStream(cipherTextBytes))
+                {
+                    // Read the IV from the encrypted data
+                    byte[] iv = new byte[aes.BlockSize / 8];
+                    ms.Read(iv, 0, iv.Length);
+                    aes.IV = iv;
+
+                    using (var cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Read))
                     {
-                        cs.Write(cipherTextBytes, 0, cipherTextBytes.Length);
-                        cs.FlushFinalBlock();
-                        cs.Close();
+                        using (var sr = new StreamReader(cs))
+                        {
+                            return sr.ReadToEnd();
+                        }
                     }
-                    encryptedText = Encoding.UTF8.GetString(ms.ToArray());
                 }
             }
-            return encryptedText;
         }
+
+
+        // Compute a SHA-256 hash of the input (useful for password hashing)
         public static string ComputeHash(string input)
         {
-            using (SHA256 sha256Hash = SHA256.Create())
+            using (var sha256 = SHA256.Create())
             {
-                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+                byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
 
+                // Convert hash bytes to a hex string
                 StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < bytes.Length; i++)
+                foreach (var b in hashBytes)
                 {
-                    builder.Append(bytes[i].ToString("x2"));
+                    builder.Append(b.ToString("x2"));
                 }
                 return builder.ToString();
             }
