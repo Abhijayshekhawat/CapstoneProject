@@ -57,8 +57,7 @@ namespace CapstoneProject.Controllers
                 LastName = "",
                 UserType = "",
                 Email = Request.Form["Email"].ToString(),  // Extract email from form
-                PasswordHash = Request.Form["Password"].ToString()  // Extract password from form
-
+                PasswordHash = EncryptionHelper.ComputeHash(Request.Form["Password"].ToString())  // Extract password from form
             };
 
             // Serialize the user object to JSON
