@@ -269,10 +269,28 @@
 
     function saveChanges() {
         const ProjectID = getQueryParam("ProjectID");
-        
-        location.href = '@Url.Action("UpdateProjectStatus", "AdminProject")' + '?ProjectID=' + encodeURIComponent(ProjectID);
-        alert("Changes saved!");
-        closeModal();
+        const Comment = document.getElementById("comment").value;
+        const Status = document.getElementById("status").value;
+        const Date = document.getElementById("date").value;
+
+        $.ajax({
+            url: '@Url.Action("UpdateProjectStatus", "AdminProject")',
+            type: 'POST',
+            data: {
+                ProjectID: ProjectID,
+                comment: Comment,
+                status: Status,
+                date: Date
+            },
+            success: function (response) {
+                alert("Changes saved!");
+                closeModal();
+                // Optionally handle the response
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: ", error);
+            }
+        });
     }
 
     window.onclick = function (event) {
