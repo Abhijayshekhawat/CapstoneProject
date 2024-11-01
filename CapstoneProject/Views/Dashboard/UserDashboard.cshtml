@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "User Dashboard";
     Layout = "_ClientLayout";
-    var userName = "Jeet";
+    var firstName = ViewBag.FirstName;
 }
 
 <!DOCTYPE html>
@@ -79,7 +79,7 @@
     <main class="container pb-3 padding-bottom main-container">
         <div class="text-center">
             <img src="@Url.Content("~/images/User.jpeg")" alt="User Image" class="user-image" />
-            <h1>Hey, @userName!</h1>
+            <h1>Hey, @firstName!</h1>
             <p class="lead">This is a sample user dashboard layout.</p>
         </div>
 
@@ -144,9 +144,10 @@
 
                                 </tr>
                             }
-                           
+
                         }
-                        else {
+                        else
+                        {
                             <tr>
                                 <td colspan="5" class="text-center">There are no projects</td>
                             </tr>

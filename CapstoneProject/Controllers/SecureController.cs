@@ -1,12 +1,18 @@
-﻿using CapstoneProject.Models.Utilities;
+﻿using CapstoneProject.Models.ClassLibrary;
+using CapstoneProject.Models.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.Text;
 using WS_LDAP_Search;
+using CapstoneProject.Attributes;
 
 namespace CapstoneProject.Controllers
 {
     public class SecureController : Controller
     {
+        string TestAPI_Url = "https://localhost:7151/api/Account";
+        string AccountAPI_Url = "https://cis-iis2.temple.edu/Spring2024/CIS3342_tuh18229/WebAPITest/api/Account";
         private readonly WebService _webService;
 
         // Inject WebService through constructor
@@ -14,8 +20,7 @@ namespace CapstoneProject.Controllers
         {
             _webService = webService;
         }
-
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             string accessnetID = ExtractAccessNetID(Request.Headers["remoteuser"]);
             TempleLDAPEntry userInfo = null;
@@ -29,7 +34,82 @@ namespace CapstoneProject.Controllers
                     if (userInfo == null)
                     {
                         errorMessage = accessnetID + "User not found or an error occurred.";
+                    } else
+                    {
+                        User user = new User
+                        {
+                            FirstName = "",
+                            LastName = "",
+                            UserType = "",
+                            Email = accessnetID + "@temple.edu",  // Extract email from form
+                            PasswordHash = ""  // Extract password from form
+                        };
+
+                        // Serialize the user object to JSON
+                        var jsonPayload = JsonSerializer.Serialize(user);
+                        var httpContent = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+                        // Create an instance of HttpClient
+                        using (HttpClient client = new HttpClient())
+                        {
+                            try
+                            {
+                                // Send the POST request to the API
+                                HttpResponseMessage response = await client.PostAsync(TestAPI_Url + "/SSOLogin", httpContent);
+
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    // Read the response content (user type) as a string
+                                    var responseBody = await response.Content.ReadAsStringAsync();
+                                    var options = new JsonSerializerOptions
+                                    {
+                                        PropertyNameCaseInsensitive = true
+                                    };
+
+                                    var profile = JsonSerializer.Deserialize<Profile>(responseBody, options);
+
+
+                                    if (profile != null)
+                                    {
+                                        HttpContext.Session.SetString("Organization", profile.Organization);
+                                        HttpContext.Session.SetString("UserType", profile.UserType);
+                                        HttpContext.Session.SetString("FirstName", profile.FirstName);
+                                        HttpContext.Session.SetString("LastName", profile.LastName);
+                                        HttpContext.Session.SetString("Email", profile.Email);
+                                        HttpContext.Session.SetString("SubmissionDate", profile.SubmissionDate.ToString());
+
+                                        // Redirect based on UserType
+                                        if (profile.UserType == "Client")
+                                        {
+
+                                        }
+                                        else if (profile.UserType == "Admin")
+                                        {
+                                            return RedirectToAction("Dashboard", "AdminDash");
+                                        }
+                                        else
+                                        {
+
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    ViewBag.ErrorMessage = "API request failed with status: " + response.StatusCode;
+                                    return View();
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                ViewBag.ErrorMessage = "Error: " + ex.Message;
+                                return View();
+                            }
+                        }
+
+                        ViewBag.ErrorMessage = "Incorrect Password/UserName. Please try again!";
+                        return View();
                     }
+
                 }
                 catch (Exception ex)
                 {

@@ -17,6 +17,14 @@ namespace CapstoneProject.Controllers.API
             return profile ?? null; // Return the profile if it exists; otherwise, return null
         }
 
+        [HttpPost("SSOLogin")]
+        public Profile SSOLogin([FromBody] User user)
+        {
+            Profile profile = user.SSOLogin(user.Email);
+
+            return profile ?? null; // Return the profile if it exists; otherwise, return null
+        }
+
         [HttpPost("CreateAccount")]
         public string CreateAccount([FromBody] Profile profile)
         {

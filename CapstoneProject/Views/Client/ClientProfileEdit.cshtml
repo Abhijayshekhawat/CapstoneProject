@@ -53,26 +53,30 @@
 <body>
     <div class="profile-card">
         <img src="https://via.placeholder.com/100" alt="Profile Image" class="profile-img">
-        <h3>Neel Patel</h3>
+        <h3> @ViewBag.FirstName @ViewBag.LastName</h3>
 
         <div class="profile-info">
             <div>
                 <span class="label">First Name: </span>
-                Neel <i class="fas fa-edit edit-icon"></i>
+                @ViewBag.FirstName <i class="fas fa-edit edit-icon"></i>
             </div>
             <div>
                 <span class="label">Last Name: </span>
-                Patel <i class="fas fa-edit edit-icon"></i>
+                @ViewBag.LastName <i class="fas fa-edit edit-icon"></i>
             </div>
             <div>
                 <span class="label">Email: </span>
-                NeelPatel@Temple.edu <i class="fas fa-edit edit-icon"></i>
+                @ViewBag.Email <i class="fas fa-edit edit-icon"></i>
             </div>
             <div>
                 <span class="label">Organization: </span>
-                JP Morgan <i class="fas fa-edit edit-icon"></i>
+                @ViewBag.Organization <i class="fas fa-edit edit-icon"></i>
             </div>
-            
+            <div>
+                <span class="label">Account created on: </span>
+                @ViewBag.SubmissionDate <i class="fas fa-edit edit-icon"></i>
+            </div>
+
         </div>
 
         <div class="text-center mt-4">
@@ -80,7 +84,7 @@
         </div>
     </div>
 
-   
+
 
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </body>

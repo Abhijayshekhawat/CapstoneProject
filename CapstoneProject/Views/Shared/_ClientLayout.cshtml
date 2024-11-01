@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var firstName = ViewBag.FirstName;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -38,7 +41,7 @@
                         <li class="nav-item d-flex align-items-center">
                             <a class="nav-link" asp-area="" asp-controller="Client" asp-action="ClientProfileEdit">
                                 <img class="rounded-circle me-2 user-img" src="@Url.Content("~/images/User.jpeg")" alt="User Image" />
-                                Welcome Jeet
+                                Welcome @firstName
                             </a>
                         </li>
                         <!-- Menu Dropdown -->
@@ -59,7 +62,7 @@
                         </li>
                         <!-- Logout link -->
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Logout</a>
+                            <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
                         </li>
                     </ul>
                 </div>

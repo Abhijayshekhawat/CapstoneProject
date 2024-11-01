@@ -96,7 +96,53 @@ namespace CapstoneProject.Models.ClassLibrary
                 DataSet ds = objDB.GetDataSetUsingCmdObj(objCommand);
 
                 // Check if there are any rows in the dataset to determine if the login was successful
-                int SuccessfulLogin = ds.Tables[0].Rows.Count;
+
+                Profile profile = new Profile();
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    // Assign values to the User object's properties from the first row
+                    DataRow row = ds.Tables[0].Rows[0];
+                    profile.ProfileID = Convert.ToInt32(row["ProfileID"]);
+                    profile.Organization = row["Organization"].ToString();
+                    profile.FirstName = row["FirstName"].ToString();
+                    profile.LastName = row["LastName"].ToString();
+                    profile.Email = row["Email"].ToString();
+                    profile.SubmissionDate = Convert.ToDateTime(row["SubmissionDate"]);
+                    profile.UserType = row["UserTypeName"].ToString();
+                    return profile;
+                }
+                // Return the result
+                return profile;
+            }
+        }
+
+        public Profile SSOLogin(string email)
+        {
+            // Create an instance of the Connection class with the connection string
+            using (Connection objDB = new Connection())
+            {
+                // Open the connection
+                if (!objDB.Open())
+                {
+                    // Handle the case where the connection couldn't be opened
+                    throw new Exception("Could not open database connection.");
+                }
+                // Create a SqlCommand object
+                SqlCommand objCommand = new SqlCommand
+                {
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "GetUserProfileByEmail"
+                };
+
+                // Add parameters to the command
+                SqlParameter inputParameter = new SqlParameter("@Email", email);
+                objCommand.Parameters.Add(inputParameter);
+
+                // Use the Connection class's method to execute the SqlCommand and get a DataSet
+                DataSet ds = objDB.GetDataSetUsingCmdObj(objCommand);
+
+                // Check if there are any rows in the dataset to determine if the login was successful
+
                 Profile profile = new Profile();
                 if (ds.Tables[0].Rows.Count > 0)
                 {

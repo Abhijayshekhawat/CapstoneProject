@@ -42,9 +42,19 @@ namespace CapstoneProject.Controllers
         }
         public async Task<IActionResult> Login(LoginModel model)
         {
+            // Manually check if Email and Password fields are populated
+            if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password))
+            {
+                ViewBag.ErrorMessage = "Email and Password are required.";
+                return View(model);
+            }
             // Use LoginModel for validation purposes
             if (!ModelState.IsValid)
             {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine(error.ErrorMessage);
+                }
                 return View(model);
             }
             if (Request.Form["Email"].ToString().Contains("temple.edu"))
@@ -78,7 +88,13 @@ namespace CapstoneProject.Controllers
                     {
                         // Read the response content (user type) as a string
                         var responseBody = await response.Content.ReadAsStringAsync();
-                        var profile = JsonSerializer.Deserialize<Profile>(responseBody);
+                        var options = new JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = true
+                        };
+
+                        var profile = JsonSerializer.Deserialize<Profile>(responseBody, options);
+
 
                         if (profile != null)
                         {
@@ -88,22 +104,22 @@ namespace CapstoneProject.Controllers
                             HttpContext.Session.SetString("LastName", profile.LastName);
                             HttpContext.Session.SetString("Email", profile.Email);
                             HttpContext.Session.SetString("SubmissionDate", profile.SubmissionDate.ToString());
-                            return RedirectToAction("AdminDash", "Dashboard");
 
-                            //// Redirect based on UserType
-                            //if (profile.UserType == "Client")
-                            //{
-
-                            //}
-                            //else if (profile.UserType == "Admin")
-                            //{
-                            //    ViewBag.AdminViewProjects = PopulateAdminDashboard();
-                            //    return View("~/Views/Dashboard/UserDashboard.cshtml"); // Redirect to the homepage
-                            //}
-                            //else
-                            //{
-                                
-                            //}
+                            // Redirect based on UserType
+                            if (profile.UserType == "Client")
+                            {
+                                ViewBag.ErrorMessage = "Client Role";
+                                return View();
+                            }
+                            else if (profile.UserType == "Admin")
+                            {
+                                return RedirectToAction("Dashboard", "AdminDash");
+                            }
+                            else
+                            {
+                                ViewBag.ErrorMessage = "Incorrect Role";
+                                return View();
+                            }
                         }
                     }
                     else
