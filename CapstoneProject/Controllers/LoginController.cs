@@ -57,11 +57,11 @@ namespace CapstoneProject.Controllers
                 }
                 return View(model);
             }
-            //if (Request.Form["Email"].ToString().Contains("temple.edu"))
-            //{
-            //    ViewBag.ErrorMessage = "Error: Please use the SSO to sign in.";
-            //    return View();
-            //}
+            if (Request.Form["Email"].ToString().Contains("temple.edu"))
+            {
+                ViewBag.ErrorMessage = "Error: Please use the SSO to sign in.";
+                return View();
+            }
             // Manually extract form data for sending via JSON
             User user = new User
             {
@@ -104,6 +104,7 @@ namespace CapstoneProject.Controllers
                             HttpContext.Session.SetString("LastName", profile.LastName);
                             HttpContext.Session.SetString("Email", profile.Email);
                             HttpContext.Session.SetString("SubmissionDate", profile.SubmissionDate.ToString());
+                            HttpContext.Session.SetString("ProfileID", profile.ProfileID.ToString());
 
                             // Redirect based on UserType
                             if (profile.UserType == "Client")

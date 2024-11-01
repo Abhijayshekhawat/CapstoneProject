@@ -54,34 +54,36 @@
     <div class="profile-card">
         <img src="https://via.placeholder.com/100" alt="Profile Image" class="profile-img">
         <h3> @ViewBag.FirstName @ViewBag.LastName</h3>
+        <form asp-controller="Profile" asp-action="EditProfile" method="post">
+            <div class="profile-info">
+                <div>
+                    <span class="label">First Name: </span>
+                    <input type="text" name="FirstName" value="@ViewBag.FirstName" class="form-control" required>
+                </div>
+                <div>
+                    <span class="label">Last Name: </span>
+                    <input type="text" name="LastName" value="@ViewBag.LastName" class="form-control" required>
+                </div>
+                <div>
+                    <span class="label">Email: </span>
+                    <input type="email" name="Email" value="@ViewBag.Email" class="form-control" required>
+                </div>
 
-        <div class="profile-info">
-            <div>
-                <span class="label">First Name: </span>
-                @ViewBag.FirstName <i class="fas fa-edit edit-icon"></i>
+                <div>
+                    <span class="label">Organization: </span>
+                    <input type="text" name="Organization" value="@ViewBag.Organization" class="form-control">
+                </div>
+                <div>
+                    <span class="label">Account created on: </span>
+                    @ViewBag.SubmissionDate
+                </div>
             </div>
-            <div>
-                <span class="label">Last Name: </span>
-                @ViewBag.LastName <i class="fas fa-edit edit-icon"></i>
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
             </div>
-            <div>
-                <span class="label">Email: </span>
-                @ViewBag.Email <i class="fas fa-edit edit-icon"></i>
-            </div>
-            <div>
-                <span class="label">Organization: </span>
-                @ViewBag.Organization <i class="fas fa-edit edit-icon"></i>
-            </div>
-            <div>
-                <span class="label">Account created on: </span>
-                @ViewBag.SubmissionDate <i class="fas fa-edit edit-icon"></i>
-            </div>
+        </form>
 
-        </div>
-
-        <div class="text-center mt-4">
-            <a href="#" class="btn btn-primary btn-lg">Edit Profile</a>
-        </div>
+        
     </div>
 
 

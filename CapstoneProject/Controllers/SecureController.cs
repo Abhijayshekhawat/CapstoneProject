@@ -77,6 +77,7 @@ namespace CapstoneProject.Controllers
                                         HttpContext.Session.SetString("LastName", profile.LastName);
                                         HttpContext.Session.SetString("Email", profile.Email);
                                         HttpContext.Session.SetString("SubmissionDate", profile.SubmissionDate.ToString());
+                                        HttpContext.Session.SetString("ProfileID", profile.ProfileID.ToString());
 
                                         // Redirect based on UserType
                                         if (profile.UserType == "Client")
