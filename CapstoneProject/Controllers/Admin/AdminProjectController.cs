@@ -142,8 +142,35 @@ namespace CapstoneProject.Controllers.Admin
             return View("~/Views/Admin/AdminViewProject.cshtml", viewedProject);
         }
 
-        public IActionResult UpdateProjectStatus(int ProjectID)
+        [HttpPost]
+        public IActionResult UpdateProjectStatus(int ProjectID, string comment, string status, DateOnly date)
         {
+            // Log received parameters for debugging
+            Debug.WriteLine("Params [ProjectID: " + ProjectID + " Comment: " + comment + " Status: " + status + " Date: " + date + "]");
+
+            int s;
+            if (status.Equals("Approved"))
+            {
+                s = 1;
+            }
+            else if (status.Equals("Pending"))
+            {
+                s = 2;
+            }
+            else
+            {
+                s = 3;
+            }
+
+            //Commented Out Until Clarified
+            
+            /*
+            ProjectStatus update = new ProjectStatus();
+            update.UpdateProjectStatus(ProjectID, s, date); //UPDATES TB_NewProjects Changing the status and Review Date
+
+            update.AddProjectComment(ProjectID, comment, s, date); //Insert new comment into TB_Comments
+            */
+
             return RedirectToAction("ViewAProject", new { ProjectID }); //returns the same view of the viewed project after the update is done
         }
     }
