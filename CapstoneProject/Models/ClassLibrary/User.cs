@@ -144,18 +144,21 @@ namespace CapstoneProject.Models.ClassLibrary
                 // Check if there are any rows in the dataset to determine if the login was successful
 
                 Profile profile = new Profile();
-                if (ds.Tables[0].Rows.Count > 0)
+                if (ds.Tables[0]!=null)
                 {
-                    // Assign values to the User object's properties from the first row
-                    DataRow row = ds.Tables[0].Rows[0];
-                    profile.ProfileID = Convert.ToInt32(row["ProfileID"]);
-                    profile.Organization = row["Organization"].ToString();
-                    profile.FirstName = row["FirstName"].ToString();
-                    profile.LastName = row["LastName"].ToString();
-                    profile.Email = row["Email"].ToString();
-                    profile.SubmissionDate = Convert.ToDateTime(row["SubmissionDate"]);
-                    profile.UserType = row["UserTypeName"].ToString();
-                    return profile;
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        // Assign values to the User object's properties from the first row
+                        DataRow row = ds.Tables[0].Rows[0];
+                        profile.ProfileID = Convert.ToInt32(row["ProfileID"]);
+                        profile.Organization = row["Organization"].ToString();
+                        profile.FirstName = row["FirstName"].ToString();
+                        profile.LastName = row["LastName"].ToString();
+                        profile.Email = row["Email"].ToString();
+                        profile.SubmissionDate = Convert.ToDateTime(row["SubmissionDate"]);
+                        profile.UserType = row["UserTypeName"].ToString();
+                        return profile;
+                    }
                 }
                 // Return the result
                 return profile;
