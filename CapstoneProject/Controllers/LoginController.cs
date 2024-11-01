@@ -57,11 +57,11 @@ namespace CapstoneProject.Controllers
                 }
                 return View(model);
             }
-            if (Request.Form["Email"].ToString().Contains("temple.edu"))
-            {
-                ViewBag.ErrorMessage = "Error: Please use the SSO to sign in.";
-                return View();
-            }
+            //if (Request.Form["Email"].ToString().Contains("temple.edu"))
+            //{
+            //    ViewBag.ErrorMessage = "Error: Please use the SSO to sign in.";
+            //    return View();
+            //}
             // Manually extract form data for sending via JSON
             User user = new User
             {
