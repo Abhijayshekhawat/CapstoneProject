@@ -96,7 +96,12 @@ namespace CapstoneProject.Controllers
             newProjects.ProjectDescription = Request.Form["ProjectDescription"].ToString();
             newProjects.CreateNewProject(newProjects.ProjectName, newProjects.ProjectDescription);
 
-            return View("~/Views/Account/CreateNewProject.cshtml");
+            return View("~/Views/Account/CreatedProjectLandingPage.cshtml");
+        }
+
+        public IActionResult CreatedProjectLandingPage()
+        {
+            return View("~/Views/Account/CreatedProjectLandingPage.cshtml");
         }
         public IActionResult Logout()
         {
