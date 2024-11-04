@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using CapstoneProject.Models.Utilities;
+using CapstoneProject.Models.ClassLibrary;
 //should be used for clients to edit their profile
 namespace CapstoneProject.Controllers
 {
@@ -36,5 +38,17 @@ namespace CapstoneProject.Controllers
             return View();
         }
 
+        public IActionResult ClientDashboard()
+        {
+            NewProjects newProjects = new NewProjects();
+            List<NewProjects> NewProjectList = newProjects.GetNewProjects();
+
+
+
+
+            return View("~Views/Client/ClientDashboard",NewProjectList);
+        }
+
+       
     }
 }
