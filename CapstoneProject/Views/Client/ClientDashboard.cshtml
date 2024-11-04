@@ -1,11 +1,11 @@
-﻿@{
+﻿@using CapstoneProject.Models.ClassLibrary
+@{
     ViewData["Title"] = "User Dashboard";
     Layout = "_ClientLayout";
     var firstName = ViewBag.FirstName;
 }
 
-@using using CapstoneProject.Models;
-@model List<NewsProjects>
+@model List<NewProjects>
 
 
 <!DOCTYPE html>
@@ -118,8 +118,8 @@
                         <tr>
                             <th>Name</th>
                             <th>Description</th>
-                            <th>Submitted By</th>
-                            <th>View Project</th>
+                            <th>Submission Date</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -128,14 +128,14 @@
                         @* Check if there are any projects to display *@
                    
                         
-                            @foreach ( NewProjects newproject in Model)
+                            @foreach (NewProjects newproject in Model)
                             {
                                 <tr>
                                     <td>@newproject.ProjectName</td>
-                                    <td>@newproject.ShortDesc</td>
-                                    <td>@newproject.ProjectStatus</td>
+                                    <td>@newproject.ProjectDescription</td>
+                                    <td>@newproject.Submissiondate</td>
                                   
-                                    <td><a class="btn btn-translucent" asp-area="" asp-controller="AdminProject" asp-action="ViewAProject" asp-route-ProjectID="@project.ProjectID">View Details</a></td>
+                                  
 
                                 </tr>
                             }
