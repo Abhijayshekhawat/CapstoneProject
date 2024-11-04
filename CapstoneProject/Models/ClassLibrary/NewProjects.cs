@@ -19,7 +19,7 @@ namespace CapstoneProject.Models.ClassLibrary
     public class NewProjects
     {
         private int projectid;
-        private int profileid;
+        private int profileid; 
         private string projectdescription;
         private string projectname;
         private DateTime submissiondate;
