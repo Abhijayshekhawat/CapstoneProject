@@ -34,7 +34,8 @@ namespace CapstoneProject.Controllers
                     if (userInfo == null)
                     {
                         errorMessage = accessnetID + "User not found or an error occurred.";
-                    } else
+                    }
+                    else
                     {
                         User user = new User
                         {
@@ -82,7 +83,7 @@ namespace CapstoneProject.Controllers
                                         // Redirect based on UserType
                                         if (profile.UserType == "Client")
                                         {
-
+                                            return RedirectToAction("ClientDashboard", "Client");
                                         }
                                         else if (profile.UserType == "Admin")
                                         {

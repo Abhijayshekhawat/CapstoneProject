@@ -109,8 +109,7 @@ namespace CapstoneProject.Controllers
                             // Redirect based on UserType
                             if (profile.UserType == "Client")
                             {
-                                ViewBag.ErrorMessage = "Client Role";
-                                return View();
+                                return RedirectToAction("ClientDashboard", "Client");
                             }
                             else if (profile.UserType == "Admin")
                             {

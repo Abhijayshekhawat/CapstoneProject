@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CapstoneProject.Attributes;
+using CapstoneProject.Models.ClassLibrary;
+using Microsoft.AspNetCore.Mvc;
 using System.Data;
 //should be used for clients to edit their profile
 namespace CapstoneProject.Controllers
@@ -34,6 +36,14 @@ namespace CapstoneProject.Controllers
             //will need to use user.GetProjectsById in order to pass list of projects by current user
 
             return View();
+        }
+        [AuthorizeRoles("Client")]
+        public IActionResult ClientDashboard()
+        {
+            NewProjects newProjects = new NewProjects();
+            List<NewProjects> NewProjectList = newProjects.GetNewProjects();
+            ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
+            return View("~/Views/Client/ClientDashboard.cshtml", NewProjectList);
         }
 
     }
