@@ -107,7 +107,6 @@ namespace CapstoneProject.Models.ClassLibrary
                 };
 
                 objCommand.Parameters.AddWithValue("@ProjectID", projectID);
-                objCommand.Parameters.AddWithValue("@ProfileID", projectID);
                 objCommand.Parameters.AddWithValue("@Comment", comment);
                 objCommand.Parameters.AddWithValue("@Status", status);
                 objCommand.Parameters.AddWithValue("@StatusChangeDate", date);
