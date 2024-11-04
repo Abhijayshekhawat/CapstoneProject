@@ -51,18 +51,42 @@ namespace CapstoneProject.Models.ClassLibrary
 
             return AddProject;
         }
+        public List<NewProjects> GetNewProjects()
+{
+
+    List<NewProjects> ProjectList = new List<NewProjects>();
+
+    Connection objDB = new Connection();
+    SqlCommand objCommand = new SqlCommand();
+    objCommand.CommandType = CommandType.StoredProcedure;
+    objCommand.CommandText = "AdminGetAllProjects";
+    DataSet ds = objDB.GetDataSetUsingCmdObj(objCommand);
+
+    DataTable dt2 = ds.Tables[0];
+    NewProjects newProjects;
+
+    foreach (DataRow dr in dt2.Rows)
+    {
+        DateTime Submission = Convert.ToDateTime(dr["SubmissionDate"]);
+        newProjects = new NewProjects(dr["ProjectDescription"].ToString(), dr["ProjectName"].ToString(),Submission);
+
+
+        ProjectList.Add(newProjects);
+
+    }
+
+    return ProjectList; 
+}
 
         public NewProjects() { }
 
-        public NewProjects(int projectid, int profileid, string projectdescription, string projectname, DateTime submissiondate, DateTime reviewdate,string reviewcode) {
+        public NewProjects( string projectdescription, string projectname, DateTime submissiondate) {
          
-            this.projectid = projectid;
-            this.profileid = profileid;
+           
             this.projectdescription = projectdescription;
             this.projectname = projectname;
             this.submissiondate = submissiondate;
-            this.reviewdate = reviewdate;
-            this.reviewcode = reviewcode;
+            
 
         
         
