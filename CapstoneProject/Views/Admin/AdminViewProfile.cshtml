@@ -1,5 +1,4 @@
-﻿@model CapstoneProject.Models.ClassLibrary.ViewedProfile
-@{
+﻿@{
     ViewData["Title"] = "Admin View Profile";
     Layout = "_ClientLayout";
 }
@@ -100,6 +99,7 @@
         padding-top: 60px;
     }
 
+    /* Modal container content */
     .modal-content {
         background-color: #ffffff;
         margin: 5% auto;
@@ -169,6 +169,32 @@
         .btn-save:hover {
             background-color: #c82333; /* Darker red on hover */
         }
+
+    /* Hidden Checkbox to toggle modal */
+    #modal-toggle {
+        display: none;
+    }
+
+        /* Modal trigger: label */
+        #modal-toggle:checked + .modal {
+            display: block;
+        }
+
+            /* Close modal when save button is clicked */
+            #modal-toggle:checked + .modal .modal-content {
+                transform: scale(1);
+            }
+
+            /* Close button style */
+            #modal-toggle:checked + .modal .close {
+                cursor: pointer;
+            }
+
+    /* Style for the modal when closed */
+    input[type="checkbox"]:not(:checked) + .modal {
+        display: none;
+    }
+
 </style>
 
 <div class="profile-container">
@@ -187,10 +213,7 @@
                 <h2><span class="label">Last Name:</span> <span>@profile.LastName</span></h2>
                 <h2><span class="label">Organization:</span> <span>@profile.Organization</span></h2>
                 <h2><span class="label">Email:</span> <span>@profile.Email</span></h2>
-                @*<h2><span class="label">Submitted On:</span> <span>@profile.SubmissionDate</span></h2>*@
                 <h2><span class="label">Status:</span> <span class="status">@profile.Status</span></h2>
-                @*<h2><span class="label">Last Updated On:</span> <span>@profile.StatusChangeDateTime</span></h2>
-                <h2><span class="label">Comment:</span> <span class="comment">@profile.Comment</span></h2>*@
 
                 <center>
                     <h2>Profile Status History</h2>
@@ -217,16 +240,18 @@
                         }
                     </tbody>
                 </table>
-                <span class="btn-link" onclick="openModal('Add comment here...', 'Approved', 'StatusChangeDateTime')">Change Status</span>
+                <!-- Trigger Modal -->
+                <label for="modal-toggle" class="btn-link">Change Status</label>
             </div>
         }
     }
 </div>
 
 <!-- Modal -->
-<div id="myModal" class="modal">
+<input type="checkbox" id="modal-toggle">
+<div class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
+        <label class="close" for="modal-toggle">&times;</label>
         <h2>Update Information</h2>
         <div class="form-group">
             <label for="comment">Comment</label>
@@ -244,38 +269,6 @@
             <label for="date">Date of Change</label>
             <input type="date" id="date" />
         </div>
-        <button onclick="saveChanges()" class="btn-save">Save Changes</button>
+        <label class="btn-save" for="modal-toggle">Save Changes</label>
     </div>
 </div>
-
-<script>
-    function openModal(comment, status, date) {
-        document.getElementById("comment").value = comment;
-        document.getElementById("status").value = status;
-        document.getElementById("date").value = date;
-        document.getElementById("myModal").style.display = "block";
-    }
-
-    function closeModal() {
-        document.getElementById("myModal").style.display = "none";
-    }
-
-    function getQueryParam(name) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(name);
-    }
-
-    function saveChanges() {
-        const ProfileID = getQueryParam("ProfileID");
-
-        location.href = '@Url.Action("UpdateProfileStatus", "AdminProfiles")' + '?ProfileID=' + encodeURIComponent(ProfileID);
-        alert("Changes saved!");
-        closeModal();
-    }
-
-    window.onclick = function (event) {
-        if (event.target == document.getElementById("myModal")) {
-            closeModal();
-        }
-    }
-</script>
