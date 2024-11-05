@@ -27,6 +27,24 @@ namespace CapstoneProject.Controllers
             return View();
         }
 
+        public IActionResult EditClientProfile()
+        {
+            // Manually extract from form
+            Profile profile = new Profile
+            {
+                FirstName = Request.Form["FirstName"].ToString(),
+                LastName = Request.Form["LastName"].ToString(),
+                Email = Request.Form["Email"].ToString(),  // Extract email from form   
+                Organization = Request.Form["Organization"].ToString(),  // Extract organization from form
+                SubmissionDate = DateTime.Now,  // will use this variable as Edit Date
+                Status = "Approved", //need to double check what status means approved
+                ProfileID = Int32.Parse(HttpContext.Session.GetString("ProfileID")) //need to double check this
+            //need to look over status, submission date (which will be edited date), and user type
+           //then will call EditProfileMethod and check whether rows were affected 
+            };
+            return View();
+        }
+
         public IActionResult ClientProjects()
         {
             //Use stored procedure to get project data from datatable

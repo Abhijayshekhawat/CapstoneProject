@@ -76,6 +76,40 @@ namespace CapstoneProject.Models.ClassLibrary
             }
         }
 
+        public int EditProfile(string organization, string firstName, string lastName, string email, DateTime editDate, int profileId)
+        {
+            using (Connection objDB = new Connection())
+            {
+                if (!objDB.Open())
+                {
+                    throw new Exception("Could not open database connection.");
+                }
+
+                SqlCommand objCommand = new SqlCommand
+                {
+                    CommandType = CommandType.StoredProcedure,
+                    //need to create this stored procedure
+                    CommandText = "EditProfile"
+                };
+
+                objCommand.Parameters.AddWithValue("@Organization", organization);
+                objCommand.Parameters.AddWithValue("@FirstName", firstName);
+                objCommand.Parameters.AddWithValue("@LastName", lastName);
+                objCommand.Parameters.AddWithValue("@Email", email);
+                objCommand.Parameters.AddWithValue("@SubmissionDate", editDate);
+                objCommand.Parameters.AddWithValue("@ProfileID", profileId);
+
+                int rowsAffected = objDB.DoUpdateUsingCmdObj(objCommand);
+
+                if (rowsAffected > 0)
+                {
+                    profileId = Convert.ToInt32(objCommand.Parameters["@ProfileID"].Value);
+                }
+
+                return rowsAffected;
+            }
+        }
+
         public void AddProfileStatus(int profileId, DateTime statusChangeDateTime, string comment)
         {
             using (Connection objDB = new Connection())
