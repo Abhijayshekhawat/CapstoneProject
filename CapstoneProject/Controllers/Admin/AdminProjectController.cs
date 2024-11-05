@@ -12,6 +12,7 @@ namespace CapstoneProject.Controllers.Admin
         {
             return View();
         }
+
         public IActionResult ManageProjects()
         {
             //Use stored procedure to get project data from datatable
@@ -30,6 +31,7 @@ namespace CapstoneProject.Controllers.Admin
                 foreach (DataRow row in ds.Tables[0].Rows) //each record in the ds
                 {
                     Project project = new Project(); //create a project object for each record
+
                     project.ProjectID = Convert.ToInt32(row["ProjectID"]);
                     project.ProfileID = Convert.ToInt32(row["ProfileID"]);
                     project.ProjectName = row["ProjectName"].ToString();
@@ -143,11 +145,8 @@ namespace CapstoneProject.Controllers.Admin
         }
 
         [HttpPost]
-        public IActionResult UpdateProjectStatus(int ProjectID, string comment, string status, DateOnly date)
+        public IActionResult UpdateProjectStatus(int ProjectID, string comment, string status)
         {
-            // Log received parameters for debugging
-            Debug.WriteLine("Params [ProjectID: " + ProjectID + " Comment: " + comment + " Status: " + status + " Date: " + date + "]");
-
             int s;
             if (status.Equals("Approved"))
             {
@@ -162,15 +161,19 @@ namespace CapstoneProject.Controllers.Admin
                 s = 3;
             }
 
+            DateTime date;
+
+            date = DateTime.Now;
+
             //Commented Out Until Clarified
-            
-            /*
             ProjectStatus update = new ProjectStatus();
-            update.UpdateProjectStatus(ProjectID, s, date); //UPDATES TB_NewProjects Changing the status and Review Date
+            update.UpdateProjectStatus(ProjectID, s); //UPDATES TB_NewProjects Changing the status and Review Date
 
-            update.AddProjectComment(ProjectID, comment, s, date); //Insert new comment into TB_Comments
-            */
+            update.AddProjectComment(ProjectID, comment, s); //Insert new comment into TB_Comments
 
+            update.AddCommentToProjectStatus(ProjectID, comment, s); //Insert new comment into TB_ProjectStatus
+            
+            
             return RedirectToAction("ViewAProject", new { ProjectID }); //returns the same view of the viewed project after the update is done
         }
     }

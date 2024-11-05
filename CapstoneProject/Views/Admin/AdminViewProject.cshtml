@@ -219,7 +219,7 @@
                         }
                     </tbody>
                 </table>
-                <span class="btn-link" onclick="openModal('Add comment here...', 'Approved', 'StatusChangeDateTime')">Change Status</span>
+                <span class="btn-link" onclick="openModal('Add comment here...', 'Approved')">Change Status</span>
             </div>
         }
     }
@@ -242,19 +242,14 @@
                 <option value="Pending">Pending</option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="date">Date of Change</label>
-            <input type="date" id="date" />
-        </div>
         <button onclick="saveChanges()" class="btn-save">Save Changes</button>
     </div>
 </div>
 
 <script>
-    function openModal(comment, status, date) {
+    function openModal(comment, status) {
         document.getElementById("comment").value = comment;
         document.getElementById("status").value = status;
-        document.getElementById("date").value = date;
         document.getElementById("myModal").style.display = "block";
     }
 
@@ -271,7 +266,7 @@
         const ProjectID = getQueryParam("ProjectID");
         const Comment = document.getElementById("comment").value;
         const Status = document.getElementById("status").value;
-        const Date = document.getElementById("date").value;
+        //const Date = document.getElementById("date").value;
 
         $.ajax({
             url: '@Url.Action("UpdateProjectStatus", "AdminProject")',
@@ -279,8 +274,8 @@
             data: {
                 ProjectID: ProjectID,
                 comment: Comment,
-                status: Status,
-                date: Date
+                status: Status
+                //date: Date
             },
             success: function (response) {
                 alert("Changes saved!");

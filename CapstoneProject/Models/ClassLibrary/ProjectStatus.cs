@@ -55,7 +55,7 @@ namespace CapstoneProject.Models.ClassLibrary
         public DateTime StatusChangeDateTime { get { return statuschangedatetime; } set { statuschangedatetime = value; } }
         public string Comment { get { return comment; } set { comment = value; } }
         
-        public int UpdateProjectStatus(int projectID, int status, DateOnly date)
+        public void UpdateProjectStatus(int projectID, int status) //stored procedure to update project status in TB_NewProjects
         {
             using (Connection objDB = new Connection())
             {
@@ -81,17 +81,11 @@ namespace CapstoneProject.Models.ClassLibrary
                 SqlParameter inputParameter2 = new SqlParameter("@Status", status);
                 objCommand.Parameters.Add(inputParameter2);
 
-                // Add parameters to the command
-                SqlParameter inputParameter3 = new SqlParameter("@Date", date);
-                objCommand.Parameters.Add(inputParameter3);
-
-                int rowsAffected = objDB.DoUpdateUsingCmdObj(objCommand);
-
-                return rowsAffected;
+                objDB.DoUpdateUsingCmdObj(objCommand);
             }
         }
 
-        public int AddProjectComment(int projectID, string comment, int status, DateOnly date)
+        public void AddProjectComment(int projectID, string comment, int status) //Insert new comment into TB_Comment
         {
             using (Connection objDB = new Connection())
             {
@@ -109,11 +103,32 @@ namespace CapstoneProject.Models.ClassLibrary
                 objCommand.Parameters.AddWithValue("@ProjectID", projectID);
                 objCommand.Parameters.AddWithValue("@Comment", comment);
                 objCommand.Parameters.AddWithValue("@Status", status);
-                objCommand.Parameters.AddWithValue("@StatusChangeDate", date);
 
-                int rowsAffected = objDB.DoUpdateUsingCmdObj(objCommand);
+                objDB.DoUpdateUsingCmdObj(objCommand);
+            }
+        }
 
-                return rowsAffected;
+        public void AddCommentToProjectStatus(int projectID, string comment, int status) //Insert the same new comment into TB_ProjectStatus
+        {
+            using (Connection objDB = new Connection())
+            {
+                if (!objDB.Open())
+                {
+                    throw new Exception("Could not open database connection.");
+                }
+
+                SqlCommand objCommand = new SqlCommand
+                {
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "AddCommentToProjectStatus"
+                };
+
+                objCommand.Parameters.AddWithValue("@ProjectID", projectID);
+                objCommand.Parameters.AddWithValue("@Comment", comment);
+                objCommand.Parameters.AddWithValue("@Status", status);
+
+                objDB.DoUpdateUsingCmdObj(objCommand);
+
             }
         }
     }
