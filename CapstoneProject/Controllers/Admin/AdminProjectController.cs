@@ -151,11 +151,6 @@ namespace CapstoneProject.Controllers.Admin
                 s = 3;
             }
 
-            DateTime date;
-
-            date = DateTime.Now;
-
-            //Commented Out Until Clarified
             ProjectStatus update = new ProjectStatus();
             update.UpdateProjectStatus(ProjectID, s); //UPDATES TB_NewProjects Changing the status and Review Date
 
