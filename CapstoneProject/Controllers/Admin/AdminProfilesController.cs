@@ -154,6 +154,11 @@ namespace CapstoneProject.Controllers.Admin
                 s = 3;
             }
 
+            ProfileStatus update = new ProfileStatus();
+
+            update.UpdateProfileStatus(ProfileID, s, comment);
+            update.AddProfileComment(ProfileID, s, comment);
+
             return RedirectToAction("ViewAProfile", new { ProfileID }); //returns the same view of the viewed profile after the update is done
         }
     }

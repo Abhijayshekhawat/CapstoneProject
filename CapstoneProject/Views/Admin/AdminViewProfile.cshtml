@@ -229,14 +229,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var comment in profile.Comments)
+                        @if(profile.Comments == null || profile.Comments.Count < 1)
                         {
                             <tr>
-                                <td class="comment">@comment.Description</td>
-                                <td class="status">@comment.LastUpdatedStatus</td>
-                                <td>@comment.StatusChangeDateTime</td>
+                                <td class="comment">No comments</td>
+                                <td class="status"></td>
+                                <td></td>
                                 <td></td>
                             </tr>
+                        }
+                        else{
+                            @foreach (var comment in profile.Comments)
+                            {
+                                <tr>
+                                    <td class="comment">@comment.Description</td>
+                                    <td class="status">@comment.LastUpdatedStatus</td>
+                                    <td>@comment.StatusChangeDateTime</td>
+                                    <td></td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>
@@ -285,7 +296,7 @@
     }
 
     function saveChanges() {
-        const ProjectID = getQueryParam("ProjectID");
+        const ProfileID = getQueryParam("ProfileID");
         const Comment = document.getElementById("comment").value;
         const Status = document.getElementById("status").value;
         //const Date = document.getElementById("date").value;
@@ -294,7 +305,7 @@
             url: '@Url.Action("UpdateProfileStatus", "AdminProfiles")',
             type: 'POST',
             data: {
-                ProjectID: ProjectID,
+                ProfileID: ProfileID,
                 comment: Comment,
                 status: Status
                 //date: Date
