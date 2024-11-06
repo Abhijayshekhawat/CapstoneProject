@@ -35,26 +35,16 @@ namespace CapstoneProject.Controllers.Admin
                     project.ProjectID = Convert.ToInt32(row["ProjectID"]);
                     project.ProfileID = Convert.ToInt32(row["ProfileID"]);
                     project.ProjectName = row["ProjectName"].ToString();
-                    project.ShortDesc = row["ProjectDescription"].ToString();
-
-                    int status = Convert.ToInt32(row["LastUpdatedStatus"]); //project status is stored as an int in db, for the admin view we want to show the string
-                    if (status == 1)
-                    {
-                        project.ProjectStatus = "Approved";
-                    }
-                    else if (status == 2)
-                    {
-                        project.ProjectStatus = "Pending";
-                    }
-                    else
-                    {
-                        project.ProjectStatus = "Rejected";
-                    }
-                    project.Comments = row["Comment"].ToString();
+                    project.ShortDesc = string.Join(" ", row["ProjectDescription"].ToString().Trim().Split(' ').Take(6));
+                    project.Desc = row["ProjectDescription"].ToString();
+                    project.ProjectStatus = row["ProjectStatus"].ToString(); // StatusName from TB_Status
+                    project.Comments = row["RecentComments"].ToString(); // Latest comment
+                    project.SubmittedBy = row["SubmittedBy"].ToString(); // Full name of submitter
+                    project.DateSubmitted = Convert.ToDateTime(row["DateSubmitted"]);
                     theProjects.Add(project);
                 }
             }
-            
+
             ViewBag.AdminViewProjects = theProjects; //viewbag containing the list of projects
 
             return View("~/Views/Admin/AdminManageProjects.cshtml");
@@ -68,7 +58,7 @@ namespace CapstoneProject.Controllers.Admin
         public IActionResult ViewAProject(int ProjectID)
         {
             Debug.WriteLine("The projectID for this Project is " + ProjectID); //testing to see that the profileID and projectID is being passed to the view
-            
+
             AdminViewProject proj = new AdminViewProject();
             DataSet ds = new DataSet();
 
@@ -140,7 +130,7 @@ namespace CapstoneProject.Controllers.Admin
 
                 ViewBag.AdminViewedProject = theProject;
             }
-            
+
             return View("~/Views/Admin/AdminViewProject.cshtml", viewedProject);
         }
 
@@ -172,8 +162,8 @@ namespace CapstoneProject.Controllers.Admin
             update.AddProjectComment(ProjectID, comment, s); //Insert new comment into TB_Comments
 
             update.AddCommentToProjectStatus(ProjectID, comment, s); //Insert new comment into TB_ProjectStatus
-            
-            
+
+
             return RedirectToAction("ViewAProject", new { ProjectID }); //returns the same view of the viewed project after the update is done
         }
     }

@@ -2,6 +2,7 @@
 using CapstoneProject.Models.ClassLibrary;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace CapstoneProject.Controllers
 {
@@ -18,30 +19,29 @@ namespace CapstoneProject.Controllers
             DataSet profileDs = profile.GetProfiles();
             DataSet projectDs = p.GetProjects();
             //list of project objects and profiles
-            List<Project> theProjects = new List<Project>(); 
+            List<Project> theProjects = new List<Project>();
             List<Profile> profiles = new List<Profile>();
 
             if (projectDs.Tables.Count > 0 && projectDs.Tables[0].Rows.Count > 0) //if the dataset is not null or empty
             {
                 foreach (DataRow row in projectDs.Tables[0].Rows) //each record in the ds
                 {
-                    Project project = new Project(); //create a project object for each record
-                    project.ProjectID = Convert.ToInt32(row["ProjectID"]);
-                    project.ProfileID = Convert.ToInt32(row["ProfileID"]);
-                    project.ProjectName = row["ProjectName"].ToString();
-                    project.ShortDesc = row["ProjectDescription"].ToString();
-
-                    int status = Convert.ToInt32(row["LastUpdatedStatus"]); //project status is stored as an int in db, for the admin view we want to show the string
-                    if (status == 2)
+                    if (row["ProjectStatus"].ToString() == "Pending")
                     {
-                        project.ProjectStatus = "Pending";
-                        project.Comments = row["Comment"].ToString();
+                        Project project = new Project(); //create a project object for each record
+                        project.ProjectID = Convert.ToInt32(row["ProjectID"]);
+                        project.ProfileID = Convert.ToInt32(row["ProfileID"]);
+                        project.ProjectName = row["ProjectName"].ToString();
+                        project.ShortDesc = string.Join(" ", row["ProjectDescription"].ToString().Trim().Split(' ').Take(6));
+                        project.Desc = row["ProjectDescription"].ToString();
+                        project.ProjectStatus = row["ProjectStatus"].ToString(); // StatusName from TB_Status
+                        project.Comments = row["RecentComments"].ToString(); // Latest comment
+                        project.SubmittedBy = row["SubmittedBy"].ToString(); // Full name of submitter
+                        project.DateSubmitted = Convert.ToDateTime(row["DateSubmitted"]);
                         theProjects.Add(project);
                     }
-                   
                 }
             }
-
             if (profileDs.Tables.Count > 0 && profileDs.Tables[0].Rows.Count > 0) //if the dataset is not null or empty
             {
                 foreach (DataRow row in profileDs.Tables[0].Rows) //each record in the ds
@@ -73,7 +73,6 @@ namespace CapstoneProject.Controllers
             }
 
             ViewBag.AdminViewProfiles = profiles; //viewbag containing the profiles
-
             ViewBag.AdminViewProjects = theProjects; //viewbag containing the list of projects
 
 
@@ -82,11 +81,11 @@ namespace CapstoneProject.Controllers
         }
 
         public IActionResult CreateNewProject()
-        
-        { 
+
+        {
             return View("~/Views/Account/CreateNewProject.cshtml");
-        
-        
+
+
         }
 
     }
@@ -95,5 +94,5 @@ namespace CapstoneProject.Controllers
 
 
 //app.MapControllerRoute(
-  //  name: "default",
-    //pattern: "{controller=UserDash}/{action=UserDashboard}/{id?}");
+//  name: "default",
+//pattern: "{controller=UserDash}/{action=UserDashboard}/{id?}");

@@ -8,7 +8,8 @@ namespace CapstoneProject.Models
 {
     public class AdminModel
     {
-        public AdminModel() { 
+        public AdminModel()
+        {
         }
 
         public class Project //parameters for projects that the admin views
@@ -126,14 +127,15 @@ namespace CapstoneProject.Models
                 SqlCommand objCommand = new SqlCommand
                 {
                     CommandType = CommandType.StoredProcedure,
-                    CommandText = "AdminGetAllProjects"
+                    //CommandText = "AdminGetAllProjects"
+                    CommandText = "DashboardGetPendingProjects"
                 };
 
                 //no parameters to add, since its a Select * operation
 
                 // Use the Connection class's method to execute the SqlCommand and get a DataSet
                 DataSet ds = objDB.GetDataSetUsingCmdObj(objCommand);
-                
+
                 return ds;
             }
         }

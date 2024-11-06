@@ -30,38 +30,26 @@ namespace CapstoneProject.Controllers.Admin
             {
                 foreach (DataRow row in ds.Tables[0].Rows) //each record in the ds
                 {
-                   Profile profile = new Profile();
-                   profile.ProfileID = Convert.ToInt32(row["ProfileID"]);
-                   profile.FirstName = row["FirstName"].ToString();
-                   profile.LastName = row["LastName"].ToString();
-                   profile.Organization = row["Organization"].ToString();
-                   profile.Email = row["Email"].ToString();
-
-                   if (row["LastUpdatedStatus"].Equals(DBNull.Value))
-                   {
-                        profile.Status = "NULL Value";
-                        profiles.Add(profile);
-                   }
-                   else
+                    Profile userProfile = new Profile();
+                    userProfile.ProfileID = Convert.ToInt32(row["ProfileID"]);
+                    userProfile.FirstName = row["FirstName"].ToString();
+                    userProfile.LastName = row["LastName"].ToString();
+                    userProfile.Organization = row["Organization"].ToString();
+                    userProfile.Email = row["Email"].ToString();
+                    if (row["LastUpdatedStatus"].Equals(1))
                     {
-                        int status = Convert.ToInt32(row["LastUpdatedStatus"]);
-
-                        if (status == 1)
-                        {
-                            profile.Status = "Approved";
-                        }
-                        else if (status == 2)
-                        {
-                            profile.Status = "Pending";
-                        }
-                        else
-                        {
-                            profile.Status = "Rejected";
-                        }
-                        profiles.Add(profile);
+                        userProfile.Status = "Approved";
                     }
+                    else if (row["LastUpdatedStatus"].Equals(2))
+                    {
+                        userProfile.Status = "Pending";
+                    }
+                    else if (row["LastUpdatedStatus"].Equals(3))
+                    {
+                        userProfile.Status = "Rejected";
+                    }
+                    profiles.Add(userProfile);
                 }
-                   
             }
 
             ViewBag.AdminViewProfiles = profiles; //viewbag containing the profiles
@@ -146,7 +134,7 @@ namespace CapstoneProject.Controllers.Admin
                 ViewBag.AdminViewedProfile = theProfile;
             }
 
-            return View("~/Views/Admin/AdminViewProfile.cshtml",viewedProfile);
+            return View("~/Views/Admin/AdminViewProfile.cshtml", viewedProfile);
         }
 
         public IActionResult UpdateProfileStatus(int ProfileID)

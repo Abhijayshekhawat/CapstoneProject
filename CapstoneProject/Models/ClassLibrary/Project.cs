@@ -4,19 +4,20 @@ namespace CapstoneProject.Models.ClassLibrary
 {
     public class Project : PageModel
     {
-        
+
 
         public Project()
         {
 
         }
 
-        public Project(int projectID, int profileID, string projectName, string shortDesc, string projectStatus, string comments)
+        public Project(int projectID, int profileID, string projectName, string shortDesc, string desc, string projectStatus, string comments)
         {
             ProjectID = projectID;
             ProfileID = profileID;
             ProjectName = projectName;
             ShortDesc = shortDesc;
+            Desc = desc;
             ProjectStatus = projectStatus;
             Comments = comments;
         }
@@ -45,6 +46,12 @@ namespace CapstoneProject.Models.ClassLibrary
             set;
         }
 
+        public string Desc
+        {
+            get;
+            set;
+        }
+
         public string ProjectStatus
         {
             get;
@@ -57,6 +64,17 @@ namespace CapstoneProject.Models.ClassLibrary
             set;
         }
 
+        public string SubmittedBy
+        {
+            get;
+            set;
+        }
+
+        public DateTime DateSubmitted
+        {
+            get;
+            set;
+        }
         public List<Project> projects
         {
             get;
