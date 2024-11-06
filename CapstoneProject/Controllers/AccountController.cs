@@ -99,8 +99,7 @@ namespace CapstoneProject.Controllers
             newProjects.ProjectName = Request.Form["ProjectName"].ToString();
             newProjects.ProjectDescription = Request.Form["ProjectDescription"].ToString();
             newProjects.CreateNewProject(newProjects.ProfileID,newProjects.ProjectDescription, newProjects.ProjectName);
-            newProjects.AddNewProjectToComment();
-            newProjects.AddNewProjectToProjectStatus(newProjects.ProfileID);
+           
 
             return View("~/Views/Account/CreatedProjectLandingPage.cshtml");
         }
