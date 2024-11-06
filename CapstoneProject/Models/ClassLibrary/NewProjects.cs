@@ -26,70 +26,10 @@ namespace CapstoneProject.Models.ClassLibrary
         private DateTime reviewdate;
         private string reviewcode;
 
-        public int AddNewProjectToProjectStatus(int profileid)
-        {
-            int AddStatus = 0;
+     
 
 
-            Connection objDB3 = new Connection();
-
-            SqlCommand objCommand3 = new SqlCommand();
-
-            objCommand3.CommandType = CommandType.StoredProcedure;
-            objCommand3.CommandText = "InsertProjectStatus";
-
- 
-
-            SqlParameter inputParameter21 = new SqlParameter("@ProfileID", profileid);
-            objCommand3.Parameters.Add(inputParameter21);
-            SqlParameter inputParameter22 = new SqlParameter("@ProjectID", projectid);
-            objCommand3.Parameters.Add(inputParameter22);
-
-            string comment = "Pending until review by Reviewer or Admin";
-            SqlParameter inputParameter23 = new SqlParameter("@Comment", comment);
-            objCommand3.Parameters.Add(inputParameter23);
-
-
-            return AddStatus;
-        }
-
-
-        public int AddNewProjectToComment()
-        {
-
-
-            int AddComment = 0;
-
-            Connection objDB = new Connection();
-
-            SqlCommand objCommand = new SqlCommand();
-
-
-            objCommand.CommandType = CommandType.StoredProcedure;
-            objCommand.CommandText = "InsertComment";
-
-            SqlParameter returnParameter = new SqlParameter("@ProjectID", SqlDbType.Int);
-            returnParameter.Direction = ParameterDirection.Output;
-
-            int projectid = int.Parse(returnParameter.Value.ToString());
-
-
-            SqlParameter inputParameter1 = new SqlParameter("@CommentForProjectID", projectid );
-            objCommand.Parameters.Add(inputParameter1);
-
-            string comment = "Pending until review by Reviewer or Admin";
-
-            SqlParameter inputParameter2 = new SqlParameter("@Comment", comment);
-            objCommand.Parameters.Add(inputParameter2);
-
-            AddComment = objDB.DoUpdateUsingCmdObj(objCommand);
-
-
-
-
-            return AddComment;
-
-        }
+       
 
 
         public int CreateNewProject(int profileid , string projectname, string projectdescription)
@@ -108,7 +48,7 @@ namespace CapstoneProject.Models.ClassLibrary
 
             objCommand.Parameters.Add(returnParameter);
 
-           
+
 
 
             SqlParameter inputParameter1 = new SqlParameter("@ProfileID", profileid);
@@ -128,36 +68,33 @@ namespace CapstoneProject.Models.ClassLibrary
 
             int projectid = int.Parse(returnParameter.Value.ToString());
 
-            
+
 
 
             // add comment table
-
-            int AddComment = 0;
-
             Connection objDB2 = new Connection();
 
-            SqlCommand objCommand2= new SqlCommand();
+            SqlCommand objCommand2 = new SqlCommand();
 
 
             objCommand2.CommandType = CommandType.StoredProcedure;
             objCommand2.CommandText = "InsertComment";
 
-       
+
 
 
             SqlParameter inputParameter11 = new SqlParameter("@CommentForProjectID", projectid);
-            objCommand.Parameters.Add(inputParameter11);
+            objCommand2.Parameters.Add(inputParameter11);
 
             string comment = "Pending until review by Reviewer or Admin";
 
             SqlParameter inputParameter12 = new SqlParameter("@Comment", comment);
-            objCommand.Parameters.Add(inputParameter12);
+            objCommand2.Parameters.Add(inputParameter12);
 
-            AddComment = objDB.DoUpdateUsingCmdObj(objCommand);
+            objDB2.DoUpdateUsingCmdObj(objCommand2);
 
             // add project status table
-            int AddStatus = 0;
+
 
 
             Connection objDB3 = new Connection();
@@ -178,8 +115,10 @@ namespace CapstoneProject.Models.ClassLibrary
             SqlParameter inputParameter23 = new SqlParameter("@Comment", comment);
             objCommand3.Parameters.Add(inputParameter23);
 
+            objDB3.DoUpdateUsingCmdObj(objCommand3);
 
             return 1;
+
 
 
         }
