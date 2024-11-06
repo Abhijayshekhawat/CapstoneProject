@@ -44,8 +44,8 @@ namespace CapstoneProject.Models.ClassLibrary
             objCommand3.Parameters.Add(inputParameter21);
             SqlParameter inputParameter22 = new SqlParameter("@ProjectID", projectid);
             objCommand3.Parameters.Add(inputParameter22);
-         
 
+            string comment = "Pending until review by Reviewer or Admin";
             SqlParameter inputParameter23 = new SqlParameter("@Comment", comment);
             objCommand3.Parameters.Add(inputParameter23);
 
