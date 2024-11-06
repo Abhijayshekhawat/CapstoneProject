@@ -213,7 +213,7 @@
                 <h2><span class="label">Last Name:</span> <span>@profile.LastName</span></h2>
                 <h2><span class="label">Organization:</span> <span>@profile.Organization</span></h2>
                 <h2><span class="label">Email:</span> <span>@profile.Email</span></h2>
-                <h2><span class="label">Status:</span> <span class="status">@profile.Status</span></h2>
+                <h2><span class="label">Current Status:</span> <span class="status">@profile.Status</span></h2>
 
                 <center>
                     <h2>Profile Status History</h2>
@@ -241,17 +241,16 @@
                     </tbody>
                 </table>
                 <!-- Trigger Modal -->
-                <label for="modal-toggle" class="btn-link">Change Status</label>
+                <span class="btn-link" onclick="openModal('Add comment here...', 'Approved')">Change Status</span>
             </div>
         }
     }
 </div>
 
 <!-- Modal -->
-<input type="checkbox" id="modal-toggle">
-<div class="modal">
+<div id="myModal" class="modal">
     <div class="modal-content">
-        <label class="close" for="modal-toggle">&times;</label>
+        <span class="close" onclick="closeModal()">&times;</span>
         <h2>Update Information</h2>
         <div class="form-group">
             <label for="comment">Comment</label>
@@ -265,10 +264,55 @@
                 <option value="Pending">Pending</option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="date">Date of Change</label>
-            <input type="date" id="date" />
-        </div>
-        <label class="btn-save" for="modal-toggle">Save Changes</label>
+        <button onclick="saveChanges()" class="btn-save">Save Changes</button>
     </div>
 </div>
+
+    <script>
+    function openModal(comment, status) {
+        document.getElementById("comment").value = comment;
+        document.getElementById("status").value = status;
+        document.getElementById("myModal").style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
+    function saveChanges() {
+        const ProjectID = getQueryParam("ProjectID");
+        const Comment = document.getElementById("comment").value;
+        const Status = document.getElementById("status").value;
+        //const Date = document.getElementById("date").value;
+
+        $.ajax({
+            url: '@Url.Action("UpdateProfileStatus", "AdminProfiles")',
+            type: 'POST',
+            data: {
+                ProjectID: ProjectID,
+                comment: Comment,
+                status: Status
+                //date: Date
+            },
+            success: function (response) {
+                alert("Changes saved!");
+                closeModal();
+                // Optionally handle the response
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred: ", error);
+            }
+        });
+    }
+
+    window.onclick = function (event) {
+        if (event.target == document.getElementById("myModal")) {
+            closeModal();
+        }
+    }
+    </script>

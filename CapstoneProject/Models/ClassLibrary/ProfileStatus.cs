@@ -33,8 +33,15 @@ namespace CapstoneProject.Models.ClassLibrary
 
 		}
 
+		public void UpdateProfileStatus()
+		{
 
+		}
 
+		public void AddCommentToProfileStatus()
+		{
+
+		}
 
 
 	}

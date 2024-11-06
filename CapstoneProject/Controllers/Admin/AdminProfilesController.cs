@@ -137,8 +137,23 @@ namespace CapstoneProject.Controllers.Admin
             return View("~/Views/Admin/AdminViewProfile.cshtml", viewedProfile);
         }
 
-        public IActionResult UpdateProfileStatus(int ProfileID)
+        [HttpPost]
+        public IActionResult UpdateProfileStatus(int ProfileID, string comment, string status)
         {
+            int s;
+            if (status.Equals("Approved"))
+            {
+                s = 1;
+            }
+            else if (status.Equals("Pending"))
+            {
+                s = 2;
+            }
+            else
+            {
+                s = 3;
+            }
+
             return RedirectToAction("ViewAProfile", new { ProfileID }); //returns the same view of the viewed profile after the update is done
         }
     }
