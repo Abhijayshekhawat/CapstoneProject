@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Text;
 using CapstoneProject.Models;
 
+
 namespace CapstoneProject.Controllers
 {
     public class AccountController : Controller
@@ -88,13 +89,18 @@ namespace CapstoneProject.Controllers
             return View("~/Views/Account/CreateNewProject.cshtml");
         }
 
+
+
         public IActionResult AddNewProject()
         {
 
             NewProjects newProjects = new NewProjects();
+            newProjects.ProfileID = Int32.Parse(HttpContext.Session.GetString("ProfileID"));
             newProjects.ProjectName = Request.Form["ProjectName"].ToString();
             newProjects.ProjectDescription = Request.Form["ProjectDescription"].ToString();
-            newProjects.CreateNewProject(newProjects.ProjectName, newProjects.ProjectDescription);
+            newProjects.CreateNewProject(newProjects.ProfileID,newProjects.ProjectDescription, newProjects.ProjectName);
+            newProjects.AddNewProjectToComment();
+            newProjects.AddNewProjectToProjectStatus(newProjects.ProfileID);
 
             return View("~/Views/Account/CreatedProjectLandingPage.cshtml");
         }

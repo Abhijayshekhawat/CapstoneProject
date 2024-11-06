@@ -26,9 +26,74 @@ namespace CapstoneProject.Models.ClassLibrary
         private DateTime reviewdate;
         private string reviewcode;
 
+        public int AddNewProjectToProjectStatus(int profileid)
+        {
+            int AddStatus = 0;
 
 
-        public int CreateNewProject(string projectname, string projectdescription)
+            Connection objDB = new Connection();
+
+            SqlCommand objCommand = new SqlCommand();
+
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "InsertProjectStatus";
+
+            SqlParameter returnParameter = new SqlParameter("@ProjectID", SqlDbType.Int);
+            returnParameter.Direction = ParameterDirection.Output;
+
+            int projectid = int.Parse(returnParameter.Value.ToString());
+
+            SqlParameter inputParameter1 = new SqlParameter("@ProfileID", profileid);
+            objCommand.Parameters.Add(inputParameter1);
+            SqlParameter inputParameter2 = new SqlParameter("@ProjectID", projectid);
+            objCommand.Parameters.Add(inputParameter2);
+            string comment = "Pending until review by Reviewer or Admin";
+
+            SqlParameter inputParameter3 = new SqlParameter("@Comment", comment);
+            objCommand.Parameters.Add(inputParameter3);
+
+
+            return AddStatus;
+        }
+
+
+        public int AddNewProjectToComment()
+        {
+
+
+            int AddComment = 0;
+
+            Connection objDB = new Connection();
+
+            SqlCommand objCommand = new SqlCommand();
+
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "InsertComment";
+            SqlParameter returnParameter = new SqlParameter("@ProjectID", SqlDbType.Int);
+            returnParameter.Direction = ParameterDirection.Output;
+
+            int projectid = int.Parse(returnParameter.Value.ToString());
+
+
+            SqlParameter inputParameter1 = new SqlParameter("@CommentForProjectID", projectid );
+            objCommand.Parameters.Add(inputParameter1);
+
+            string comment = "Pending until review by Reviewer or Admin";
+
+            SqlParameter inputParameter2 = new SqlParameter("@Comment", comment);
+            objCommand.Parameters.Add(inputParameter2);
+
+            AddComment = objDB.DoUpdateUsingCmdObj(objCommand);
+
+
+
+
+            return AddComment;
+
+        }
+
+
+        public int CreateNewProject(int profileid , string projectname, string projectdescription)
         {
             Connection objDB = new Connection();
 
@@ -36,6 +101,10 @@ namespace CapstoneProject.Models.ClassLibrary
 
             objCommand.CommandType = CommandType.StoredProcedure;
             objCommand.CommandText = "AddNewProject";
+
+
+            SqlParameter inputParameter1 = new SqlParameter("@ProfileID", profileid);
+            objCommand.Parameters.Add(inputParameter1);
 
             SqlParameter inputParameter2 = new SqlParameter("@ProjectName", projectname);
             objCommand.Parameters.Add(inputParameter2);
@@ -67,8 +136,9 @@ namespace CapstoneProject.Models.ClassLibrary
 
             foreach (DataRow dr in dt2.Rows)
             {
+                int profileid = 0;
                 DateTime Submission = Convert.ToDateTime(dr["SubmissionDate"]);
-                newProjects = new NewProjects(dr["ProjectDescription"].ToString(), dr["ProjectName"].ToString(), Submission);
+                newProjects = new NewProjects(profileid,dr["ProjectDescription"].ToString(), dr["ProjectName"].ToString(), Submission);
 
 
                 ProjectList.Add(newProjects);
@@ -80,10 +150,10 @@ namespace CapstoneProject.Models.ClassLibrary
 
         public NewProjects() { }
 
-        public NewProjects(string projectdescription, string projectname, DateTime submissiondate)
+        public NewProjects(int profileid, string projectdescription, string projectname, DateTime submissiondate)
         {
 
-
+            this.profileid = profileid;
             this.projectdescription = projectdescription;
             this.projectname = projectname;
             this.submissiondate = submissiondate;
