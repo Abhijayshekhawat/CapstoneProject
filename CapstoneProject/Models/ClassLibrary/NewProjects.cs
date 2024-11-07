@@ -140,10 +140,11 @@ namespace CapstoneProject.Models.ClassLibrary
             SqlCommand objCommand = new SqlCommand();
             objCommand.CommandType = CommandType.StoredProcedure;
             objCommand.CommandText = "GetClientUserProjects";
-            DataSet ds = objDB.GetDataSetUsingCmdObj(objCommand);
-
             SqlParameter inputParameter1 = new SqlParameter("@ProfileID", profileid);
             objCommand.Parameters.Add(inputParameter1);
+            DataSet ds = objDB.GetDataSetUsingCmdObj(objCommand);
+
+            
             
             DataTable dt2 = ds.Tables[0];
             NewProjects newProjects;
