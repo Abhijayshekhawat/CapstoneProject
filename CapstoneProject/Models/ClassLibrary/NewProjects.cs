@@ -19,20 +19,20 @@ namespace CapstoneProject.Models.ClassLibrary
     public class NewProjects
     {
         private int projectid;
-        private int profileid; 
+        private int profileid;
         private string projectdescription;
         private string projectname;
         private DateTime submissiondate;
         private DateTime reviewdate;
         private string reviewcode;
 
-     
 
 
-       
 
 
-        public int CreateNewProject(int profileid , string projectname, string projectdescription)
+
+
+        public int CreateNewProject(int profileid, string projectname, string projectdescription)
         {
 
             // add new project
@@ -91,6 +91,12 @@ namespace CapstoneProject.Models.ClassLibrary
             SqlParameter inputParameter12 = new SqlParameter("@Comment", comment);
             objCommand2.Parameters.Add(inputParameter12);
 
+            SqlParameter inputParameter13 = new SqlParameter("@status", 2);
+            objCommand2.Parameters.Add(inputParameter13);
+
+            SqlParameter inputParameter14 = new SqlParameter("@StatusChangeDate", DateTime.Now);
+            objCommand2.Parameters.Add(inputParameter14);
+
             objDB2.DoUpdateUsingCmdObj(objCommand2);
 
             // add project status table
@@ -114,6 +120,9 @@ namespace CapstoneProject.Models.ClassLibrary
 
             SqlParameter inputParameter23 = new SqlParameter("@Comment", comment);
             objCommand3.Parameters.Add(inputParameter23);
+
+            SqlParameter inputParameter24 = new SqlParameter("@StatusChangeDate", DateTime.Now);
+            objCommand2.Parameters.Add(inputParameter24);
 
             objDB3.DoUpdateUsingCmdObj(objCommand3);
 
@@ -140,7 +149,7 @@ namespace CapstoneProject.Models.ClassLibrary
             {
                 int profileid = 0;
                 DateTime Submission = Convert.ToDateTime(dr["SubmissionDate"]);
-                newProjects = new NewProjects(profileid,dr["ProjectDescription"].ToString(), dr["ProjectName"].ToString(), Submission);
+                newProjects = new NewProjects(profileid, dr["ProjectDescription"].ToString(), dr["ProjectName"].ToString(), Submission);
 
 
                 ProjectList.Add(newProjects);
