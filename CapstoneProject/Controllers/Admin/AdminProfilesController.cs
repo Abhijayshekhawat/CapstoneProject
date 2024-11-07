@@ -161,5 +161,8 @@ namespace CapstoneProject.Controllers.Admin
 
             return RedirectToAction("ViewAProfile", new { ProfileID }); //returns the same view of the viewed profile after the update is done
         }
+
+
+
     }
 }

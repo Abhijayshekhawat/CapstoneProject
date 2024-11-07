@@ -76,7 +76,7 @@ namespace CapstoneProject.Models.ClassLibrary
             }
         }
 
-        public int EditProfile(string organization, string firstName, string lastName, string email, DateTime editDate, int profileId)
+        public int UpdateProfile(Profile profile)
         {
             using (Connection objDB = new Connection())
             {
@@ -89,24 +89,18 @@ namespace CapstoneProject.Models.ClassLibrary
                 {
                     CommandType = CommandType.StoredProcedure,
                     //need to create this stored procedure
-                    CommandText = "EditProfile"
+                    CommandText = "UpdateProfile"
                 };
 
-                objCommand.Parameters.AddWithValue("@Organization", organization);
-                objCommand.Parameters.AddWithValue("@FirstName", firstName);
-                objCommand.Parameters.AddWithValue("@LastName", lastName);
-                objCommand.Parameters.AddWithValue("@Email", email);
-                objCommand.Parameters.AddWithValue("@SubmissionDate", editDate);
-                objCommand.Parameters.AddWithValue("@ProfileID", profileId);
+                objCommand.Parameters.AddWithValue("@Organization", this.organization);
+                objCommand.Parameters.AddWithValue("@FirstName", this.firstname);
+                objCommand.Parameters.AddWithValue("@LastName", this.lastname);
+                objCommand.Parameters.AddWithValue("@Email", this.email);
+                objCommand.Parameters.AddWithValue("@ProfileID", this.profileid);
 
-                int rowsAffected = objDB.DoUpdateUsingCmdObj(objCommand);
+                //returns rows affected
+                return objDB.DoUpdateUsingCmdObj(objCommand);
 
-                if (rowsAffected > 0)
-                {
-                    profileId = Convert.ToInt32(objCommand.Parameters["@ProfileID"].Value);
-                }
-
-                return rowsAffected;
             }
         }
 
@@ -154,9 +148,9 @@ namespace CapstoneProject.Models.ClassLibrary
                 //no parameters to add, since its a Select * operation
 
                 // Use the Connection class's method to execute the SqlCommand and get a DataSet
-                DataSet ds = objDB.GetDataSetUsingCmdObj(objCommand);
+                return objDB.GetDataSetUsingCmdObj(objCommand);
 
-                return ds;
+               
             }
         }
     }
