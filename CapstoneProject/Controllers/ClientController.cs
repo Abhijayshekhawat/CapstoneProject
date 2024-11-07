@@ -17,6 +17,14 @@ namespace CapstoneProject.Controllers
             return View();
         }
 
+        public IActionResult ClientProjectEdit() {
+        
+            
+        
+            return View("~/Views/Client/ClientProjectEdit.cshtml");
+        
+        }
+
         public IActionResult ClientProfileEdit()
         {
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
