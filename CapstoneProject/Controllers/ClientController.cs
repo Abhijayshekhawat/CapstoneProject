@@ -42,7 +42,11 @@ namespace CapstoneProject.Controllers
             };
 
             profile.UpdateProfile(profile);
-            return View();
+            ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
+            ViewBag.LastName = HttpContext.Session.GetString("LastName");
+            ViewBag.Email = HttpContext.Session.GetString("Email");
+            ViewBag.Organization = HttpContext.Session.GetString("Organization");
+            return View("~/Views/Client/ClientProfileEdit.cshtml");
         }
 
         public IActionResult ClientProjects()
