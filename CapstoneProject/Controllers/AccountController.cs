@@ -66,7 +66,7 @@ namespace CapstoneProject.Controllers
                             return View();
                         }
                         ViewBag.ErrorMessage = "Account has been submitted for Admin Approval";
-                        return View(); // Redirect to the account submitted page
+                        return View("~/Views/Account/AccountSubmitted.cshtml"); // Redirect to the account submitted page
                     }
                     else
                     {
@@ -89,7 +89,10 @@ namespace CapstoneProject.Controllers
             return View("~/Views/Account/CreateNewProject.cshtml");
         }
 
-
+        public IActionResult AccountSubmitted()
+        {
+            return View("~/Views/Account/AccountSubmitted.cshtml");
+        }
 
         public IActionResult AddNewProject()
         {
