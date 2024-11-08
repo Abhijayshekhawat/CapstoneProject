@@ -32,7 +32,7 @@ namespace CapstoneProject.Models.ClassLibrary
 
 
 
-        public int CreateNewProject(int profileid, string projectname, string projectdescription)
+        public int CreateNewProject(int profileid, string projectdescription, string projectname)
         {
 
             // add new project
@@ -51,8 +51,6 @@ namespace CapstoneProject.Models.ClassLibrary
 
 
 
-            SqlParameter inputParameter1 = new SqlParameter("@ProfileID", profileid);
-            objCommand.Parameters.Add(inputParameter1);
 
             SqlParameter inputParameter2 = new SqlParameter("@ProjectName", projectname);
             objCommand.Parameters.Add(inputParameter2);
@@ -60,8 +58,12 @@ namespace CapstoneProject.Models.ClassLibrary
             SqlParameter inputParameter3 = new SqlParameter("@ProjectDescription", projectdescription);
             objCommand.Parameters.Add(inputParameter3);
 
-            SqlParameter inputParameter4 = new SqlParameter("@SubmissionDate", DateTime.Now);
+            SqlParameter inputParameter4 = new SqlParameter("@SubmissionDate", DateTime.Now.Date);
             objCommand.Parameters.Add(inputParameter4);
+
+
+            SqlParameter inputParameter1 = new SqlParameter("@ProfileID", profileid);
+            objCommand.Parameters.Add(inputParameter1);
 
 
             objDB.DoUpdateUsingCmdObj(objCommand);
