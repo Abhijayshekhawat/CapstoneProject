@@ -16,47 +16,69 @@ namespace CapstoneProject.Controllers.Admin
         [AuthorizeRoles("Admin", "Reviewer")]
         public IActionResult Dashboard()
         {
-            //Use stored procedure to get project data from datatable
-            //create project objects and add them to the viewbag
-
             AdminModel p = new AdminModel();
-            DataSet ds = new DataSet();
+            Profile profile = new Profile();
+            //dataset with all profiles and projects
+            DataSet profileDs = profile.GetProfiles();
+            DataSet projectDs = p.GetProjects();
+            //list of project objects and profiles
+            List<Project> theProjects = new List<Project>();
+            List<Profile> profiles = new List<Profile>();
 
-            //dataset with all the projects
-            ds = p.GetProjects();
-
-            List<Project> theProjects = new List<Project>(); //list of project objects
-
-            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0) //if the dataset is not null or empty
+            if (projectDs.Tables.Count > 0 && projectDs.Tables[0].Rows.Count > 0) //if the dataset is not null or empty
             {
-                foreach (DataRow row in ds.Tables[0].Rows) //each record in the ds
+                foreach (DataRow row in projectDs.Tables[0].Rows) //each record in the ds
                 {
-                    Project project = new Project(); //create a project object for each record
-                    project.ProjectID = Convert.ToInt32(row["ProjectID"]);
-                    project.ProfileID = Convert.ToInt32(row["ProfileID"]);
-                    project.ProjectName = row["ProjectName"].ToString();
-                    project.ShortDesc = row["ProjectDescription"].ToString();
-
-                    int status = Convert.ToInt32(row["LastUpdatedStatus"]); //project status is stored as an int in db, for the admin view we want to show the string
-                    if (status == 1)
+                    if (row["ProjectStatus"].ToString() == "Pending")
                     {
-                        project.ProjectStatus = "Approved";
+                        Project project = new Project(); //create a project object for each record
+                        project.ProjectID = Convert.ToInt32(row["ProjectID"]);
+                        project.ProfileID = Convert.ToInt32(row["ProfileID"]);
+                        project.ProjectName = row["ProjectName"].ToString();
+                        project.ShortDesc = string.Join(" ", row["ProjectDescription"].ToString().Trim().Split(' ').Take(6));
+                        project.Desc = row["ProjectDescription"].ToString();
+                        project.ProjectStatus = row["ProjectStatus"].ToString(); // StatusName from TB_Status
+                        project.Comments = row["RecentComments"].ToString(); // Latest comment
+                        project.SubmittedBy = row["SubmittedBy"].ToString(); // Full name of submitter
+                        project.DateSubmitted = Convert.ToDateTime(row["DateSubmitted"]);
+                        theProjects.Add(project);
                     }
-                    else if (status == 2)
+                }
+            }
+            if (profileDs.Tables.Count > 0 && profileDs.Tables[0].Rows.Count > 0) //if the dataset is not null or empty
+            {
+                foreach (DataRow row in profileDs.Tables[0].Rows) //each record in the ds
+                {
+                    Profile userProfile = new Profile();
+                    userProfile.ProfileID = Convert.ToInt32(row["ProfileID"]);
+                    userProfile.FirstName = row["FirstName"].ToString();
+                    userProfile.LastName = row["LastName"].ToString();
+                    userProfile.Organization = row["Organization"].ToString();
+                    userProfile.Email = row["Email"].ToString();
+
+                    if (row["LastUpdatedStatus"].Equals(DBNull.Value))
                     {
-                        project.ProjectStatus = "Pending";
+                        userProfile.Status = "NULL Value";
+                        profiles.Add(userProfile);
                     }
                     else
                     {
-                        project.ProjectStatus = "Rejected";
+                        int status = Convert.ToInt32(row["LastUpdatedStatus"]);
+
+                        if (status == 2)
+                        {
+                            userProfile.Status = "Pending";
+                            profiles.Add(userProfile);
+                        }
                     }
-                    project.Comments = row["Comment"].ToString();
-                    theProjects.Add(project);
                 }
+
             }
+
+            ViewBag.AdminViewProfiles = profiles; //viewbag containing the profiles
+            ViewBag.AdminViewProjects = theProjects; //viewbag containing the list of projects
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
 
-            ViewBag.AdminViewProjects = theProjects; //viewbag containing the list of projects
 
             return View("~/Views/Dashboard/UserDashboard.cshtml");
 
