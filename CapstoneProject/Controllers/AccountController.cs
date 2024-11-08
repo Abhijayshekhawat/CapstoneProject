@@ -82,6 +82,17 @@ namespace CapstoneProject.Controllers
             }
         }
 
+        public IActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        public IActionResult ResetPasswordClick()
+        {
+            //do something like put email in db or reset password and email client
+            return View("~/Views/Login/Login.cshtml");
+        }
+
         public IActionResult CreateNewProject()
         {
 

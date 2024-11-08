@@ -35,6 +35,8 @@
                     <button type="button" class="sso-button" id="ssoButton">Temple SSO</button>
                 </form>
                 <p>New User? <a asp-controller="Account" asp-action="Index">Register</a></p>
+                <p>Forgot Password? <a asp-controller="Account" asp-action="ResetPassword">Reset Password</a></p>
+
                 <p>By clicking continue, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></p>
                 <p class="error-message">@ViewBag.ErrorMessage</p>
             </div>
