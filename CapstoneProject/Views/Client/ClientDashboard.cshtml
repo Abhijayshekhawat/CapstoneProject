@@ -99,13 +99,21 @@
                     </div>
                 </div>
 
-                <!-- View Profiles Card -->
+                <!-- edit Profiles Card -->
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Edit Profiles</h5>
                             <p class="card-text">View a list of all profiles.</p>
-                            <a class="btn btn-primary btn-translucent" asp-area="" asp-controller="Client" asp-action="ClientProfileEdit">Edit Profile</a>
+                            @if (ViewBag.ProfileStatus == 3)
+                            {
+                                <a class="btn btn-primary btn-translucent" asp-area="" asp-controller="Client" asp-action="EditClientProfile">Edit Profile</a>
+                            }
+                            else
+                            {
+                                <a class="btn btabiln-primary btn-translucent" asp-area="" asp-controller="Client" asp-action="ClientProfileEdit">Edit Profile</a>
+                                
+                            }
                         </div>
                     </div>
                 </div>
@@ -113,7 +121,7 @@
         </div>
 
         <div class="mb-5">
-            <h3 class="mb-3">Projects To Be Reviewed</h3>
+            <h3 class="mb-3">Projects Pending</h3>
             <div class="table-responsive">
                 <table class="table table-striped table-hover shadow-sm">
                     <thead>
@@ -125,9 +133,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @* Iterate database data here into table rows *@
-                        @* Iterate Database data into table rows *@
-                        @* Check if there are any projects to display *@
+                      
                    
                         
                             @foreach (NewProjects newproject in Model)

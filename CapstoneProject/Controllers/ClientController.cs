@@ -17,6 +17,13 @@ namespace CapstoneProject.Controllers
             return View();
         }
 
+        public IActionResult EditClientProfile() 
+        {
+            return View();
+        
+        }
+
+
     
 
         public IActionResult ClientProfileEdit()
@@ -63,8 +70,11 @@ namespace CapstoneProject.Controllers
         public IActionResult ClientDashboard()
         {
             NewProjects newProjects = new NewProjects();
+            ProfileStatus status = new ProfileStatus();
             newProjects.ProfileID =  Int32.Parse(HttpContext.Session.GetString("ProfileID"));
             List<NewProjects> NewProjectList = newProjects.GetNewProjects(newProjects.ProfileID);
+            ViewBag.ProfileStatus = status.GetProfileStatus(newProjects.ProfileID);
+
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
             return View("~/Views/Client/ClientDashboard.cshtml", NewProjectList);
         }

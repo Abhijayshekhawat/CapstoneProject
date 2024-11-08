@@ -37,6 +37,33 @@ namespace CapstoneProject.Models.ClassLibrary
 
 		}
 
+       public int GetProfileStatus(int profileid)
+        {
+            int status = 0;
+
+            Connection objDB = new Connection();
+            SqlCommand objCommand = new SqlCommand();
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "GetUserProfileStatus";
+            SqlParameter inputParameter1 = new SqlParameter("@ProfileID", profileid);
+            objCommand.Parameters.Add(inputParameter1);
+            DataSet ds = objDB.GetDataSetUsingCmdObj(objCommand);
+
+
+
+            DataTable dt2 = ds.Tables[0];
+
+            foreach (DataRow dr in dt2.Rows)
+            {
+                status = Int32.Parse(dr["LastUpdatedStatus"].ToString());
+
+
+            }
+
+
+                return status;
+        }
+
 		public void UpdateProfileStatus(int profileID, int status, string comment)
 		{
             using (Connection objDB = new Connection())
