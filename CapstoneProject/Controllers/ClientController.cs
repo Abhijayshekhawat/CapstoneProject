@@ -26,7 +26,7 @@ namespace CapstoneProject.Controllers
             ViewBag.Organization = HttpContext.Session.GetString("Organization");
             ViewBag.SubmissionDate = HttpContext.Session.GetString("SubmissionDate");
             return View();
-            return View();
+            
         
         }
 
