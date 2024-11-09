@@ -142,7 +142,7 @@
                                     <td>@newproject.ProjectName</td>
                                     <td>@newproject.ProjectDescription</td>
                                 <td>@newproject.Submissiondate.ToString("MM/dd/yyyy")</td>
-                                <td>   <button class="btn btn-primary">Edit Project</button></td>
+                                <td><a class="btn btn-translucent" asp-controller="Client" asp-action="EditClientProject" asp-route-ProjectID="@newproject.ProjectID">Edit Project</a></td>
                                   
                                   
 

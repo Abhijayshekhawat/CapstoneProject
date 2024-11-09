@@ -133,6 +133,37 @@ namespace CapstoneProject.Models.ClassLibrary
 
 
         }
+        public List<NewProjects> GetNewProjectsByProjectID(int projectid)
+        {
+
+            List<NewProjects> ProjectList = new List<NewProjects>();
+
+            Connection objDB = new Connection();
+            SqlCommand objCommand = new SqlCommand();
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "GetClientUserProjectsByProjectID";
+            SqlParameter inputParameter1 = new SqlParameter("@ProjectID", projectid);
+            objCommand.Parameters.Add(inputParameter1);
+            DataSet ds = objDB.GetDataSetUsingCmdObj(objCommand);
+
+
+
+            DataTable dt2 = ds.Tables[0];
+            NewProjects newProjects;
+
+            foreach (DataRow dr in dt2.Rows)
+            {
+
+                DateTime Submission = Convert.ToDateTime(dr["SubmissionDate"]);
+                newProjects = new NewProjects(profileid, dr["ProjectDescription"].ToString(), dr["ProjectName"].ToString(), Submission);
+
+
+                ProjectList.Add(newProjects);
+
+            }
+
+            return ProjectList;
+        }
         public List<NewProjects> GetNewProjects(int profileid)
         {
 

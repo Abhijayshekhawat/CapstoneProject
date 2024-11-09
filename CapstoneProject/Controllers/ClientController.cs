@@ -43,6 +43,27 @@ namespace CapstoneProject.Controllers
             return View();
         }
 
+        public IActionResult EditClientProject(int ProjectID)
+        {
+
+            NewProjects newProjects = new NewProjects();
+            ProfileStatus status = new ProfileStatus();
+          
+            List<NewProjects> NewProjectList = newProjects.GetNewProjectsByProjectID(ProjectID);
+           
+
+            ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
+            return View("~/Views/Client/EditClientProject.cshtml", NewProjectList);
+
+
+           
+
+
+        }
+
+
+
+
         public IActionResult UpdateClientProfile()
         {
             // Manually extract from form
