@@ -27,11 +27,11 @@
                 <img src="@Url.Content("/images/Brainstorm.jpg")" alt="Temple Logo" class="logo">
                 <h2>Edit Project</h2>
                 <p></p>
-                
-                
 
 
-                    <form asp-controller="" asp-action="AddNewProject" method="POST">
+
+
+                <form asp-controller="Client" asp-action="AddNewProject" asp-route-ProjectID="@Model.ProjectID" method="POST">
                         <div class="name-fields">
                             <input type="text" name="ProjectName" value="@Model.ProjectName" placeholder="Project Name" required>
 

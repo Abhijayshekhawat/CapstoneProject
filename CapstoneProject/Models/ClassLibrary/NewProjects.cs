@@ -27,7 +27,30 @@ namespace CapstoneProject.Models.ClassLibrary
         private string reviewcode;
 
 
+        public int UpdateClientProject(int projectid, string projectdescription, string projectname)
+        {
 
+            Connection objDB = new Connection();
+
+            SqlCommand objCommand = new SqlCommand();
+
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "ClientUpdateProjectDetails";
+
+            SqlParameter inputParameter1 = new SqlParameter("@ProjectID", projectid);
+            objCommand.Parameters.Add(inputParameter1);
+
+            SqlParameter inputParameter2 = new SqlParameter("@ProjectName", projectname);
+            objCommand.Parameters.Add(inputParameter2);
+
+            SqlParameter inputParameter3 = new SqlParameter("@ProjectDescription", projectdescription);
+            objCommand.Parameters.Add(inputParameter3);
+
+            objDB.DoUpdateUsingCmdObj(objCommand);
+
+            return 1;
+
+        }
 
 
 
@@ -194,6 +217,8 @@ namespace CapstoneProject.Models.ClassLibrary
 
             return ProjectList;
         }
+
+        
 
         public NewProjects() { }
 
