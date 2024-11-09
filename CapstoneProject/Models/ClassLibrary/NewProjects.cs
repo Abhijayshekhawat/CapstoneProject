@@ -133,10 +133,9 @@ namespace CapstoneProject.Models.ClassLibrary
 
 
         }
-        public List<NewProjects> GetNewProjectsByProjectID(int projectid)
+        public NewProjects GetNewProjectByProjectID(int projectid)
         {
-
-            List<NewProjects> ProjectList = new List<NewProjects>();
+            NewProjects newProject = null;
 
             Connection objDB = new Connection();
             SqlCommand objCommand = new SqlCommand();
@@ -146,24 +145,21 @@ namespace CapstoneProject.Models.ClassLibrary
             objCommand.Parameters.Add(inputParameter1);
             DataSet ds = objDB.GetDataSetUsingCmdObj(objCommand);
 
-
-
-            DataTable dt2 = ds.Tables[0];
-            NewProjects newProjects;
-
-            foreach (DataRow dr in dt2.Rows)
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
-
-                DateTime Submission = Convert.ToDateTime(dr["SubmissionDate"]);
-                newProjects = new NewProjects(profileid, dr["ProjectDescription"].ToString(), dr["ProjectName"].ToString(), Submission);
-
-
-                ProjectList.Add(newProjects);
-
+                DataRow dr = ds.Tables[0].Rows[0]; // Get the first row
+                DateTime submissionDate = Convert.ToDateTime(dr["SubmissionDate"]);
+                newProject = new NewProjects(
+                    profileid,
+                    dr["ProjectDescription"].ToString(),
+                    dr["ProjectName"].ToString(),
+                    submissionDate
+                );
             }
 
-            return ProjectList;
+            return newProject;
         }
+
         public List<NewProjects> GetNewProjects(int profileid)
         {
 

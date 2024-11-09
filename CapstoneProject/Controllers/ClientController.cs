@@ -49,11 +49,11 @@ namespace CapstoneProject.Controllers
             NewProjects newProjects = new NewProjects();
             ProfileStatus status = new ProfileStatus();
           
-            List<NewProjects> NewProjectList = newProjects.GetNewProjectsByProjectID(ProjectID);
+            newProjects = newProjects.GetNewProjectByProjectID(ProjectID);
            
 
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
-            return View("~/Views/Client/EditClientProject.cshtml", NewProjectList);
+            return View("~/Views/Client/EditClientProject.cshtml", newProjects);
 
 
            
