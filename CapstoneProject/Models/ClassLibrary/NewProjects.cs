@@ -135,8 +135,6 @@ namespace CapstoneProject.Models.ClassLibrary
         }
         public NewProjects GetNewProjectByProjectID(int projectid, int profileid)
         {
-            NewProjects newProject = null;
-            
             Connection objDB = new Connection();
             SqlCommand objCommand = new SqlCommand();
             objCommand.CommandType = CommandType.StoredProcedure;
@@ -145,17 +143,20 @@ namespace CapstoneProject.Models.ClassLibrary
             objCommand.Parameters.Add(inputParameter1);
             DataSet ds = objDB.GetDataSetUsingCmdObj(objCommand);
 
-            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                DataRow dr = ds.Tables[0].Rows[0]; // Get the first row
-                DateTime submissionDate = Convert.ToDateTime(dr["SubmissionDate"]);
-                newProject = new NewProjects(
+
+
+            DataRow dr = ds.Tables[0].Rows[0]; // Get the first row
+            DateTime submissionDate = Convert.ToDateTime(dr["SubmissionDate"]);
+            projectid = int.Parse(dr["ProjectID"].ToString());
+
+            NewProjects newProject = new NewProjects(
+                projectid,
                     profileid,
                     dr["ProjectDescription"].ToString(),
                     dr["ProjectName"].ToString(),
                     submissionDate
                 );
-            }
+
 
             return newProject;
         }
@@ -173,16 +174,18 @@ namespace CapstoneProject.Models.ClassLibrary
             objCommand.Parameters.Add(inputParameter1);
             DataSet ds = objDB.GetDataSetUsingCmdObj(objCommand);
 
-            
-            
+
+
             DataTable dt2 = ds.Tables[0];
             NewProjects newProjects;
 
             foreach (DataRow dr in dt2.Rows)
             {
-                
+
+                int projectid = int.Parse(dr["ProjectID"].ToString());
+
                 DateTime Submission = Convert.ToDateTime(dr["SubmissionDate"]);
-                newProjects = new NewProjects(profileid, dr["ProjectDescription"].ToString(), dr["ProjectName"].ToString(), Submission);
+                newProjects = new NewProjects(projectid, profileid, dr["ProjectDescription"].ToString(), dr["ProjectName"].ToString(), Submission);
 
 
                 ProjectList.Add(newProjects);
@@ -194,9 +197,9 @@ namespace CapstoneProject.Models.ClassLibrary
 
         public NewProjects() { }
 
-        public NewProjects(int profileid, string projectdescription, string projectname, DateTime submissiondate)
+        public NewProjects( int projectid, int profileid, string projectdescription, string projectname, DateTime submissiondate)
         {
-
+            this.projectid = projectid;
             this.profileid = profileid;
             this.projectdescription = projectdescription;
             this.projectname = projectname;
