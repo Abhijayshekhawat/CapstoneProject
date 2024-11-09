@@ -133,10 +133,10 @@ namespace CapstoneProject.Models.ClassLibrary
 
 
         }
-        public NewProjects GetNewProjectByProjectID(int projectid)
+        public NewProjects GetNewProjectByProjectID(int projectid, int profileid)
         {
             NewProjects newProject = null;
-
+            
             Connection objDB = new Connection();
             SqlCommand objCommand = new SqlCommand();
             objCommand.CommandType = CommandType.StoredProcedure;

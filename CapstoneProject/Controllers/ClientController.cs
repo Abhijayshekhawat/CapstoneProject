@@ -48,8 +48,8 @@ namespace CapstoneProject.Controllers
 
             NewProjects newProjects = new NewProjects();
             ProfileStatus status = new ProfileStatus();
-          
-            newProjects = newProjects.GetNewProjectByProjectID(ProjectID);
+            newProjects.ProfileID = Int32.Parse(HttpContext.Session.GetString("ProfileID"));
+            newProjects = newProjects.GetNewProjectByProjectID(ProjectID,newProjects.ProfileID);
            
 
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
