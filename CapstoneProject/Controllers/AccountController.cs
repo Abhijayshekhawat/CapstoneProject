@@ -34,7 +34,8 @@ namespace CapstoneProject.Controllers
                 Email = Request.Form["Email"].ToString(),  // Extract email from form   
                 Organization = Request.Form["Organization"].ToString(),  // Extract organization from form
                 SubmissionDate = DateTime.Now,  // Set the submission date to the current date and time
-                Status = "Pending"
+                Status = "Pending",
+                UserType = "Client"
             };
 
             // Serialize the user object to JSON
@@ -112,8 +113,8 @@ namespace CapstoneProject.Controllers
             newProjects.ProfileID = Int32.Parse(HttpContext.Session.GetString("ProfileID"));
             newProjects.ProjectName = Request.Form["ProjectName"].ToString();
             newProjects.ProjectDescription = Request.Form["ProjectDescription"].ToString();
-            newProjects.CreateNewProject(newProjects.ProfileID,newProjects.ProjectDescription, newProjects.ProjectName);
-           
+            newProjects.CreateNewProject(10, newProjects.ProfileID, newProjects.ProjectDescription, newProjects.ProjectName);
+
 
             return View("~/Views/Account/CreatedProjectLandingPage.cshtml");
         }

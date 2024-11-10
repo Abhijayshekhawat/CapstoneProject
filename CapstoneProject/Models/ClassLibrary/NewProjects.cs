@@ -55,7 +55,7 @@ namespace CapstoneProject.Models.ClassLibrary
 
 
 
-        public int CreateNewProject(int profileid, string projectdescription, string projectname)
+        public int CreateNewProject(int commenterID, int profileid, string projectdescription, string projectname)
         {
 
             // add new project
@@ -105,22 +105,23 @@ namespace CapstoneProject.Models.ClassLibrary
             objCommand2.CommandType = CommandType.StoredProcedure;
             objCommand2.CommandText = "InsertComment";
 
-
-
-
-            SqlParameter inputParameter11 = new SqlParameter("@ProjectID", projectid);
+            SqlParameter inputParameter11 = new SqlParameter("@CommenterID", commenterID);
             objCommand2.Parameters.Add(inputParameter11);
+
+
+            SqlParameter inputParameter12 = new SqlParameter("@ProjectID", projectid);
+            objCommand2.Parameters.Add(inputParameter12);
 
             string comment = "Pending administrative review.";
 
-            SqlParameter inputParameter12 = new SqlParameter("@Comment", comment);
-            objCommand2.Parameters.Add(inputParameter12);
-
-            SqlParameter inputParameter13 = new SqlParameter("@status", 2);
+            SqlParameter inputParameter13 = new SqlParameter("@Comment", comment);
             objCommand2.Parameters.Add(inputParameter13);
 
-            SqlParameter inputParameter14 = new SqlParameter("@StatusChangeDate", DateTime.Now);
+            SqlParameter inputParameter14 = new SqlParameter("@status", 2);
             objCommand2.Parameters.Add(inputParameter14);
+
+            SqlParameter inputParameter15 = new SqlParameter("@StatusChangeDate", DateTime.Now);
+            objCommand2.Parameters.Add(inputParameter15);
 
             objDB2.DoUpdateUsingCmdObj(objCommand2);
 
@@ -147,7 +148,7 @@ namespace CapstoneProject.Models.ClassLibrary
             objCommand3.Parameters.Add(inputParameter23);
 
             SqlParameter inputParameter24 = new SqlParameter("@StatusChangeDate", DateTime.Now);
-            objCommand2.Parameters.Add(inputParameter24);
+            objCommand3.Parameters.Add(inputParameter24);
 
             objDB3.DoUpdateUsingCmdObj(objCommand3);
 
@@ -218,11 +219,11 @@ namespace CapstoneProject.Models.ClassLibrary
             return ProjectList;
         }
 
-        
+
 
         public NewProjects() { }
 
-        public NewProjects( int projectid, int profileid, string projectdescription, string projectname, DateTime submissiondate)
+        public NewProjects(int projectid, int profileid, string projectdescription, string projectname, DateTime submissiondate)
         {
             this.projectid = projectid;
             this.profileid = profileid;

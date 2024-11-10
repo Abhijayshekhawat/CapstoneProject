@@ -155,9 +155,9 @@ namespace CapstoneProject.Controllers.Admin
             }
 
             ProfileStatus update = new ProfileStatus();
-
+            int commenterID = Int32.Parse(HttpContext.Session.GetString("ProfileID"));
             update.UpdateProfileStatus(ProfileID, s, comment);
-            update.AddProfileComment(ProfileID, s, comment);
+            update.AddProfileComment(commenterID, ProfileID, s, comment);
 
             return RedirectToAction("ViewAProfile", new { ProfileID }); //returns the same view of the viewed profile after the update is done
         }

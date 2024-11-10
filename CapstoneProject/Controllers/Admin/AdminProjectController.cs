@@ -76,8 +76,16 @@ namespace CapstoneProject.Controllers.Admin
                     viewedProject.ProjectOwner = row["FirstName"].ToString() + " " + row["LastName"].ToString();
                     viewedProject.Email = row["Email"].ToString();
                     viewedProject.SubmissionDate = Convert.ToDateTime(row["SubmissionDate"]).ToString("MM/dd/yyyy");
-                    viewedProject.LastReviewed = Convert.ToDateTime(row["ReviewDate"]).ToString("MM/dd/yyyy");
-                    viewedProject.Reviewer = row["ReviewerID"].ToString();
+                    if (row["ReviewDate"] != DBNull.Value)
+                    {
+                        viewedProject.LastReviewed = Convert.ToDateTime(row["ReviewDate"]).ToString("MM/dd/yyyy");
+                    }
+
+                    if (row["ReviewerID"] != DBNull.Value)
+                    {
+                        viewedProject.Reviewer = row["ReviewerID"].ToString();
+                    }
+
 
                     int status = Convert.ToInt32(row["ProjectStatus"]); //project status is stored as an int in db, for the admin view we want to show the string
                     if (status == 1)
@@ -152,11 +160,13 @@ namespace CapstoneProject.Controllers.Admin
             }
 
             ProjectStatus update = new ProjectStatus();
-            update.UpdateProjectStatus(ProjectID, s); //UPDATES TB_NewProjects Changing the status and Review Date
+            int commenterID = Int32.Parse(HttpContext.Session.GetString("ProfileID"));
 
-            update.AddProjectComment(ProjectID, comment, s); //Insert new comment into TB_Comments
+            update.UpdateProjectStatus(commenterID, ProjectID, s); //UPDATES TB_NewProjects Changing the status and Review Date
 
-            update.AddCommentToProjectStatus(ProjectID, comment, s); //Insert new comment into TB_ProjectStatus
+            update.AddProjectComment(commenterID, ProjectID, comment, s); //Insert new comment into TB_Comments
+
+            update.AddCommentToProjectStatus(commenterID, ProjectID, comment, s); //Insert new comment into TB_ProjectStatus
 
 
             return RedirectToAction("ViewAProject", new { ProjectID }); //returns the same view of the viewed project after the update is done

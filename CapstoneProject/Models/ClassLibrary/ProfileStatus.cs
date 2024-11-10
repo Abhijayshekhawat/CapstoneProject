@@ -10,34 +10,34 @@ using static CapstoneProject.Models.AdminModel;
 
 namespace CapstoneProject.Models.ClassLibrary
 {
-	public class ProfileStatus
-	{
-		
+    public class ProfileStatus
+    {
 
 
-		private int statusid;
-		private int profileid;
-		private string lastupdatedstatus; // can be enum for method ???
 
-		private string statuschangeddatetime;
-		private string comment;
+        private int statusid;
+        private int profileid;
+        private string lastupdatedstatus; // can be enum for method ???
+
+        private string statuschangeddatetime;
+        private string comment;
 
         public ProfileStatus()
         { }
 
 
         public ProfileStatus(int statusid, int profileid, string lastupdatedstatus, string statuschangeddatetime, string comment)
-		{
-			this.statusid = statusid;
-			this.profileid = profileid;
-			this.lastupdatedstatus = lastupdatedstatus;
-			this.statuschangeddatetime = statuschangeddatetime;
-			this.comment = comment;
+        {
+            this.statusid = statusid;
+            this.profileid = profileid;
+            this.lastupdatedstatus = lastupdatedstatus;
+            this.statuschangeddatetime = statuschangeddatetime;
+            this.comment = comment;
 
 
-		}
+        }
 
-       public int GetProfileStatus(int profileid)
+        public int GetProfileStatus(int profileid)
         {
             int status = 0;
 
@@ -61,11 +61,11 @@ namespace CapstoneProject.Models.ClassLibrary
             }
 
 
-                return status;
+            return status;
         }
 
-		public void UpdateProfileStatus(int profileID, int status, string comment)
-		{
+        public void UpdateProfileStatus(int profileID, int status, string comment)
+        {
             using (Connection objDB = new Connection())
             {
                 // Open the connection
@@ -98,8 +98,8 @@ namespace CapstoneProject.Models.ClassLibrary
             }
         }
 
-		public void AddProfileComment(int profileID, int status, string comment)
-		{
+        public void AddProfileComment(int commenterID, int profileID, int status, string comment)
+        {
             using (Connection objDB = new Connection())
             {
                 if (!objDB.Open())
@@ -112,7 +112,7 @@ namespace CapstoneProject.Models.ClassLibrary
                     CommandType = CommandType.StoredProcedure,
                     CommandText = "AddProfileComment"
                 };
-
+                objCommand.Parameters.AddWithValue("@CommenterID", commenterID);
                 objCommand.Parameters.AddWithValue("@ProfileID", profileID);
                 objCommand.Parameters.AddWithValue("@Comment", comment);
                 objCommand.Parameters.AddWithValue("@Status", status);
@@ -122,5 +122,5 @@ namespace CapstoneProject.Models.ClassLibrary
         }
 
 
-	}
+    }
 }

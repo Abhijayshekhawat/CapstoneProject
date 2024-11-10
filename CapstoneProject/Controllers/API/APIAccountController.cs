@@ -45,7 +45,9 @@ namespace CapstoneProject.Controllers.API
                 if (success > 0)
                 {
                     // Add initial profile status as Pending
-                    profile.AddProfileStatus(profileId, DateTime.Now, "Profile created with pending status.");
+                    profile.AddProfileStatus(profileId, DateTime.Now, "Pending administrative review.");
+                    ProfileStatus update = new ProfileStatus();
+                    update.AddProfileComment(10, profileId, 2, "Pending administrative review.");
                     return "Created";
                 }
                 else

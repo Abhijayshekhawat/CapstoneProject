@@ -12,25 +12,26 @@ using static CapstoneProject.Models.AdminModel;
 namespace CapstoneProject.Models.ClassLibrary
 {
 
-//    CREATE TABLE ProjectStatus(
-//    StatusID INT PRIMARY KEY,
-//    ProfileID INT,
-//    ProjectID INT,
-//    LastUpdatedStatus ENUM('Approved', 'Pending', 'Rejected') NOT NULL,
-//    StatusChangeDateTime VARCHAR(MAX),
-//    Comment VARCHAR(MAX),
-//    FOREIGN KEY(ProfileID) REFERENCES Profile(ProfileID),
-//    FOREIGN KEY(ProjectID) REFERENCES NewProjects(ProjectID)
-//);
-    public class ProjectStatus {
+    //    CREATE TABLE ProjectStatus(
+    //    StatusID INT PRIMARY KEY,
+    //    ProfileID INT,
+    //    ProjectID INT,
+    //    LastUpdatedStatus ENUM('Approved', 'Pending', 'Rejected') NOT NULL,
+    //    StatusChangeDateTime VARCHAR(MAX),
+    //    Comment VARCHAR(MAX),
+    //    FOREIGN KEY(ProfileID) REFERENCES Profile(ProfileID),
+    //    FOREIGN KEY(ProjectID) REFERENCES NewProjects(ProjectID)
+    //);
+    public class ProjectStatus
+    {
 
         private int statusid;
         private int profileid;
         private int projectid;
         private string lastupdatedstatus;
         private DateTime statuschangedatetime;
-        private string comment; 
-        
+        private string comment;
+
 
 
         public ProjectStatus() { }
@@ -48,14 +49,14 @@ namespace CapstoneProject.Models.ClassLibrary
 
         public int StatusID { get { return statusid; } set { statusid = value; } }
 
-        public int ProfileID { get { return profileid; } set {  profileid = value; } }
-        public int ProjectID { get { return projectid; } set {  projectid = value; } }
-        public string LastUpdatedStatus { get {  return lastupdatedstatus; } set {  lastupdatedstatus = value; } }
+        public int ProfileID { get { return profileid; } set { profileid = value; } }
+        public int ProjectID { get { return projectid; } set { projectid = value; } }
+        public string LastUpdatedStatus { get { return lastupdatedstatus; } set { lastupdatedstatus = value; } }
 
         public DateTime StatusChangeDateTime { get { return statuschangedatetime; } set { statuschangedatetime = value; } }
         public string Comment { get { return comment; } set { comment = value; } }
-        
-        public void UpdateProjectStatus(int projectID, int status) //stored procedure to update project status in TB_NewProjects
+
+        public void UpdateProjectStatus(int profileID, int projectID, int status) //stored procedure to update project status in TB_NewProjects
         {
             using (Connection objDB = new Connection())
             {
@@ -73,9 +74,12 @@ namespace CapstoneProject.Models.ClassLibrary
                     CommandText = "AdminChangeProjectStatus"
                 };
 
-                // Add parameters to the command
-                SqlParameter inputParameter = new SqlParameter("@ProjectID", projectID);
+                SqlParameter inputParameter = new SqlParameter("@reviewerID", profileID);
                 objCommand.Parameters.Add(inputParameter);
+
+                // Add parameters to the command
+                SqlParameter inputParameter1 = new SqlParameter("@ProjectID", projectID);
+                objCommand.Parameters.Add(inputParameter1);
 
                 // Add parameters to the command
                 SqlParameter inputParameter2 = new SqlParameter("@Status", status);
@@ -85,7 +89,7 @@ namespace CapstoneProject.Models.ClassLibrary
             }
         }
 
-        public void AddProjectComment(int projectID, string comment, int status) //Insert new comment into TB_Comment
+        public void AddProjectComment(int commenterID, int projectID, string comment, int status) //Insert new comment into TB_Comment
         {
             using (Connection objDB = new Connection())
             {
@@ -99,7 +103,7 @@ namespace CapstoneProject.Models.ClassLibrary
                     CommandType = CommandType.StoredProcedure,
                     CommandText = "AddProjectComment"
                 };
-
+                objCommand.Parameters.AddWithValue("@CommenterID", commenterID);
                 objCommand.Parameters.AddWithValue("@ProjectID", projectID);
                 objCommand.Parameters.AddWithValue("@Comment", comment);
                 objCommand.Parameters.AddWithValue("@Status", status);
@@ -108,7 +112,7 @@ namespace CapstoneProject.Models.ClassLibrary
             }
         }
 
-        public void AddCommentToProjectStatus(int projectID, string comment, int status) //Insert the same new comment into TB_ProjectStatus
+        public void AddCommentToProjectStatus(int profileID, int projectID, string comment, int status) //Insert the same new comment into TB_ProjectStatus
         {
             using (Connection objDB = new Connection())
             {
@@ -122,7 +126,7 @@ namespace CapstoneProject.Models.ClassLibrary
                     CommandType = CommandType.StoredProcedure,
                     CommandText = "AddCommentToProjectStatus"
                 };
-
+                objCommand.Parameters.AddWithValue("@ProfileID", profileID);
                 objCommand.Parameters.AddWithValue("@ProjectID", projectID);
                 objCommand.Parameters.AddWithValue("@Comment", comment);
                 objCommand.Parameters.AddWithValue("@Status", status);
