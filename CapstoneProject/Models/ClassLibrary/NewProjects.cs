@@ -85,10 +85,10 @@ namespace CapstoneProject.Models.ClassLibrary
 
 
 
-            SqlParameter inputParameter11 = new SqlParameter("@CommentForProjectID", projectid);
+            SqlParameter inputParameter11 = new SqlParameter("@ProjectID", projectid);
             objCommand2.Parameters.Add(inputParameter11);
 
-            string comment = "Pending until review by Reviewer or Admin";
+            string comment = "Pending administrative review.";
 
             SqlParameter inputParameter12 = new SqlParameter("@Comment", comment);
             objCommand2.Parameters.Add(inputParameter12);

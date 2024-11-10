@@ -89,7 +89,7 @@ namespace CapstoneProject.Models.ClassLibrary
                 SqlParameter inputParameter = new SqlParameter("@Email", email);
                 objCommand.Parameters.Add(inputParameter);
 
-                SqlParameter inputParameter2 = new SqlParameter("@PasswordHash", password);
+                SqlParameter inputParameter2 = new SqlParameter("@Password", password);
                 objCommand.Parameters.Add(inputParameter2);
 
                 // Use the Connection class's method to execute the SqlCommand and get a DataSet
