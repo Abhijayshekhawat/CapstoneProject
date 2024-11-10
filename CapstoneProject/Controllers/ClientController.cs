@@ -43,6 +43,43 @@ namespace CapstoneProject.Controllers
             return View();
         }
 
+        public IActionResult EditClientProject(int ProjectID)
+        {
+
+            NewProjects newProjects = new NewProjects();
+            ProfileStatus status = new ProfileStatus();
+            newProjects.ProfileID = Int32.Parse(HttpContext.Session.GetString("ProfileID"));
+            newProjects = newProjects.GetNewProjectByProjectID(ProjectID,newProjects.ProfileID);
+           
+
+            ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
+            return View("~/Views/Client/EditClientProject.cshtml", newProjects);
+
+
+           
+
+
+        }
+
+        public IActionResult UpdateClientProject(int ProjectID)
+        {
+            NewProjects newProjects = new NewProjects();
+            newProjects.ProjectName = Request.Form["ProjectName"].ToString();
+            newProjects.ProjectDescription = Request.Form["ProjectDescription"].ToString();
+
+            newProjects.UpdateClientProject(ProjectID,newProjects.ProjectDescription, newProjects.ProjectName);
+
+
+            ProfileStatus status = new ProfileStatus();
+            newProjects.ProfileID = Int32.Parse(HttpContext.Session.GetString("ProfileID"));
+            List<NewProjects> NewProjectList = newProjects.GetNewProjects(newProjects.ProfileID);
+            ViewBag.ProfileStatus = status.GetProfileStatus(newProjects.ProfileID);
+
+            ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
+            return View("~/Views/Client/ClientDashboard.cshtml", NewProjectList);
+        }
+
+
         public IActionResult UpdateClientProfile()
         {
             // Manually extract from form
