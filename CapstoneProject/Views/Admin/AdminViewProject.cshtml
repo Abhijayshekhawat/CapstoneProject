@@ -194,7 +194,7 @@
                 <h2>Project Owner: @project.ProjectOwner</h2>
                 <h2>Email: @project.Email</h2>
                 <h2>Current Status: @project.Status</h2>
-                <h2>Submitted On: @project.SubmissionDate</h2>
+                <h2>Submitted On: @project.SubmissionDate.ToString("MM/dd/yyyy")</h2>
                 <h2>Last Reviewed On: @project.LastReviewed</h2>
                 <h2>Reviewed By: @project.Reviewer</h2>
 
@@ -214,7 +214,7 @@
                             <tr>
                                 <td class="comment">@comment.Description</td>
                                 <td class="status">@comment.LastUpdatedStatus</td>
-                                <td>@comment.StatusChangeDateTime.ToString("MM/dd/yyyy")</td>
+                                <td>@comment.StatusChangeDateTime</td>
                                 <td></td>
                             </tr>
                         }
