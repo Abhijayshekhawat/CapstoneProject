@@ -119,7 +119,7 @@
         <div class="text-center">
             <img src="@Url.Content("~/images/User.jpeg")" alt="User Image" class="user-image" />
             <h1>Hey, @firstName!</h1>
-            <p class="lead">This is a sample user dashboard layout.</p>
+            <p class="lead">Welcome to your dashboard.</p>
         </div>
 
         <div class="padding-top">
@@ -190,7 +190,7 @@
                                         }
                                         <span class="@statusClass">@project.ProjectStatus</span>
                                     </td>
-                                    <td data-value="@project.DateSubmitted">@project.DateSubmitted</td>
+                                    <td data-value="@project.DateSubmitted.ToString("MM/dd/yyyy")">@project.DateSubmitted.ToString("MM/dd/yyyy")</td>
                                     <td><a class="btn btn-translucent" asp-controller="AdminProject" asp-action="ViewAProject" asp-route-ProjectID="@project.ProjectID">View Details</a></td>
                                 </tr>
                             }

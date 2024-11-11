@@ -109,7 +109,7 @@ namespace CapstoneProject.Controllers
             ViewBag.LastName = HttpContext.Session.GetString("LastName");
             ViewBag.Email = HttpContext.Session.GetString("Email");
             ViewBag.Organization = HttpContext.Session.GetString("Organization");
-            return View("~/Views/Client/ClientProfileEdit.cshtml");
+            return View("~/Views/Admin/AdminDash.cshtml");
         }
 
         public IActionResult ClientProjects()
