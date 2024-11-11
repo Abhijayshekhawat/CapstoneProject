@@ -115,6 +115,10 @@ namespace CapstoneProject.Controllers
                             {
                                 return RedirectToAction("Dashboard", "AdminDash");
                             }
+                            else if (profile.UserType == "Reviewer")
+                            {
+                                return RedirectToAction("Index", "Reviewer");
+                            }
                             else
                             {
                                 ViewBag.ErrorMessage = "Incorrect Role";
