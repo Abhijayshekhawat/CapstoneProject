@@ -103,15 +103,15 @@
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Edit Profiles</h5>
-                            <p class="card-text">View a list of all profiles.</p>
+                            <h5 class="card-title">View Profile</h5>
+                            <p class="card-text"> @firstName Profile </p>
                             @if (ViewBag.ProfileStatus == 3)
                             {
                                 <a class="btn btn-primary btn-translucent" asp-area="" asp-controller="Client" asp-action="ClientProfileEdit">Edit Profile</a>
                             }
                             else
                             {
-                                <a class="btn btabiln-primary btn-translucent" asp-area="" asp-controller="Client" asp-action="EditClientProfile">Edit Profile</a>
+                                <a class="btn btabiln-primary btn-translucent" asp-area="" asp-controller="Client" asp-action="EditClientProfile">View Profile</a>
                                 
                             }
                         </div>
@@ -142,7 +142,19 @@
                                     <td>@newproject.ProjectName</td>
                                     <td>@newproject.ProjectDescription</td>
                                 <td>@newproject.Submissiondate.ToString("MM/dd/yyyy")</td>
-                                <td><a class="btn btn-translucent" asp-controller="Client" asp-action="EditClientProject" asp-route-ProjectID="@newproject.ProjectID">Edit Project</a></td>
+
+                                <td>
+                                    @if (ViewBag.ProfileStatus == 3)
+                                    {
+                                        <a class="btn btn-translucent" asp-controller="Client" asp-action="EditClientProject" asp-route-ProjectID="@newproject.ProjectID">Edit Project</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btabiln-primary btn-translucent" asp-area="" asp-controller="Client" asp-action="ReadOnlyProject">View Profile</a>
+
+                                    }
+
+                                </td>
                                   
                                   
 
