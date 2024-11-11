@@ -11,7 +11,10 @@ namespace CapstoneProject.Controllers
         {
             return View();
         }
-
+        public IActionResult ReadOnlyProject()
+        {
+            return View();
+        }
         public IActionResult ClientProfile()
         {
             return View();
