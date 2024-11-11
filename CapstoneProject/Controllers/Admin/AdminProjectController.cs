@@ -13,7 +13,7 @@ namespace CapstoneProject.Controllers.Admin
             return View();
         }
 
-        public IActionResult ManageProjects()
+        public IActionResult ManageProjects(string searchText = null, string statusFilter = null, string dateRangeFilter = null, DateTime? dateStart = null, DateTime? dateEnd = null)
         {
             //Use stored procedure to get project data from datatable
             //create project objects and add them to the viewbag
@@ -43,6 +43,49 @@ namespace CapstoneProject.Controllers.Admin
                     project.DateSubmitted = Convert.ToDateTime(row["DateSubmitted"]);
                     theProjects.Add(project);
                 }
+            }
+            // Apply search filter
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                theProjects = theProjects
+                    .Where(p => p.ProjectName.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            // Apply status filter
+            if (!string.IsNullOrEmpty(statusFilter))
+            {
+                theProjects = theProjects
+                    .Where(p => p.ProjectStatus.Equals(statusFilter, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            // Apply date range filter
+            // Apply date range filter
+            DateTime today = DateTime.Today;
+            switch (dateRangeFilter)
+            {
+                case "today":
+                    theProjects = theProjects.Where(p => p.DateSubmitted.Date == today).ToList();
+                    break;
+                case "week":
+                    DateTime startOfWeek = today.AddDays(-(int)today.DayOfWeek);
+                    theProjects = theProjects.Where(p => p.DateSubmitted.Date >= startOfWeek && p.DateSubmitted.Date <= today).ToList();
+                    break;
+                case "month":
+                    DateTime startOfMonth = new DateTime(today.Year, today.Month, 1);
+                    theProjects = theProjects.Where(p => p.DateSubmitted.Date >= startOfMonth && p.DateSubmitted.Date <= today).ToList();
+                    break;
+                case "custom":
+                    if (dateStart.HasValue)
+                    {
+                        theProjects = theProjects.Where(p => p.DateSubmitted >= dateStart.Value).ToList();
+                    }
+                    if (dateEnd.HasValue)
+                    {
+                        theProjects = theProjects.Where(p => p.DateSubmitted <= dateEnd.Value).ToList();
+                    }
+                    break;
             }
 
             ViewBag.AdminViewProjects = theProjects; //viewbag containing the list of projects

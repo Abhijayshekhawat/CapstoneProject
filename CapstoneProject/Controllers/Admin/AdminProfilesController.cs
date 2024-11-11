@@ -14,7 +14,7 @@ namespace CapstoneProject.Controllers.Admin
             return View();
         }
 
-        public IActionResult ManageProfiles()
+        public IActionResult ManageProfiles(string searchText = null, string statusFilter = null, string dateRangeFilter = null, DateTime? dateStart = null, DateTime? dateEnd = null)
         {
             //Use stored procedure to get profile data from datatable
             //create profile objects and add them to the viewbag
@@ -48,10 +48,54 @@ namespace CapstoneProject.Controllers.Admin
                     {
                         userProfile.Status = "Rejected";
                     }
+                    userProfile.SubmissionDate = DateTime.Parse(row["SubmissionDate"].ToString());
                     profiles.Add(userProfile);
                 }
             }
+            // Apply search filter
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                profiles = profiles
+                    .Where(p => p.FirstName.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                    p.LastName.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                    p.Organization.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
 
+            // Apply status filter
+            if (!string.IsNullOrEmpty(statusFilter))
+            {
+                profiles = profiles
+                    .Where(p => p.Status.Equals(statusFilter, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            //Apply date range filter
+            DateTime today = DateTime.Today;
+            switch (dateRangeFilter)
+            {
+                case "today":
+                    profiles = profiles.Where(p => p.SubmissionDate.Date == today).ToList();
+                    break;
+                case "week":
+                    DateTime startOfWeek = today.AddDays(-(int)today.DayOfWeek);
+                    profiles = profiles.Where(p => p.SubmissionDate.Date >= startOfWeek && p.SubmissionDate.Date <= today).ToList();
+                    break;
+                case "month":
+                    DateTime startOfMonth = new DateTime(today.Year, today.Month, 1);
+                    profiles = profiles.Where(p => p.SubmissionDate.Date >= startOfMonth && p.SubmissionDate.Date <= today).ToList();
+                    break;
+                case "custom":
+                    if (dateStart.HasValue)
+                    {
+                        profiles = profiles.Where(p => p.SubmissionDate >= dateStart.Value).ToList();
+                    }
+                    if (dateEnd.HasValue)
+                    {
+                        profiles = profiles.Where(p => p.SubmissionDate <= dateEnd.Value).ToList();
+                    }
+                    break;
+            }
             ViewBag.AdminViewProfiles = profiles; //viewbag containing the profiles
 
             return View("~/Views/Admin/AdminManageProfiles.cshtml", profiles);

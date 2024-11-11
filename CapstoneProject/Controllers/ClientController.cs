@@ -30,7 +30,7 @@ namespace CapstoneProject.Controllers
             return View();
         }
 
-        public IActionResult EditClientProfile() 
+        public IActionResult EditClientProfile()
         {
 
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
@@ -39,12 +39,12 @@ namespace CapstoneProject.Controllers
             ViewBag.Organization = HttpContext.Session.GetString("Organization");
             ViewBag.SubmissionDate = HttpContext.Session.GetString("SubmissionDate");
             return View();
-            
-        
+
+
         }
 
 
-    
+
 
         public IActionResult ClientProfileEdit()
         {
@@ -62,14 +62,14 @@ namespace CapstoneProject.Controllers
             NewProjects newProjects = new NewProjects();
             ProfileStatus status = new ProfileStatus();
             newProjects.ProfileID = Int32.Parse(HttpContext.Session.GetString("ProfileID"));
-            newProjects = newProjects.GetNewProjectByProjectID(ProjectID,newProjects.ProfileID);
-           
+            newProjects = newProjects.GetNewProjectByProjectID(ProjectID, newProjects.ProfileID);
+
 
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
             return View("~/Views/Client/EditClientProject.cshtml", newProjects);
 
 
-           
+
 
 
         }
@@ -80,7 +80,7 @@ namespace CapstoneProject.Controllers
             newProjects.ProjectName = Request.Form["ProjectName"].ToString();
             newProjects.ProjectDescription = Request.Form["ProjectDescription"].ToString();
 
-            newProjects.UpdateClientProject(ProjectID,newProjects.ProjectDescription, newProjects.ProjectName);
+            newProjects.UpdateClientProject(ProjectID, newProjects.ProjectDescription, newProjects.ProjectName);
 
 
             ProfileStatus status = new ProfileStatus();
@@ -107,7 +107,7 @@ namespace CapstoneProject.Controllers
 
             profile.UpdateProfile(profile);
             AdminModel p = new AdminModel();
-           
+
             //dataset with all profiles and projects
             DataSet profileDs = profile.GetProfiles();
             DataSet projectDs = p.GetProjects();
@@ -186,12 +186,56 @@ namespace CapstoneProject.Controllers
             return View();
         }
         [AuthorizeRoles("Client")]
-        public IActionResult ClientDashboard()
+        public IActionResult ClientDashboard(string searchText = null, string statusFilter = null, string dateRangeFilter = null, DateTime? dateStart = null, DateTime? dateEnd = null)
         {
             NewProjects newProjects = new NewProjects();
             ProfileStatus status = new ProfileStatus();
-            newProjects.ProfileID =  Int32.Parse(HttpContext.Session.GetString("ProfileID"));
+            newProjects.ProfileID = Int32.Parse(HttpContext.Session.GetString("ProfileID"));
             List<NewProjects> NewProjectList = newProjects.GetNewProjects(newProjects.ProfileID);
+
+            // Apply search filter
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                NewProjectList = NewProjectList
+                    .Where(p => p.ProjectName.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            // Apply status filter
+            if (!string.IsNullOrEmpty(statusFilter))
+            {
+                NewProjectList = NewProjectList
+                    .Where(p => p.ProjectStatus.Equals(statusFilter, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            // Apply date range filter
+            // Apply date range filter
+            DateTime today = DateTime.Today;
+            switch (dateRangeFilter)
+            {
+                case "today":
+                    NewProjectList = NewProjectList.Where(p => p.Submissiondate.Date == today).ToList();
+                    break;
+                case "week":
+                    DateTime startOfWeek = today.AddDays(-(int)today.DayOfWeek);
+                    NewProjectList = NewProjectList.Where(p => p.Submissiondate.Date >= startOfWeek && p.Submissiondate.Date <= today).ToList();
+                    break;
+                case "month":
+                    DateTime startOfMonth = new DateTime(today.Year, today.Month, 1);
+                    NewProjectList = NewProjectList.Where(p => p.Submissiondate.Date >= startOfMonth && p.Submissiondate.Date <= today).ToList();
+                    break;
+                case "custom":
+                    if (dateStart.HasValue)
+                    {
+                        NewProjectList = NewProjectList.Where(p => p.Submissiondate >= dateStart.Value).ToList();
+                    }
+                    if (dateEnd.HasValue)
+                    {
+                        NewProjectList = NewProjectList.Where(p => p.Submissiondate <= dateEnd.Value).ToList();
+                    }
+                    break;
+            }
             ViewBag.ProfileStatus = status.GetProfileStatus(newProjects.ProfileID);
 
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");

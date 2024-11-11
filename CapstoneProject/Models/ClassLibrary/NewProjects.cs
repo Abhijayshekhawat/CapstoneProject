@@ -23,8 +23,10 @@ namespace CapstoneProject.Models.ClassLibrary
         private string projectdescription;
         private string projectname;
         private DateTime submissiondate;
-        private DateTime reviewdate;
+        private DateTime? reviewdate; // Nullable, as review date might be null
         private string reviewcode;
+        private string projectstatus;
+        private string reviewername;
 
 
         public int UpdateClientProject(int projectid, string projectdescription, string projectname)
@@ -207,12 +209,38 @@ namespace CapstoneProject.Models.ClassLibrary
             {
 
                 int projectid = int.Parse(dr["ProjectID"].ToString());
+                string projectName = dr["ProjectName"].ToString();
+                string projectDescription = dr["ProjectDescription"].ToString();
+                string projectStatus;
+                if (dr["ProjectStatus"].ToString() == "1")
+                {
+                    projectStatus = "Approved";
+                }
+                else if (dr["ProjectStatus"].ToString() == "2")
+                {
+                    projectStatus = "Pending";
+                }
+                else
+                {
+                    projectStatus = "Rejected";
+                }
+                DateTime submissionDate = Convert.ToDateTime(dr["SubmissionDate"]);
+                DateTime? reviewDate = dr["ReviewDate"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(dr["ReviewDate"]) : null;
+                string reviewerName = dr["ReviewerName"]?.ToString(); // New field
 
-                DateTime Submission = Convert.ToDateTime(dr["SubmissionDate"]);
-                newProjects = new NewProjects(projectid, profileid, dr["ProjectDescription"].ToString(), dr["ProjectName"].ToString(), Submission);
+                NewProjects newProject = new NewProjects
+                {
+                    ProjectID = projectid,
+                    ProfileID = profileid,
+                    ProjectName = projectName,
+                    ProjectDescription = projectDescription,
+                    ProjectStatus = projectStatus,
+                    Submissiondate = submissionDate,
+                    Reviewdate = reviewDate,
+                    ReviewerName = reviewerName
+                };
 
-
-                ProjectList.Add(newProjects);
+                ProjectList.Add(newProject);
 
             }
 
@@ -223,6 +251,17 @@ namespace CapstoneProject.Models.ClassLibrary
 
         public NewProjects() { }
 
+        public NewProjects(int projectid, int profileid, string projectdescription, string projectname, DateTime submissiondate, DateTime? reviewdate, string projectstatus, string reviewername)
+        {
+            this.projectid = projectid;
+            this.profileid = profileid;
+            this.projectdescription = projectdescription;
+            this.projectname = projectname;
+            this.submissiondate = submissiondate;
+            this.reviewdate = reviewdate;
+            this.projectstatus = projectstatus;
+            this.reviewername = reviewername;
+        }
         public NewProjects(int projectid, int profileid, string projectdescription, string projectname, DateTime submissiondate)
         {
             this.projectid = projectid;
@@ -235,19 +274,16 @@ namespace CapstoneProject.Models.ClassLibrary
 
 
         }
-
         public int ProjectID { get { return projectid; } set { projectid = value; } }
-
         public int ProfileID { get { return profileid; } set { profileid = value; } }
         public string ProjectDescription { get { return projectdescription; } set { projectdescription = value; } }
-
         public string ProjectName { get { return projectname; } set { projectname = value; } }
-
         public DateTime Submissiondate { get { return submissiondate; } set { submissiondate = value; } }
-
-        public DateTime Reviewdate { get { return submissiondate; } set { submissiondate = value; } }
-
+        public DateTime? Reviewdate { get { return reviewdate; } set { reviewdate = value; } } // Nullable DateTime
         public string ReviewCode { get { return reviewcode; } set { reviewcode = value; } }
+        public string ProjectStatus { get { return projectstatus; } set { projectstatus = value; } }
+        public string ReviewerName { get { return reviewername; } set { reviewername = value; } }
+
 
 
 
