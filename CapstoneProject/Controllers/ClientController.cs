@@ -2,6 +2,7 @@
 using CapstoneProject.Models.ClassLibrary;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+
 //should be used for clients to edit their profile
 namespace CapstoneProject.Controllers
 {
@@ -11,9 +12,17 @@ namespace CapstoneProject.Controllers
         {
             return View();
         }
-        public IActionResult ReadOnlyProject()
+        public IActionResult ReadOnlyProject(int ProjectID)
         {
-            return View();
+
+            NewProjects newProjects = new NewProjects();
+            ProfileStatus status = new ProfileStatus();
+            newProjects.ProfileID = Int32.Parse(HttpContext.Session.GetString("ProfileID"));
+            newProjects = newProjects.GetNewProjectByProjectID(ProjectID, newProjects.ProfileID);
+
+
+            ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
+            return View("~/Views/Client/ReadOnlyProject.cshtml", newProjects);
         }
         public IActionResult ClientProfile()
         {
