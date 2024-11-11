@@ -243,7 +243,9 @@
                 <option value="Pending">Pending</option>
             </select>
         </div>
-        <button onclick="saveChanges()" class="btn-save">Save Changes</button>
+        
+            <button type="button" onclick="saveChanges()" class="btn-save">Save Changes</button>
+        
     </div>
 </div>
 
@@ -279,12 +281,11 @@
                 //date: Date
             },
             success: function (response) {
-                alert("Changes saved!");
-                closeModal();
-                // Optionally handle the response
+                // Refresh the page
+                location.reload();
             },
             error: function (xhr, status, error) {
-                console.error("Error occurred: ", error);
+                console.error("An error occurred: " + error);
             }
         });
     }
