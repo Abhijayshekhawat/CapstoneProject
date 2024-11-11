@@ -54,7 +54,7 @@
     <div class="profile-card">
         <img src="https://via.placeholder.com/100" alt="Profile Image" class="profile-img">
         <h3> @ViewBag.FirstName @ViewBag.LastName</h3>
-        <form asp-controller="Client" asp-action="UpdateClientProfile" method="post">
+        <form asp-controller="Client" asp-action="ClientDashboard" method="post">
             <div class="profile-info">
                 <div>
                     <span class="label">First Name: </span>
@@ -79,7 +79,7 @@
                 </div>
             </div>
             <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
+                <button type="submit" class="btn btn-primary btn-lg">Home</button>
             </div>
         </form>
 
