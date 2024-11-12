@@ -83,7 +83,7 @@ namespace CapstoneProject.Models.ClassLibrary
             SqlParameter inputParameter3 = new SqlParameter("@ProjectDescription", projectdescription);
             objCommand.Parameters.Add(inputParameter3);
 
-            SqlParameter inputParameter4 = new SqlParameter("@SubmissionDate", DateTime.Now.Date);
+            SqlParameter inputParameter4 = new SqlParameter("@SubmissionDate", DateTime.Now);
             objCommand.Parameters.Add(inputParameter4);
 
 
