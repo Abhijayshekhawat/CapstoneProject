@@ -7,6 +7,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CapstoneProject</title>
+    <style>
+        .nav-icon{
+            width: 20px; 
+        }
+
+    </style>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -40,8 +46,8 @@
                         <!-- Welcome Jeet and profile image -->
                         <li class="nav-item d-flex align-items-center">
                             <a class="nav-link" asp-controller="Client" asp-action="ClientProfileEdit">
-                                <img class="rounded-circle me-2 user-img" src="@Url.Content("~/images/blackedit.png")" alt="User Image" />
-                               
+                                <img class="nav-icon" src="@Url.Content("~/images/blackedit.png")" alt="User Image" />
+                               Edit Profile
                             </a>
                         </li>
                         <!-- Menu Dropdown -->
