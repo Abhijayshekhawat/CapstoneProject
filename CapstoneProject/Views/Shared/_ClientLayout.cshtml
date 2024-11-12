@@ -30,8 +30,9 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <!-- Logo -->
-                <a class="navbar-brand" asp-area="" asp-controller="AdminDash" asp-action="Dashboard">
-                    <img src="@Url.Content("~/images/templeTlogo.png")" alt="Temple Logo" class="logo" />
+                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="AdminDash" asp-action="Dashboard">
+                    <img src="@Url.Content("~/images/templeTlogo.png")" alt="Temple Logo" class="logo me-2" />
+                    Home
                 </a>
 
                 <!-- Toggle button for mobile views -->
@@ -46,8 +47,10 @@
                         <!-- Welcome Jeet and profile image -->
                         <li class="nav-item d-flex align-items-center">
                             <a class="nav-link" asp-controller="Client" asp-action="ClientProfileEdit">
-                                <img class="nav-icon" src="@Url.Content("~/images/blackedit.png")" alt="User Image" />
-                               Edit Profile
+                                Edit Profile
+
+                                <img class="nav-icon ms-2" src="@Url.Content("~/images/blackedit.png")" alt="User Image" />
+
                             </a>
                         </li>
                         <!-- Menu Dropdown -->
