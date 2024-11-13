@@ -144,7 +144,7 @@ namespace CapstoneProject.Models.ClassLibrary
                 // Check if there are any rows in the dataset to determine if the login was successful
 
                 Profile profile = new Profile();
-                if (ds.Tables[0]!=null)
+                if (ds.Tables[0] != null)
                 {
                     if (ds.Tables[0].Rows.Count > 0)
                     {
@@ -229,6 +229,31 @@ namespace CapstoneProject.Models.ClassLibrary
                 DataSet ds = objDB.GetDataSetUsingCmdObj(objCommand);
 
                 return ds;
+            }
+        }
+
+        public int ChangeUserType(int ProfileID, int UserType)
+        {
+            using (Connection objDB = new Connection())
+            {
+                if (!objDB.Open())
+                {
+                    throw new Exception("Could not open database connection.");
+                }
+
+                SqlCommand objCommand = new SqlCommand
+                {
+                    CommandType = CommandType.StoredProcedure,
+                    //need to create this stored procedure
+                    CommandText = "AdminChangeUserType"
+                };
+
+                objCommand.Parameters.AddWithValue("@ProfileID", ProfileID);
+                objCommand.Parameters.AddWithValue("@UserType", UserType);
+
+                //returns rows affected
+                return objDB.DoUpdateUsingCmdObj(objCommand);
+
             }
         }
     }

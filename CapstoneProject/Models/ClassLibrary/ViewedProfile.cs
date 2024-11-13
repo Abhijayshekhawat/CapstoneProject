@@ -18,6 +18,7 @@ namespace CapstoneProject.Models.ClassLibrary
         string status;
         string statusChangeDateTime;
         string comment;
+        string usertype;
 
         public int ProfileID { get; set; } 
         public string FirstName { get; set; }
@@ -28,6 +29,8 @@ namespace CapstoneProject.Models.ClassLibrary
         public string Status { get; set; }
         public string StatusChangeDateTime { get; set;}
         public string Comment { get; set;}
+
+        public string UserType { get; set; }
 
         public List<ViewedProfile> TheProfile { get; set; }
 

@@ -214,7 +214,7 @@
                 <h2><span class="label">Organization:</span> <span>@profile.Organization</span></h2>
                 <h2><span class="label">Email:</span> <span>@profile.Email</span></h2>
                 <h2><span class="label">Current Status:</span> <span class="status">@profile.Status</span></h2>
-
+                <h2><span class="label">Current User Type:</span> <span class="status">@profile.UserType</span></h2>
                 <center>
                     <h2>Profile Status History</h2>
                 </center>
@@ -253,6 +253,7 @@
                 </table>
                 <!-- Trigger Modal -->
                 <span class="btn-link" onclick="openModal('Add comment here...', 'Approved')">Change Status</span>
+                <span class="btn-link" onclick="openChangeUserTypeModal('Client')">Update User Type</span>
             </div>
         }
     }
@@ -279,6 +280,21 @@
     </div>
 </div>
 
+<!-- Change UserType Modal-->
+<div id="changeUserTypeModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeChangeUserTypeModal()">&times;</span>
+        <div class="form-group">
+            <label for="UserType">User Type</label>
+            <select id="UserType">
+                <option value="Client">Client</option>
+                <option value="Reviewer">Reviewer</option>
+                <option value="Admin">Admin</option>
+            </select>
+        </div>
+        <button onclick="saveUserTypeChanges()" class="btn-save">Save Changes</button>
+    </div>
+</div>
     <script>
     function openModal(comment, status) {
         document.getElementById("comment").value = comment;
@@ -286,8 +302,17 @@
         document.getElementById("myModal").style.display = "block";
     }
 
+    function openChangeUserTypeModal(UserType) {
+        document.getElementById("UserType").value = UserType;
+        document.getElementById("changeUserTypeModal").style.display = "block";
+    }
+
     function closeModal() {
         document.getElementById("myModal").style.display = "none";
+    }
+
+    function closeChangeUserTypeModal() {
+        document.getElementById("changeUserTypeModal").style.display = "none";
     }
 
     function getQueryParam(name) {
@@ -299,7 +324,6 @@
         const ProfileID = getQueryParam("ProfileID");
         const Comment = document.getElementById("comment").value;
         const Status = document.getElementById("status").value;
-        //const Date = document.getElementById("date").value;
 
         $.ajax({
             url: '@Url.Action("UpdateProfileStatus", "AdminProfiles")',
@@ -308,7 +332,27 @@
                 ProfileID: ProfileID,
                 comment: Comment,
                 status: Status
-                //date: Date
+            },
+            success: function (response) {
+                // Refresh the page
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.error("An error occurred: " + error);
+            }
+        });
+    }
+
+    function saveUserTypeChanges() {
+        const ProfileID = getQueryParam("ProfileID");
+        const Usertype = document.getElementById("UserType").value;
+
+        $.ajax({
+            url: '@Url.Action("UpdateProfileUserType", "AdminProfiles")',
+            type: 'POST',
+            data: {
+                ProfileID: ProfileID,
+                UserType: Usertype
             },
             success: function (response) {
                 // Refresh the page
@@ -323,6 +367,9 @@
     window.onclick = function (event) {
         if (event.target == document.getElementById("myModal")) {
             closeModal();
+        }
+        if (event.target == document.getElementById("changeUserTypeModal")) {
+            closeChangeUserTypeModal();
         }
     }
     </script>
