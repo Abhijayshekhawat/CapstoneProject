@@ -220,7 +220,27 @@ namespace CapstoneProject.Controllers.Admin
             return RedirectToAction("ViewAProfile", new { ProfileID }); //returns the same view of the viewed profile after the update is done
         }
 
+        [HttpPost]
+        public IActionResult UpdateProfileUserType(int ProfileID, string UserType)
+        {
+            int u;
+            if (UserType.Equals("Client"))
+            {
+                u = 1;
+            }
+            else if (UserType.Equals("Reviewer"))
+            {
+                u = 2;
+            }
+            else
+            {
+                u = 3;
+            }
 
+            User update = new User();
+            update.ChangeUserType(ProfileID, u);
 
+            return RedirectToAction("ViewAProfile", new { ProfileID }); //returns the same view of the viewed profile after the update is done
+        }
     }
 }
