@@ -209,7 +209,7 @@ namespace CapstoneProject.Controllers.Admin
 
             update.AddProjectComment(ProfileID, ProjectID, comment, newstatus); //Insert new comment into TB_Comments
 
-            update.AddCommentToProjectStatus(ProfileID, ProjectID, comment, newstatus); //Insert new comment into TB_ProjectStatus
+            update.AddCommentToProjectStatus( ProjectID, comment, newstatus); //Insert new comment into TB_ProjectStatus
 
 
             return RedirectToAction("ViewAProject", new { ProjectID }); //returns the same view of the viewed project after the update is done

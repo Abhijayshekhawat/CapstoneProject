@@ -74,7 +74,7 @@ namespace CapstoneProject.Models.ClassLibrary
                     CommandText = "AdminChangeProjectStatus"
                 };
 
-                SqlParameter inputParameter = new SqlParameter("@reviewerID", profileID);
+                SqlParameter inputParameter = new SqlParameter("@ReviewerID", profileID);
                 objCommand.Parameters.Add(inputParameter);
 
                 // Add parameters to the command
@@ -112,7 +112,7 @@ namespace CapstoneProject.Models.ClassLibrary
             }
         }
 
-        public void AddCommentToProjectStatus(int profileID, int projectID, string comment, int status) //Insert the same new comment into TB_ProjectStatus
+        public void AddCommentToProjectStatus(int projectID, string comment, int status) //Insert the same new comment into TB_ProjectStatus
         {
             using (Connection objDB = new Connection())
             {
@@ -126,7 +126,7 @@ namespace CapstoneProject.Models.ClassLibrary
                     CommandType = CommandType.StoredProcedure,
                     CommandText = "AddCommentToProjectStatus"
                 };
-                objCommand.Parameters.AddWithValue("@ProfileID", profileID);
+            
                 objCommand.Parameters.AddWithValue("@ProjectID", projectID);
                 objCommand.Parameters.AddWithValue("@Comment", comment);
                 objCommand.Parameters.AddWithValue("@Status", status);
