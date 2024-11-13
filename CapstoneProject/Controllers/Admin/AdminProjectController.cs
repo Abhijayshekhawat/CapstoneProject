@@ -188,28 +188,28 @@ namespace CapstoneProject.Controllers.Admin
         [HttpPost]
         public IActionResult UpdateProjectStatus(int ProjectID, string comment, string status)
         {
-            int s;
+            int newstatus;
             if (status.Equals("Approved"))
             {
-                s = 1;
+                newstatus = 1;
             }
             else if (status.Equals("Pending"))
             {
-                s = 2;
+                newstatus = 2;
             }
             else
             {
-                s = 3;
+                newstatus = 3;
             }
 
             ProjectStatus update = new ProjectStatus();
-            int commenterID = Int32.Parse(HttpContext.Session.GetString("ProfileID"));
+            int ProfileID = Int32.Parse(HttpContext.Session.GetString("ProfileID"));
 
-            update.UpdateProjectStatus(commenterID, ProjectID, s); //UPDATES TB_NewProjects Changing the status and Review Date
+            update.UpdateProjectStatus(ProfileID, ProjectID, newstatus); //UPDATES TB_NewProjects Changing the status and Review Date
 
-            update.AddProjectComment(commenterID, ProjectID, comment, s); //Insert new comment into TB_Comments
+            update.AddProjectComment(ProfileID, ProjectID, comment, newstatus); //Insert new comment into TB_Comments
 
-            update.AddCommentToProjectStatus(commenterID, ProjectID, comment, s); //Insert new comment into TB_ProjectStatus
+            update.AddCommentToProjectStatus(ProfileID, ProjectID, comment, newstatus); //Insert new comment into TB_ProjectStatus
 
 
             return RedirectToAction("ViewAProject", new { ProjectID }); //returns the same view of the viewed project after the update is done

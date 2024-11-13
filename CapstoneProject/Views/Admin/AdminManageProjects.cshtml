@@ -203,7 +203,7 @@
                                 }
                                 <span class="@statusClass">@project.ProjectStatus</span>
                             </td>
-                            <td data-value="@project.DateSubmitted.ToString(" MM /dd/yyyy")">@project.DateSubmitted.ToString(" MM /dd/yyyy")</td>
+                            <td data-value="@project.DateSubmitted.ToString()">@project.DateSubmitted.ToString()</td>
                             <td><a class="btn btn-primary" asp-area="" asp-controller="AdminProject" asp-action="ViewAProject" asp-route-ProjectID="@project.ProjectID">View Details</a></td>
 
                         </tr>
