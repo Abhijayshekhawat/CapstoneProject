@@ -205,7 +205,7 @@
                                     }
                                     <span class="@statusClass">@profile.Status</span>
                                 </td>
-                                <td data-value="@profile.SubmissionDate.ToString(" MM /dd/yyyy")">@profile.SubmissionDate.ToString(" MM /dd/yyyy")</td>
+                                <td data-value="@profile.SubmissionDate.ToString()">@profile.SubmissionDate.ToString()</td>
                                 <td><a class="btn btn-primary" asp-area="" asp-controller="AdminProfiles" asp-action="ViewAProfile" asp-route-ProfileID="@profile.ProfileID">View Details</a></td>
 
                             </tr>
