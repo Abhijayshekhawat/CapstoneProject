@@ -37,9 +37,9 @@
                     </div>
                     <p class="error-message">@ViewBag.ErrorMessage</p>
 
-                    <button type="submit" name="action" value="login">Log In</button>
-                    <div class="or-divider">or continue with</div>
-                    <button type="button" class="sso-button" id="ssoButton">Temple SSO</button>
+                    <button type="submit" name="action" value="login" class="login-button">LOG IN</button>
+                    <div class="or-divider">- OR -</div>
+                    <button type="button" class="sso-button" id="ssoButton">Continue with Temple SSO</button>
                 </form>
                 <p>New User? <a asp-controller="Account" asp-action="Index">Register</a></p>
                 <p>Forgot Password? <a asp-controller="Account" asp-action="ResetPassword">Reset Password</a></p>
