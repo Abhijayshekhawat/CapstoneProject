@@ -249,11 +249,11 @@ namespace CapstoneProject.Controllers.Reviewer
 
             ViewBag.AdminViewProjects = theProjects; //viewbag containing the list of projects
 
-            return View("~/Views/Reviewer/ReviewerManageProjects.cshtml");
+            return View("~/Views/Reviewer/ReviewerManageProject.cshtml");
         }
         public IActionResult ReviewerViewProjects()
         {
-            return View("~/Views/Reviewer/ReviewerManageProjects.cshtml");
+            return View("~/Views/Reviewer/ReviewerManageProject.cshtml");
         }
 
         public IActionResult ReviewerViewAProject(int ProjectID)
@@ -315,7 +315,7 @@ namespace CapstoneProject.Controllers.Reviewer
                         {
                             Comment theComment = new Comment();
                             theComment.Description = row2["Comment"].ToString();
-                            theComment.StatusChangeDateTime = Convert.ToDateTime(row2["StatusChangeDateTime"]).ToString("MM/dd/yyyy");
+                            theComment.StatusChangeDateTime = Convert.ToDateTime(row2["StatusChangeDateTime"]).ToString();
 
                             status = Convert.ToInt32(row2["LastUpdatedStatus"]); //project status is stored as an int in db, for the admin view we want to show the string
                             if (status == 1)
