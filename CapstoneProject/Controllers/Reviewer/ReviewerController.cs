@@ -249,11 +249,11 @@ namespace CapstoneProject.Controllers.Reviewer
 
             ViewBag.AdminViewProjects = theProjects; //viewbag containing the list of projects
 
-            return View("~/Views/Admin/AdminManageProjects.cshtml");
+            return View("~/Views/Reviewer/ReviewerManageProjects.cshtml");
         }
         public IActionResult ReviewerViewProjects()
         {
-            return View("~/Views/Admin/AdminManageProjects.cshtml");
+            return View("~/Views/Reviewer/ReviewerManageProjects.cshtml");
         }
 
         public IActionResult ReviewerViewAProject(int ProjectID)
@@ -276,7 +276,7 @@ namespace CapstoneProject.Controllers.Reviewer
                     viewedProject.ProjectDesc = row["ProjectDescription"].ToString();
                     viewedProject.ProjectOwner = row["FirstName"].ToString() + " " + row["LastName"].ToString();
                     viewedProject.Email = row["Email"].ToString();
-                    viewedProject.SubmissionDate = Convert.ToDateTime(row["SubmissionDate"]).ToString("MM/dd/yyyy");
+                    viewedProject.SubmissionDate = Convert.ToDateTime(row["SubmissionDate"]).ToString("");
                     if (row["ReviewDate"] != DBNull.Value)
                     {
                         viewedProject.LastReviewed = Convert.ToDateTime(row["ReviewDate"]).ToString("MM/dd/yyyy");
@@ -340,7 +340,7 @@ namespace CapstoneProject.Controllers.Reviewer
                 ViewBag.AdminViewedProject = theProject;
             }
 
-            return View("~/Views/Admin/AdminViewProject.cshtml", viewedProject);
+            return View("~/Views/Reviewer/ReviewerViewAProject.cshtml", viewedProject);
         }
 
 
