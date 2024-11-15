@@ -10,17 +10,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    <link rel="stylesheet" href="@Url.Content("css/LoginStyles.css")"> <!-- Correct CSS path resolution -->
+    <link rel="stylesheet" href="@Url.Content("~/css/LoginStyles.css")"> <!-- Correct CSS path resolution -->
 
 </head>
 <body>
     <div class="container">
         <div class="left">
-            <img src="@Url.Content("images/bell_tower.jpg")" alt="Temple Bell Tower">
+            <img class="main-left-img" src="@Url.Content("~/images/bell_tower.jpg")" alt="Temple Bell Tower">
         </div>
         <div class="right">
             <div class="login-box">
-                <img src="@Url.Content("images/templeTlogo.png")" alt="Temple Logo" class="logo">
+                <img src="@Url.Content("~/images/templeTlogo.png")" alt="Temple Logo" class="logo">
                 <h2>Login to your account</h2>
                 <form asp-controller="Login" asp-action="Login" method="post">
                     <input type="email" asp-for="Email" class="form-control input__field" placeholder="email@temple.edu" value="@ViewBag.Email" />
