@@ -89,12 +89,20 @@ button[type="submit"] {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
-    background-color: #800000;
+    background-color: #A41E35;
     color: #fff;
     border: none;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+}
+
+.header p {
+    margin: 0 0 20px 0;
+}
+
+.header h2 {
+    margin: 0 0 10px 0;
 }
 
 p {
@@ -107,7 +115,14 @@ p {
         text-decoration: underline;
     }
 
+.fields {
+    text-align: left;
+}
+/* Existing styles */
 .error-message {
-    color: red;
+    color: #A41E35;
     font-weight: bold;
+    font-size: 14px; /* Optional: Adjust font size for readability */
+    margin-top: 5px; /* Space between the error and input field */
+    padding: 5px; /* Optional padding */
 }

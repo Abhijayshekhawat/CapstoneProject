@@ -45,7 +45,6 @@ namespace CapstoneProject.Controllers
             // Manually check if Email and Password fields are populated
             if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password))
             {
-                ViewBag.ErrorMessage = "Email and Password are required.";
                 return View(model);
             }
             // Use LoginModel for validation purposes
