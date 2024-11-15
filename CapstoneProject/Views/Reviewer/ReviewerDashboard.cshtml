@@ -206,7 +206,7 @@
                         <div class="card-body">
                             <h5 class="card-title">View Projects</h5>
                             <p class="card-text">Check all projects.</p>
-                            <a class="btn btn-translucent" asp-area="" asp-controller="AdminProject" asp-action="ManageProjects">View Projects</a>
+                            <a class="btn btn-translucent" asp-area="" asp-controller="Reviewer" asp-action="ReviewerManageProjects">View Projects</a>
                         </div>
                     </div>
                 </div>            
@@ -288,7 +288,7 @@
                                         <span class="@statusClass">@project.ProjectStatus</span>
                                     </td>
                                     <td data-value="@project.DateSubmitted.ToString()">@project.DateSubmitted.ToString()</td>
-                                    <td><a class="btn btn-translucent" asp-controller="AdminProject" asp-action="ViewAProject" asp-route-ProjectID="@project.ProjectID">View Details</a></td>
+                                    <td><a class="btn btn-translucent" asp-controller="Reviewer" asp-action="ReviewerViewAProject" asp-route-ProjectID="@project.ProjectID">View Details</a></td>
                                 </tr>
                             }
 
