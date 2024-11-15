@@ -83,5 +83,25 @@ namespace CapstoneProject.Controllers.Admin
             return View("~/Views/Dashboard/UserDashboard.cshtml");
 
         }
+
+        public IActionResult CreateNewProject()
+        {
+
+
+            return View("~/Views/Admin/AdminCreateNewProject.cshtml");
+        }
+
+        public IActionResult AddNewProject()
+        {
+
+            NewProjects newProjects = new NewProjects();
+            newProjects.ProfileID = Int32.Parse(HttpContext.Session.GetString("ProfileID"));
+            newProjects.ProjectName = Request.Form["ProjectName"].ToString();
+            newProjects.ProjectDescription = Request.Form["ProjectDescription"].ToString();
+            newProjects.CreateNewProject(10, newProjects.ProfileID, newProjects.ProjectDescription, newProjects.ProjectName);
+
+
+            return View("~/Views/Admin/AdminCreatedProjectLandingPage.cshtml");
+        }
     }
 }
