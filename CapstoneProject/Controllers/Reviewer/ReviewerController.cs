@@ -172,7 +172,7 @@ namespace CapstoneProject.Controllers.Reviewer
             return View("~/Views/Reviewer/ReviewerDashboard.cshtml");
         }
 
-        public IActionResult ReviewerManageProjects(string searchText = null, string statusFilter = null, string dateRangeFilter = null, DateTime? dateStart = null, DateTime? dateEnd = null)
+        public IActionResult ReviewerManageProject(string searchText = null, string statusFilter = null, string dateRangeFilter = null, DateTime? dateStart = null, DateTime? dateEnd = null)
         {
             //Use stored procedure to get project data from datatable
             //create project objects and add them to the viewbag
