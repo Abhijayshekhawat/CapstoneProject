@@ -101,7 +101,7 @@ namespace CapstoneProject.Models.ClassLibrary
                 if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     DataRow row = ds.Tables[0].Rows[0];
-                    if (row["IsActive"].ToString() == "1")
+                    if (row["IsActive"].ToString() == "0")
                     {
                         // Assign values to the User object's properties from the first row
                         profile.ProfileID = Convert.ToInt32(row["ProfileID"]);
