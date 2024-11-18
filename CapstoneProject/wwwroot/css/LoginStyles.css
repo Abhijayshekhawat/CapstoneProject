@@ -25,13 +25,13 @@ body {
     overflow-y: hidden;
 }
 
-.left img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    padding: 15px;
-    border-radius: 25px;
-}
+    .left img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        padding: 15px;
+        border-radius: 25px;
+    }
 
 .right {
     flex: 1;
@@ -55,7 +55,7 @@ body {
 
 h2 {
     margin-bottom: 20px;
-    font-size: 24px;
+    font-size: 32px;
 }
 
 input[type="email"],
@@ -83,20 +83,22 @@ input[type="password"] {
     transition: background-color 0.3s ease;
     border: 1px solid #000; /* Optional border */
 }
-.login-button:hover {
-    color: #000;
-    background-color: #fff; /* Darker shade on hover */
-    border: 1px solid #000; /* Border color on hover */
-}
+
+    .login-button:hover {
+        color: #000;
+        background-color: #fff; /* Darker shade on hover */
+        border: 1px solid #000; /* Border color on hover */
+    }
+
 .or-divider {
-    margin: 20px 0;
+    margin: 10px 0;
     color: #888;
 }
 
 .sso-button {
     width: 100%;
     padding: 10px;
-    margin: 10px 0;
+    margin: 10px 0 20px 0;
     background-color: #A41E35;
     color: #fff;
     border: none;
@@ -107,11 +109,13 @@ input[type="password"] {
     transition: background-color 0.3s ease;
     border: 1px solid #A41E35; /* Optional border */
 }
-.sso-button:hover {
-    color: #A41E35;
-    background-color: #fff; /* Slightly darker red on hover */
-    border: 1px solid #A41E35; /* Border color on hover */
-}
+
+    .sso-button:hover {
+        color: #A41E35;
+        background-color: #fff; /* Slightly darker red on hover */
+        border: 1px solid #A41E35; /* Border color on hover */
+    }
+
 .header p {
     margin: 0 0 20px 0;
 }
@@ -121,22 +125,24 @@ input[type="password"] {
 }
 
 p {
-    margin-top: 20px;
+    margin-top: 10px;
     color: #888;
 }
 
-p a {
-    color: #000;
-    text-decoration: underline;
-    transition: color 0.3s ease;
-}
-p a:hover {
-    color: #A41E35; /* Red on hover */
-}
+    p a {
+        color: #000;
+        text-decoration: underline;
+        transition: color 0.3s ease;
+    }
+
+        p a:hover {
+            color: #A41E35; /* Red on hover */
+        }
 
 .fields {
     text-align: left;
 }
+
 .error-message {
     color: #A41E35;
     font-weight: bold;

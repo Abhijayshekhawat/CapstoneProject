@@ -17,18 +17,18 @@ namespace CapstoneProject.Models
             Password = pwd;
         }
 
-        [Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "Invalid Email Address")]
-        [StringLength(50, MinimumLength = 5, ErrorMessage = "Email must be between 5 and 50 characters long")]
+        [Required(ErrorMessage = "An email address is required.")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        [StringLength(50, MinimumLength = 5, ErrorMessage = "Email must be between 5 and 50 characters.")]
         public string Email
         {
             get { return email; }
             set { email = value; }
         }
 
-        [Required(ErrorMessage = "Password is required")]
-        [StringLength(50, MinimumLength = 5, ErrorMessage = "Password must be between 5 and 50 characters long")]
-        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Please enter your password.")]
+        [StringLength(50, MinimumLength = 5, ErrorMessage = "Password must be between 5 and 50 characters.")]
+        [DataType(DataType.Password, ErrorMessage = "Invalid password format.")]
         public string Password
         {
             get { return password; }

@@ -20,9 +20,16 @@ namespace CapstoneProject.Controllers
 
         public async Task<IActionResult> CreateAccount(CreateAccountModel model)
         {
-            // Use LoginModel for validation purposes
+            if (string.IsNullOrEmpty(model.FirstName) || string.IsNullOrEmpty(model.LastName) || string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Organization))
+            {
+                return View(model);
+            }
             if (!ModelState.IsValid)
             {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine(error.ErrorMessage);
+                }
                 return View(model);
             }
 

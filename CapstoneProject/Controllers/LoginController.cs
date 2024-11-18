@@ -58,7 +58,7 @@ namespace CapstoneProject.Controllers
             }
             if (Request.Form["Email"].ToString().Contains("temple.edu"))
             {
-                ViewBag.ErrorMessage = "Error: Please use the SSO to sign in.";
+                ViewBag.ErrorMessage = "Temple-affiliated email detected. Please use the SSO option to sign in.";
                 return View();
             }
             // Manually extract form data for sending via JSON
@@ -94,8 +94,12 @@ namespace CapstoneProject.Controllers
 
                         var profile = JsonSerializer.Deserialize<Profile>(responseBody, options);
 
-
-                        if (profile != null)
+                        if (profile != null && profile.FirstName == "Inactive")
+                        {
+                            ViewBag.ErrorMessage = "Your account is Inactive. Please reach out to the administrator to reactivate it!";
+                            return View();
+                        }
+                        if (profile != null && !string.IsNullOrEmpty(profile.FirstName) && !string.IsNullOrEmpty(profile.LastName))
                         {
                             HttpContext.Session.SetString("Organization", profile.Organization);
                             HttpContext.Session.SetString("UserType", profile.UserType);
@@ -124,6 +128,11 @@ namespace CapstoneProject.Controllers
                                 return View();
                             }
                         }
+                        else
+                        {
+                            ViewBag.ErrorMessage = "Incorrect Password/UserName. Please try again or register for an account below!";
+                            return View();
+                        }
                     }
                     else
                     {
@@ -137,9 +146,6 @@ namespace CapstoneProject.Controllers
                     return View();
                 }
             }
-
-            ViewBag.ErrorMessage = "Incorrect Password/UserName. Please try again!";
-            return View();
         }
 
         public List<Project> PopulateAdminDashboard()
