@@ -69,15 +69,19 @@ namespace CapstoneProject.Controllers
 
                                     var profile = JsonSerializer.Deserialize<Profile>(responseBody, options);
 
-
-                                    if (profile != null)
+                                    if (profile != null && profile.FirstName == "Inactive")
+                                    {
+                                        ViewBag.ErrorMessage = "Your account is Inactive. Please reach out to the administrator to reactivate it!";
+                                        return View();
+                                    }
+                                    if (profile != null && !string.IsNullOrEmpty(profile.FirstName) && !string.IsNullOrEmpty(profile.LastName))
                                     {
                                         HttpContext.Session.SetString("Organization", profile.Organization);
                                         HttpContext.Session.SetString("UserType", profile.UserType);
                                         HttpContext.Session.SetString("FirstName", profile.FirstName);
                                         HttpContext.Session.SetString("LastName", profile.LastName);
                                         HttpContext.Session.SetString("Email", profile.Email);
-                                        HttpContext.Session.SetString("SubmissionDate", profile.SubmissionDate.ToString());
+                                        HttpContext.Session.SetString("SubmissionDate", profile.SubmissionDate.ToString("MM/dd/yyyy"));
                                         HttpContext.Session.SetString("ProfileID", profile.ProfileID.ToString());
 
                                         // Redirect based on UserType
@@ -89,10 +93,20 @@ namespace CapstoneProject.Controllers
                                         {
                                             return RedirectToAction("Dashboard", "AdminDash");
                                         }
+                                        else if (profile.UserType == "Reviewer")
+                                        {
+                                            return RedirectToAction("Index", "Reviewer");
+                                        }
                                         else
                                         {
-
+                                            ViewBag.ErrorMessage = "Incorrect Role";
+                                            return View();
                                         }
+                                    }
+                                    else
+                                    {
+                                        ViewBag.ErrorMessage = "Incorrect Password/UserName. Please try again or register for an account below!";
+                                        return View();
                                     }
                                 }
                                 else
@@ -107,9 +121,6 @@ namespace CapstoneProject.Controllers
                                 return View();
                             }
                         }
-
-                        ViewBag.ErrorMessage = "Incorrect Password/UserName. Please try again!";
-                        return View();
                     }
 
                 }
