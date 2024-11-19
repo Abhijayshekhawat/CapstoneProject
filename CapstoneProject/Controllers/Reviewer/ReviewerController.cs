@@ -83,6 +83,8 @@ namespace CapstoneProject.Controllers.Reviewer
 
             ViewBag.AdminViewProjects = theProjects; //viewbag containing the list of projects
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
+            ViewBag.LastName = HttpContext.Session.GetString("LastName");
+            ViewBag.UserType = HttpContext.Session.GetString("UserType");
 
 
             return View("~/Views/Reviewer/ReviewerDashboard.cshtml");
@@ -165,6 +167,8 @@ namespace CapstoneProject.Controllers.Reviewer
             ViewBag.AdminViewProfiles = profiles; //viewbag containing the profiles
             ViewBag.AdminViewProjects = theProjects; //viewbag containing the list of projects
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
+            ViewBag.LastName = HttpContext.Session.GetString("LastName");
+            ViewBag.UserType = HttpContext.Session.GetString("UserType");
 
 
 

@@ -2,6 +2,8 @@
     ViewData["Title"] = "Reviewer Dashboard";
     Layout = "_ReviewerLayout";
     var firstName = ViewBag.FirstName;
+    var lastName = ViewBag.LastName;
+    var userType = ViewBag.UserType;
 }
 
 <!DOCTYPE html>
@@ -200,7 +202,7 @@
         </div>
 
         <div class="padding-top">
-            <div class="row justify-content-center">        
+            <div class="row justify-content-center">
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
@@ -209,7 +211,7 @@
                             <a class="btn btn-translucent" asp-area="" asp-controller="Reviewer" asp-action="ReviewerManageProject">View Projects</a>
                         </div>
                     </div>
-                </div>            
+                </div>
             </div>
         </div>
         <div class="mb-5">

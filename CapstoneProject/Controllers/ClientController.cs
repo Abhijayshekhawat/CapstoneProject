@@ -23,6 +23,10 @@ namespace CapstoneProject.Controllers
 
 
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
+            ViewBag.LastName = HttpContext.Session.GetString("LastName");
+            ViewBag.UserType = HttpContext.Session.GetString("UserType");
+
+
             return View("~/Views/Client/ReadOnlyProject.cshtml", newProjects);
         }
         public IActionResult ClientProfile()
@@ -35,6 +39,7 @@ namespace CapstoneProject.Controllers
 
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
             ViewBag.LastName = HttpContext.Session.GetString("LastName");
+            ViewBag.UserType = HttpContext.Session.GetString("UserType");
             ViewBag.Email = HttpContext.Session.GetString("Email");
             ViewBag.Organization = HttpContext.Session.GetString("Organization");
             ViewBag.SubmissionDate = HttpContext.Session.GetString("SubmissionDate");
@@ -50,6 +55,7 @@ namespace CapstoneProject.Controllers
         {
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
             ViewBag.LastName = HttpContext.Session.GetString("LastName");
+            ViewBag.UserType = HttpContext.Session.GetString("UserType");
             ViewBag.Email = HttpContext.Session.GetString("Email");
             ViewBag.Organization = HttpContext.Session.GetString("Organization");
             ViewBag.SubmissionDate = HttpContext.Session.GetString("SubmissionDate");
@@ -66,6 +72,9 @@ namespace CapstoneProject.Controllers
 
 
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
+            ViewBag.LastName = HttpContext.Session.GetString("LastName");
+            ViewBag.UserType = HttpContext.Session.GetString("UserType");
+
             return View("~/Views/Client/EditClientProject.cshtml", newProjects);
 
 
@@ -89,6 +98,9 @@ namespace CapstoneProject.Controllers
             ViewBag.ProfileStatus = status.GetProfileStatus(newProjects.ProfileID);
 
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
+            ViewBag.LastName = HttpContext.Session.GetString("LastName");
+            ViewBag.UserType = HttpContext.Session.GetString("UserType");
+
             return View("~/Views/Client/ClientDashboard.cshtml", NewProjectList);
         }
 
@@ -168,6 +180,8 @@ namespace CapstoneProject.Controllers
             ViewBag.AdminViewProfiles = profiles; //viewbag containing the profiles
             ViewBag.AdminViewProjects = theProjects; //viewbag containing the list of projects
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
+            ViewBag.LastName = HttpContext.Session.GetString("LastName");
+            ViewBag.UserType = HttpContext.Session.GetString("UserType");
 
 
 
@@ -239,6 +253,9 @@ namespace CapstoneProject.Controllers
             ViewBag.ProfileStatus = status.GetProfileStatus(newProjects.ProfileID);
 
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
+            ViewBag.LastName = HttpContext.Session.GetString("LastName");
+            ViewBag.UserType = HttpContext.Session.GetString("UserType");
+
             return View("~/Views/Client/ClientDashboard.cshtml", NewProjectList);
         }
 
