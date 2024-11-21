@@ -14,7 +14,7 @@ namespace CapstoneProject.Controllers.Admin
             return View();
         }
 
-        public IActionResult ManageProfiles(string searchText = null, string statusFilter = null, string userTypeFilter = null, string dateRangeFilter = null, DateTime? dateStart = null, DateTime? dateEnd = null)
+        public IActionResult ManageProfiles(string searchText = null, string statusFilter = null, string userTypeFilter = null, string userActiveFilter = null, string dateRangeFilter = null, DateTime? dateStart = null, DateTime? dateEnd = null)
         {
             //Use stored procedure to get profile data from datatable
             //create profile objects and add them to the viewbag
@@ -50,6 +50,7 @@ namespace CapstoneProject.Controllers.Admin
                     }
                     userProfile.SubmissionDate = DateTime.Parse(row["SubmissionDate"].ToString());
                     userProfile.UserType = row["UserType"].ToString();
+                    userProfile.IsActive = row["UserActiveStatus"].ToString();
                     profiles.Add(userProfile);
                 }
             }
@@ -74,6 +75,12 @@ namespace CapstoneProject.Controllers.Admin
             {
                 profiles = profiles
                     .Where(p => p.UserType.Equals(userTypeFilter, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+            if (!string.IsNullOrEmpty(userActiveFilter))
+            {
+                profiles = profiles
+                    .Where(p => p.IsActive.Equals(userActiveFilter, StringComparison.OrdinalIgnoreCase))
                     .ToList();
             }
 
@@ -146,8 +153,8 @@ namespace CapstoneProject.Controllers.Admin
                     {
                         viewedProfile.Status = "Rejected";
                     }
-
-                    int uType = Convert.ToInt32(row["UserType"]); //user type is stored as an int in db, for the admin view we want to show the string
+                    int uType = row["UserType"] != DBNull.Value ? Convert.ToInt32(row["UserType"]) : -1;
+                    //user type is stored as an int in db, for the admin view we want to show the string
                     if (uType == 1)
                     {
                         viewedProfile.UserType = "Client";
@@ -156,9 +163,13 @@ namespace CapstoneProject.Controllers.Admin
                     {
                         viewedProfile.UserType = "Reviewer";
                     }
-                    else
+                    else if (uType == 3)
                     {
                         viewedProfile.UserType = "Admin";
+                    }
+                    else
+                    {
+                        viewedProfile.UserType = "Unassigned";
                     }
 
                     //Get Profile Comments
@@ -230,12 +241,19 @@ namespace CapstoneProject.Controllers.Admin
         [HttpPost]
         public IActionResult UpdateProfileUserType(int ProfileID, string UserType)
         {
+            if (UserType.Equals("Unassigned", StringComparison.OrdinalIgnoreCase))
+            {
+                // Prevent the update and return an error message or redirect
+                TempData["Error"] = "Cannot update User Type for Unassigned users.";
+                return RedirectToAction("ViewAProfile", new { ProfileID });
+            }
+
             int u;
-            if (UserType.Equals("Client"))
+            if (UserType.Equals("Client", StringComparison.OrdinalIgnoreCase))
             {
                 u = 1;
             }
-            else if (UserType.Equals("Reviewer"))
+            else if (UserType.Equals("Reviewer", StringComparison.OrdinalIgnoreCase))
             {
                 u = 2;
             }
@@ -247,7 +265,9 @@ namespace CapstoneProject.Controllers.Admin
             User update = new User();
             update.ChangeUserType(ProfileID, u);
 
-            return RedirectToAction("ViewAProfile", new { ProfileID }); //returns the same view of the viewed profile after the update is done
+            TempData["Success"] = "User Type updated successfully.";
+            return RedirectToAction("ViewAProfile", new { ProfileID });
         }
+
     }
 }

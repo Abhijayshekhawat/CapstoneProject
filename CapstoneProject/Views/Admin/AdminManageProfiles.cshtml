@@ -160,7 +160,7 @@
 <div class="container mt-5">
     <h3 class="text-center mb-4">Admin Manage Profiles</h3>
     <form asp-action="ManageProfiles" method="get" class="filter-form row mb-4 p-3 shadow-sm">
-        <div class="col-4">
+        <div class="col-2">
             <label for="searchText" class="form-label filter-label">Search Profiles</label>
             <input type="text" name="searchText" id="searchText" class="filter-input" placeholder="Search by Name or Org"
                    value="@Context.Request.Query["searchText"]">
@@ -183,6 +183,15 @@
                 <option value="Client" selected="@(Context.Request.Query["userTypeFilter"] == "Client" ? "selected" : null)">Client</option>
                 <option value="Reviewer" selected="@(Context.Request.Query["userTypeFilter"] == "Reviewer" ? "selected" : null)">Reviewer</option>
                 <option value="Unassigned" selected="@(Context.Request.Query["userTypeFilter"] == "Unassigned" ? "selected" : null)">Unassigned</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <label for="userActiveFilter" class="form-label filter-label">Activation Status</label>
+            <select name="userActiveFilter" id="userActiveFilter" class="filter-input">
+                <option value="" class="btn btn-light">Filter by Activation</option>
+                <option value="Active" selected="@(Context.Request.Query["userActiveFilter"] == "Active" ? "selected" : null)">Active</option>
+                <option value="Inactive" selected="@(Context.Request.Query["userActiveFilter"] == "Inactive" ? "selected" : null)">Inactive</option>
+                <option value="User not created" selected="@(Context.Request.Query["userActiveFilter"] == "User not created" ? "selected" : null)">User not created</option>
             </select>
         </div>
         <div class="col-4">
@@ -217,9 +226,10 @@
                         <th class="sortable" onclick="sortProfilesTable(0)">First Name   <span class="sort-icon sort-asc" id="sort-icon-profiles-0"></span></th>
                         <th class="sortable" onclick="sortProfilesTable(1)">Last Name   <span class="sort-icon" id="sort-icon-profiles-1"></span></th>
                         <th class="sortable" onclick="sortProfilesTable(2)">Organization   <span class="sort-icon" id="sort-icon-profiles-2"></span></th>
-                        <th class="sortable" onclick="sortProfilesTable(3)">Status   <span class="sort-icon" id="sort-icon-profiles-4"></span></th>
-                        <th class="sortable" onclick="sortProfilesTable(4)">User Type   <span class="sort-icon" id="sort-icon-profiles-5"></span></th>
-                        <th class="sortable" onclick="sortProfilesTable(5)">Date Submitted   <span class="sort-icon" id="sort-icon-profiles-6"></span></th>
+                        <th class="sortable" onclick="sortProfilesTable(3)">Status   <span class="sort-icon" id="sort-icon-profiles-3"></span></th>
+                        <th class="sortable" onclick="sortProfilesTable(4)">User Type   <span class="sort-icon" id="sort-icon-profiles-4"></span></th>
+                        <th class="sortable" onclick="sortProfilesTable(5)">Active   <span class="sort-icon" id="sort-icon-profiles-5"></span></th>
+                        <th class="sortable" onclick="sortProfilesTable(6)">Date Submitted   <span class="sort-icon" id="sort-icon-profiles-6"></span></th>
                         <th>View Profile</th>
                     </tr>
                 </thead>
@@ -248,6 +258,7 @@
                                     <span class="@statusClass">@profile.Status</span>
                                 </td>
                                 <td data-value="@profile.UserType">@profile.UserType</td>
+                                <td data-value="@profile.IsActive">@profile.IsActive</td>
                                 <td data-value="@profile.SubmissionDate.ToString()">@profile.SubmissionDate.ToString()</td>
                                 <td><a class="btn btn-primary" asp-area="" asp-controller="AdminProfiles" asp-action="ViewAProfile" asp-route-ProfileID="@profile.ProfileID">View Details</a></td>
 

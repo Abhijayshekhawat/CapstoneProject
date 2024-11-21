@@ -17,10 +17,11 @@ namespace CapstoneProject.Models.ClassLibrary
         private DateTime submissiondate;
         private string status;
         private string usertype;
+        private string isActive;
 
         public Profile() { }
 
-        public Profile(int profileid, string organization, string firstname, string lastname, string email, DateTime submissiondate, string status, string usertype)
+        public Profile(int profileid, string organization, string firstname, string lastname, string email, DateTime submissiondate, string status, string usertype, string isActive)
         {
             this.profileid = profileid;
             this.organization = organization;
@@ -30,6 +31,7 @@ namespace CapstoneProject.Models.ClassLibrary
             this.submissiondate = submissiondate;
             this.status = status;
             this.usertype = usertype;
+            this.isActive = isActive;
         }
 
         public int ProfileID { get { return profileid; } set { profileid = value; } }
@@ -43,6 +45,7 @@ namespace CapstoneProject.Models.ClassLibrary
 
         public string Status { get; set; }
         public string UserType { get; set; }
+        public string IsActive { get; set; }
         public int CreateProfile(string organization, string firstName, string lastName, string email, DateTime submissionDate, out int profileId)
         {
             profileId = 0;

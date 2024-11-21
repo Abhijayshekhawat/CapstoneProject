@@ -229,7 +229,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if(profile.Comments == null || profile.Comments.Count < 1)
+                        @if (profile.Comments == null || profile.Comments.Count < 1)
                         {
                             <tr>
                                 <td class="comment">No comments</td>
@@ -238,7 +238,8 @@
                                 <td></td>
                             </tr>
                         }
-                        else{
+                        else
+                        {
                             @foreach (var comment in profile.Comments)
                             {
                                 <tr>
@@ -253,7 +254,14 @@
                 </table>
                 <!-- Trigger Modal -->
                 <span class="btn-link" onclick="openModal('Add comment here...', 'Approved')">Change Status</span>
-                <span class="btn-link" onclick="openChangeUserTypeModal('Client')">Update User Type</span>
+                @if (profile.UserType != "Unassigned")
+                {
+                    <span class="btn-link" onclick="openChangeUserTypeModal('Client')">Update User Type</span>
+                }
+                else
+                {
+                    <span class="btn-link text-muted">User Type Unassigned</span>
+                }
             </div>
         }
     }
@@ -295,7 +303,7 @@
         <button onclick="saveUserTypeChanges()" class="btn-save">Save Changes</button>
     </div>
 </div>
-    <script>
+<script>
     function openModal(comment, status) {
         document.getElementById("comment").value = comment;
         document.getElementById("status").value = status;
@@ -372,4 +380,4 @@
             closeChangeUserTypeModal();
         }
     }
-    </script>
+</script>
