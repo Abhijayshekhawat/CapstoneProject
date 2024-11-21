@@ -19,18 +19,20 @@ namespace CapstoneProject.Models.ClassLibrary
         string statusChangeDateTime;
         string comment;
         string usertype;
+        string isactive;
 
-        public int ProfileID { get; set; } 
+        public int ProfileID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Organization { get; set; }
         public string Email { get; set; }
-        public string SubmissionDate { get; set;}
+        public string SubmissionDate { get; set; }
         public string Status { get; set; }
-        public string StatusChangeDateTime { get; set;}
-        public string Comment { get; set;}
+        public string StatusChangeDateTime { get; set; }
+        public string Comment { get; set; }
 
         public string UserType { get; set; }
+        public string IsActive { get; set; }
 
         public List<ViewedProfile> TheProfile { get; set; }
 

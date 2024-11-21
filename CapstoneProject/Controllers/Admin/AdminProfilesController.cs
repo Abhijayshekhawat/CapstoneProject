@@ -171,7 +171,20 @@ namespace CapstoneProject.Controllers.Admin
                     {
                         viewedProfile.UserType = "Unassigned";
                     }
-
+                    int activeUser = row["IsActive"] != DBNull.Value ? Convert.ToInt32(row["UserType"]) : -1;
+                    //user type is stored as an int in db, for the admin view we want to show the string
+                    if (uType == 1)
+                    {
+                        viewedProfile.IsActive = "Active";
+                    }
+                    else if (uType == 2)
+                    {
+                        viewedProfile.IsActive = "Inactive";
+                    }
+                    else
+                    {
+                        viewedProfile.IsActive = "User not created";
+                    }
                     //Get Profile Comments
                     Comment c = new Comment();
                     DataSet ds2 = new DataSet();

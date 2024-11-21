@@ -215,6 +215,7 @@
                 <h2><span class="label">Email:</span> <span>@profile.Email</span></h2>
                 <h2><span class="label">Current Status:</span> <span class="status">@profile.Status</span></h2>
                 <h2><span class="label">Current User Type:</span> <span class="status">@profile.UserType</span></h2>
+                <h2><span class="label">Current Activation Status:</span> <span class="status">@profile.IsActive</span></h2>
                 <center>
                     <h2>Profile Status History</h2>
                 </center>
@@ -258,9 +259,9 @@
                 {
                     <span class="btn-link" onclick="openChangeUserTypeModal('Client')">Update User Type</span>
                 }
-                else
+                @if (profile.IsActive != "User not created")
                 {
-                    <span class="btn-link text-muted">User Type Unassigned</span>
+                    <span class="btn-link" onclick="">Change User Activation</span>
                 }
             </div>
         }
