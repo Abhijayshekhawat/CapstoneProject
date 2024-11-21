@@ -24,7 +24,7 @@ namespace CapstoneProject.Controllers.Admin
             //list of project objects and profiles
             List<Project> theProjects = new List<Project>();
             List<Profile> profiles = new List<Profile>();
-
+            int TotalProjects = 0;
             if (projectDs.Tables.Count > 0 && projectDs.Tables[0].Rows.Count > 0) //if the dataset is not null or empty
             {
                 foreach (DataRow row in projectDs.Tables[0].Rows) //each record in the ds
@@ -43,6 +43,7 @@ namespace CapstoneProject.Controllers.Admin
                         project.DateSubmitted = Convert.ToDateTime(row["DateSubmitted"]);
                         theProjects.Add(project);
                     }
+                    TotalProjects++;
                 }
             }
             if (profileDs.Tables.Count > 0 && profileDs.Tables[0].Rows.Count > 0) //if the dataset is not null or empty
@@ -80,7 +81,7 @@ namespace CapstoneProject.Controllers.Admin
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
             ViewBag.LastName = HttpContext.Session.GetString("LastName");
             ViewBag.UserType = HttpContext.Session.GetString("UserType");
-
+            ViewBag.TotalProjects = TotalProjects;
 
             return View("~/Views/Dashboard/UserDashboard.cshtml");
 
