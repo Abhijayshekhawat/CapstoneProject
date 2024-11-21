@@ -14,7 +14,7 @@ namespace CapstoneProject.Controllers.Admin
             return View();
         }
 
-        public IActionResult ManageProfiles(string searchText = null, string statusFilter = null, string dateRangeFilter = null, DateTime? dateStart = null, DateTime? dateEnd = null)
+        public IActionResult ManageProfiles(string searchText = null, string statusFilter = null, string userTypeFilter = null, string dateRangeFilter = null, DateTime? dateStart = null, DateTime? dateEnd = null)
         {
             //Use stored procedure to get profile data from datatable
             //create profile objects and add them to the viewbag
@@ -49,6 +49,7 @@ namespace CapstoneProject.Controllers.Admin
                         userProfile.Status = "Rejected";
                     }
                     userProfile.SubmissionDate = DateTime.Parse(row["SubmissionDate"].ToString());
+                    userProfile.UserType = row["UserType"].ToString();
                     profiles.Add(userProfile);
                 }
             }
@@ -67,6 +68,12 @@ namespace CapstoneProject.Controllers.Admin
             {
                 profiles = profiles
                     .Where(p => p.Status.Equals(statusFilter, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+            if (!string.IsNullOrEmpty(userTypeFilter))
+            {
+                profiles = profiles
+                    .Where(p => p.UserType.Equals(userTypeFilter, StringComparison.OrdinalIgnoreCase))
                     .ToList();
             }
 
