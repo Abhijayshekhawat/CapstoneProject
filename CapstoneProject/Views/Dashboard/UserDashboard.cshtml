@@ -4,6 +4,7 @@
     var firstName = ViewBag.FirstName;
     var lastName = ViewBag.LastName;
     var userType = ViewBag.UserType;
+    var today = DateTime.Now.ToString("D");
 }
 
 <!DOCTYPE html>
@@ -42,7 +43,7 @@
 
             /* Hover effect specifically for sortable headers */
             table th.sortable:hover {
-                color: #A50034; /* Change this color to any accent color you'd like */
+                color: #A41E35; /* Change this color to any accent color you'd like */
                 background-color: #f0f0f0; /* Optional: adds a light background */
                 text-decoration: underline;
             }
@@ -58,12 +59,12 @@
 
         .sort-asc::after {
             content: "▲"; /* Up arrow */
-            color: #A50034;
+            color: #A41E35;
         }
 
         .sort-desc::after {
             content: "▼"; /* Down arrow */
-            color: #A50034;
+            color: #A41E35;
         }
 
 
@@ -87,18 +88,13 @@
             }
 
         .btn-translucent {
-            background-color: rgba(255, 0, 0, 0.7);
+            background-color: #A41E35;
             color: white;
             border: none;
         }
 
-        .btn-success {
-            background-color: #198754;
-            border: none;
-        }
-
         .btn-translucent:hover {
-            background-color: rgba(255, 0, 0, 0.9);
+            background-color: #A50034;
             color: #fff;
         }
 
@@ -111,18 +107,27 @@
         }
 
         h1 {
-            color: #A50034;
+            color: #A41E35;
         }
 
         .card-title {
-            color: #A50034;
+            color: #A41E35;
         }
 
         .card-text {
             color: #333;
         }
+        .number-text{
+            font-size: 0.9rem;
+        }
 
+        .date-text {
+            font-size: 1rem;
+        }
 
+        .title-text{
+            font-size: 1.2rem;
+        }
         .main-container {
             padding-top: 50px;
         }
@@ -130,50 +135,68 @@
 </head>
 <body>
     <main class="container pb-3 padding-bottom main-container">
-        <div class="text-center">
-            <img src="@Url.Content("~/images/User.jpeg")" alt="User Image" class="user-image" />
-            <h1>Hey, @firstName!</h1>
-            <p class="lead">Welcome to your dashboard.</p>
+        <div class="p-4 bg-light rounded shadow">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <p class="mb-1 text-muted date-text">@today</p>
+                    <h1 class="h2 fw-bold">Good Evening! @firstName,</h1>
+                </div>
+            </div>
+            <div class="d-flex justify-content-start align-items-center">
+                <div class="me-4">
+                    <span class="h5 title-text fw-bold">@ViewBag.AdminViewProfiles.Count</span>
+                    <span class="mb-0 number-text text-muted">Pending Profiles</span>
+                </div>
+                <div class="me-4">
+                    <span class="h5 title-text fw-bold">@ViewBag.TotalProjects</span>
+                    <span class="mb-0 number-text text-muted">Total Projects</span>
+                </div>
+                <div>
+                    <span class="h5 title-text fw-bold">@ViewBag.AdminViewProjects.Count</span>
+                    <span class="mb-0 number-text text-muted">Pending Projects</span>
+                </div>
+            </div>
         </div>
+
 
         <div class="padding-top">
             <div class="row justify-content-center">
 
                 <!-- Project Creation Card -->
-                <div class="col-md-4 mb-4">
+                <div class="col-md-3 mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Projects</h5>
-                            <p class="card-text">Add a new project idea.</p>
+                            <h5 class="card-title">Create New Project</h5>
+                            <p class="card-text">Start a new project by submitting your idea.</p>
                             <a class="btn btn-primary btn-translucent" asp-area="" asp-controller="AdminDash" asp-action="CreateNewProject">Create Project</a>
                         </div>
                     </div>
                 </div>
                 <!--Card -->
-                <div class="col-md-4 mb-4">
+                <div class="col-md-3 mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">View Profile</h5>
-                            <p class="card-text">View a list of all profiles</p>
+                            <h5 class="card-title">Manage Profiles</h5>
+                            <p class="card-text">Access and manage all user profiles.</p>
                             <a class="btn btn-translucent" asp-area="" asp-controller="AdminProfiles" asp-action="ManageProfiles">View Profiles</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-4">
+                <div class="col-md-3 mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">View Projects</h5>
-                            <p class="card-text">Check all projects.</p>
+                            <h5 class="card-title">Manage Projects</h5>
+                            <p class="card-text">Browse and manage existing projects.</p>
                             <a class="btn btn-translucent" asp-area="" asp-controller="AdminProject" asp-action="ManageProjects">View Projects</a>
                         </div>
                     </div>
                 </div>
                 <!--  Card -->
-                <div class="col-md-4 mb-4">
+                <div class="col-md-3 mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Edit Profile</h5>
-                            <p class="card-text">Edit your own information</p>
+                            <h5 class="card-title">Edit Your Profile</h5>
+                            <p class="card-text">Update your personal information and organization</p>
                             <a class="btn btn-translucent" asp-area="" asp-controller="Client" asp-action="ClientProfileEdit">Edit Profiles</a>
                         </div>
                     </div>
