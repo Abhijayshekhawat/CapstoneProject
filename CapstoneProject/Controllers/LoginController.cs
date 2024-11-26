@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using CapstoneProject.Models.Utilities;
 using System.Text;
 using CapstoneProject.Attributes;
+using System.Net.Mail;
 
 
 namespace CapstoneProject.Controllers
@@ -42,6 +43,23 @@ namespace CapstoneProject.Controllers
         }
         public async Task<IActionResult> Login(LoginModel model)
         {
+            //Email Part
+            //Email objEmail = new Email();
+            //String strTO = "abhijay.shekhawat@temple.edu";
+            //String strFROM = "templeprojectintake@gmail.com";
+            //String strSubject = "Email Functionality";
+            //String strMessage = "Hi Johnson, I figured out the email part. Who's the goat?";
+            ////**** Uncomment everything before return view  when you want to send the email 
+
+            //try
+            //{
+            //    objEmail.SendMail(strTO, strFROM, strSubject, strMessage);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine($"Failed to send verification email: {ex.Message}");
+            //    ViewBag.ErrorMessage = "The email wasn't sent because: " + ex.Message;
+            //}
             // Manually check if Email and Password fields are populated
             if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password))
             {

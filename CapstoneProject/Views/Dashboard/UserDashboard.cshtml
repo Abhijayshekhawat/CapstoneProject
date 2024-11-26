@@ -93,10 +93,10 @@
             border: none;
         }
 
-        .btn-translucent:hover {
-            background-color: #A50034;
-            color: #fff;
-        }
+            .btn-translucent:hover {
+                background-color: #A50034;
+                color: #fff;
+            }
 
         .padding-top {
             padding-top: 30px;
@@ -117,47 +117,148 @@
         .card-text {
             color: #333;
         }
-        .number-text{
-            font-size: 0.9rem;
+
+        .number-text {
+            font-size: 0.95rem;
         }
 
         .date-text {
             font-size: 1rem;
+            margin-bottom: 15px;
         }
 
-        .title-text{
-            font-size: 1.2rem;
+        .title-text {
+            font-size: 1.3rem;
         }
+
         .main-container {
             padding-top: 50px;
+        }
+
+        .half-doughnut {
+            max-width: 200px;
+            max-height: 200px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .legend {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 20px 0px 0px 10px;
+        }
+
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+            margin-right: 10px;
+        }
+
+        #projectsChart {
+            position: relative;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chart-total {
+            position: absolute;
+            top: 50%; /* Aligns vertically */
+            transform: translate(calc(-50% - 15px), calc(-50% + 5px));
+            text-align: center; /* Ensures the text is centered */
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .projectslabel span {
+            display: block; /* Ensures the total appears above "Total Projects" */
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 40px;
+            color: black;
+        }
+
+        .projectslabel {
+            font-size: 0.9rem;
+            color: #666; /* Subtle color for the label */
+        }
+
+        .top-rowcard {
+            justify-content: space-evenly;
+        }
+
+        .chartcard {
+            justify-content: space-evenly;
         }
     </style>
 </head>
 <body>
     <main class="container pb-3 padding-bottom main-container">
-        <div class="p-4 bg-light rounded shadow">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                    <p class="mb-1 text-muted date-text">@today</p>
-                    <h1 class="h2 fw-bold">Good Evening! @firstName,</h1>
+        <div class="container d-flex top-rowcard">
+            <div class="p-4 bg-light rounded shadow" style="width: 64%;display: flex;justify-content: space-evenly;flex-direction: column;">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted date-text">@today</p>
+                        <h1 class="h2 fw-bold">Good Evening! @firstName,</h1>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start align-items-center">
+                    <div class="me-4">
+                        <span class="h5 title-text fw-bold">@ViewBag.AdminViewProfiles.Count</span>
+                        <span class="number-text text-muted">Pending Profiles</span>
+                    </div>
+                    <div class="me-4">
+                        <span class="h5 title-text fw-bold">@ViewBag.TotalProjects</span>
+                        <span class="number-text text-muted">Total Projects</span>
+                    </div>
+                    <div class="me-4">
+                        <span class="h5 title-text fw-bold">@ViewBag.AdminViewProjects.Count</span>
+                        <span class="number-text text-muted">Pending Projects</span>
+                    </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-start align-items-center">
-                <div class="me-4">
-                    <span class="h5 title-text fw-bold">@ViewBag.AdminViewProfiles.Count</span>
-                    <span class="mb-0 number-text text-muted">Pending Profiles</span>
+            <div class="bg-light rounded shadow ms-3" style="width: 36%;">
+                <div class="chart-container" style="position: relative;">
+                    <!-- Half Doughnut Chart -->
+                    <canvas id="projectsChart" class="half-doughnut"></canvas>
+                    <!-- Total in Doughnut -->
+                    <div class="chart-total">
+                        <div class="projectslabel">
+                            <span>@ViewBag.TotalProjects</span> <!-- Dynamically inject the total -->
+                            Total Projects
+                        </div>
+                    </div>
+                    <!-- Legend -->
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #28a745;"></div>
+                            <span>Approved: @ViewBag.ApprovedProjects</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #ffc107;"></div>
+                            <span>Pending: @ViewBag.PendingProjects</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #dc3545;"></div>
+                            <span>Rejected: @ViewBag.RejectedProjects</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="me-4">
-                    <span class="h5 title-text fw-bold">@ViewBag.TotalProjects</span>
-                    <span class="mb-0 number-text text-muted">Total Projects</span>
-                </div>
-                <div>
-                    <span class="h5 title-text fw-bold">@ViewBag.AdminViewProjects.Count</span>
-                    <span class="mb-0 number-text text-muted">Pending Projects</span>
-                </div>
+
+
             </div>
         </div>
-
 
         <div class="padding-top">
             <div class="row justify-content-center">
@@ -311,8 +412,56 @@
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Pass ViewBag data to JavaScript
+        const approvedProjects = @ViewBag.ApprovedProjects;
+        const pendingProjects = @ViewBag.PendingProjects;
+        const rejectedProjects = @ViewBag.RejectedProjects;
+        const totalProjects = @ViewBag.TotalProjects;
+
+        // Create the chart
+        const ctx = document.getElementById("projectsChart").getContext("2d");
+        const projectsChart = new Chart(ctx, {
+            type: "doughnut",
+            data: {
+                labels: ["Approved", "Pending", "Rejected"],
+                datasets: [
+                    {
+                        data: [approvedProjects, pendingProjects, rejectedProjects],
+                        backgroundColor: ["#28a745", "#ffc107", "#dc3545"],
+                        borderColor: ["#fff", "#fff", "#fff"],
+                        borderWidth: 2,
+                        borderRadius: 7, // Rounded corners
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false, // Custom legend
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                const total = approvedProjects + pendingProjects + rejectedProjects;
+                                const value = tooltipItem.raw;
+                                const percentage = ((value / total) * 100).toFixed(2);
+                                return `${tooltipItem.label}: ${value} (${percentage}%)`;
+                            },
+                        },
+                    },
+                },
+                cutout: "70%", // Makes the doughnut thinner
+                rotation: -90, // Rotates the chart to start from the top
+                circumference: 180, // Limits the chart to a half doughnut
+            },
+        });
+
         //script to sort tables
         let projectsSortOrder = {};
         let profilesSortOrder = {};
@@ -370,12 +519,14 @@
             tbody.innerHTML = "";
             rows.forEach(row => tbody.appendChild(row));
         }
+
+
+
         // Sort the projects and profiles tables by the first column on page load
         window.onload = function () {
             sortProjectsTable(0); // Sort projects table by the first column (Name) in ascending order
             sortProfilesTable(0);  // Sort profiles table by the first column (First Name) in ascending order
         };
     </script>
-
 </body>
 </html>
