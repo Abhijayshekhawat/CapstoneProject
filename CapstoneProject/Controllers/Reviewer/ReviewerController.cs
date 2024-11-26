@@ -16,7 +16,10 @@ namespace CapstoneProject.Controllers.Reviewer
             DataSet projectDs = p.GetProjects();
             //list of project objects and profiles
             List<Project> theProjects = new List<Project>();
-
+            int count = 0;
+            int pending = 0;
+            int approved = 0;
+            int rejected = 0;
             if (projectDs.Tables.Count > 0 && projectDs.Tables[0].Rows.Count > 0) //if the dataset is not null or empty
             {
                 foreach (DataRow row in projectDs.Tables[0].Rows) //each record in the ds
@@ -34,7 +37,17 @@ namespace CapstoneProject.Controllers.Reviewer
                         project.SubmittedBy = row["SubmittedBy"].ToString(); // Full name of submitter
                         project.DateSubmitted = Convert.ToDateTime(row["DateSubmitted"]);
                         theProjects.Add(project);
+                        pending++;
                     }
+                    else if (row["ProjectStatus"].ToString() == "Approved")
+                    {
+                        approved++;
+                    }
+                    else if (row["ProjectStatus"].ToString() == "Rejected")
+                    {
+                        rejected++;
+                    }
+                    count++;
                 }
             }
             // Apply search filter
@@ -85,7 +98,10 @@ namespace CapstoneProject.Controllers.Reviewer
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
             ViewBag.LastName = HttpContext.Session.GetString("LastName");
             ViewBag.UserType = HttpContext.Session.GetString("UserType");
-
+            ViewBag.ApprovedProjects = approved;
+            ViewBag.PendingProjects = pending;
+            ViewBag.RejectedProjects = rejected;
+            ViewBag.TotalProjects = count;
 
             return View("~/Views/Reviewer/ReviewerDashboard.cshtml");
 

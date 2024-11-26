@@ -255,7 +255,9 @@ namespace CapstoneProject.Controllers
             ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
             ViewBag.LastName = HttpContext.Session.GetString("LastName");
             ViewBag.UserType = HttpContext.Session.GetString("UserType");
-
+            ViewBag.ApprovedProjects = NewProjectList.Count(p => p.ProjectStatus == "Approved");
+            ViewBag.PendingProjects = NewProjectList.Count(p => p.ProjectStatus == "Pending");
+            ViewBag.RejectedProjects = NewProjectList.Count(p => p.ProjectStatus == "Rejected");
             return View("~/Views/Client/ClientDashboard.cshtml", NewProjectList);
         }
 
