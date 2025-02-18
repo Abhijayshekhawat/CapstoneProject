@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Capstone Home Page";
+    Layout = "_ClientLayout";
+    var userInfo = ViewData["UserInfo"] as WS_LDAP_Search.TempleLDAPEntry;
+    string errorMessage = ViewData["ErrorMessage"] as string;
+    var headers = ViewData["Headers"] as Dictionary<string, string>;
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to 4396</h1>
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+            <p class="text-danger">@errorMessage</p>
+    }
+    else if (userInfo != null)
+    {
+            <h3>User Information</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr><th>Field</th><th>Value</th></tr>
+                </thead>
+                <tbody>
+                @foreach (var property in userInfo.GetType().GetProperties())
+                {
+                            <tr>
+                                <td>@property.Name</td>
+                                <td>@property.GetValue(userInfo)?.ToString()</td>
+                            </tr>
+                }
+                </tbody>
+            </table>
+    }
+    else
+    {
+            <p>No user information found or an error occurred.</p>
+    }
+
+    <h3>Request Headers</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Header Name</th>
+                <th>Header Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var header in headers)
+            {
+                    <tr>
+                        <td>@header.Key</td>
+                        <td>@header.Value</td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+</div>

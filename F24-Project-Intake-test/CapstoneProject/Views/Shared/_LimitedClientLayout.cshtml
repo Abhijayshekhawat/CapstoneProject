@@ -1,0 +1,361 @@
+﻿@{
+    var firstName = ViewBag.FirstName;
+    var lastName = ViewBag.LastName;
+    var userType = ViewBag.UserType;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CapstoneProject</title>
+    <style>
+        /* General Navbar Styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-left .logo {
+            height: 40px;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-home {
+            width: 50px;
+            margin-top: 5px;
+        }
+
+        /* Nav Link Styling */
+        .nav-link {
+            display: flex;
+            align-items: center;
+            color: #000;
+            text-decoration: none;
+            margin-right: 15px;
+            font-weight: bold;
+            transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+            position: relative;
+            padding: 5px 10px;
+            border-radius: 5px; /* Rounded effect for hover */
+        }
+
+            .nav-link:hover {
+                color: #A41E35;
+                border-color: #A41E35; /* Border effect on hover */
+                transform: scale(1.1); /* Smooth zoom effect */
+                background-color: #f9e8ea; /* Subtle red background on hover */
+            }
+
+            /* Text Styling */
+            .nav-link .nav-text {
+                font-weight: bold; /* Bold text */
+                font-size: 18px; /* Default font size */
+                transition: color 0.5s ease, font-size 0.3s ease; /* Add smooth font-size transition */
+                padding-right: 5px;
+            }
+
+            .nav-link:hover .nav-text {
+                color: #A41E35; /* Change text color on hover */
+            }
+
+            .nav-link .default {
+                display: inline-block;
+            }
+
+            .nav-link .hover {
+                display: none;
+            }
+
+            .nav-link:hover .default {
+                display: none;
+            }
+
+            .nav-link:hover .hover {
+                display: inline-block;
+            }
+
+            /* Active State for Nav Link */
+            .nav-link.active {
+                color: #fff;
+                background-color: #A41E35; /* Active state styling */
+            }
+
+        /* Divider Styling */
+        .divider {
+            width: 1px;
+            height: 40px;
+            background-color: #ddd;
+            margin: 0 10px;
+        }
+
+        /* Profile Dropdown Styling */
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px; /* Rounded effect for hover */
+        }
+
+            .profile:hover {
+                transform: scale(1.1); /* Smooth zoom effect */
+                background-color: #f9e8ea; /* Subtle red background on hover */
+            }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .profile:hover .profile-pic {
+            border-color: #A41E35;
+            transform: scale(1.1); /* Slight zoom effect */
+        }
+
+        .profile-text {
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+            text-align: left;
+        }
+
+        .name {
+            font-weight: bold;
+            margin: 0;
+            transition: color 0.3s ease;
+        }
+
+        .role {
+            font-size: 0.8em;
+            color: #555;
+            margin: 0;
+            display: flex;
+            align-items: center; /* Align indicator with role text */
+            transition: color 0.3s ease;
+        }
+
+        .profile:hover .name,
+        .profile:hover .role {
+            color: #A41E35;
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            list-style: none;
+            padding: 10px 0;
+            display: none;
+            z-index: 1000;
+            border-radius: 5px;
+        }
+
+        .profile-dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu li {
+            display: flex;
+            align-items: center;
+        }
+
+            .dropdown-menu li img.nav-icon {
+                width: 16px;
+                height: 16px;
+                margin-right: 10px;
+            }
+
+            .dropdown-menu li a {
+                text-decoration: none;
+                font-size: 18px;
+                color: #000;
+                display: flex;
+                align-items: center;
+                position: relative;
+                padding: 5px 10px;
+                border-radius: 5px;
+                transition: color 0.3s ease, background-color 0.3s ease;
+            }
+
+                .dropdown-menu li a .default {
+                    display: inline-block;
+                }
+
+                .dropdown-menu li a .hover {
+                    display: none;
+                }
+
+                .dropdown-menu li a:hover .default {
+                    display: none;
+                }
+
+                .dropdown-menu li a:hover .hover {
+                    display: inline-block;
+                }
+
+                .dropdown-menu li a:hover {
+                    color: #A41E35;
+                    background-color: #f9e8ea; /* Subtle red background */
+                }
+        /* Dropdown Indicator Styling */
+        .dropdown-indicator {
+            font-size: 12px; /* Slightly smaller than the role */
+            color: #555; /* Subtle default color */
+            margin-left: 5px; /* Space between role and indicator */
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .profile:hover .dropdown-indicator {
+            color: #A41E35; /* Match hover color */
+            transform: rotate(180deg); /* Rotate arrow on hover */
+        }
+
+        #footer {
+            background-color: #f8f9fa; /* Optional: Change this for better contrast */
+            box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+            padding-top: 20px; /* Adds some spacing for the shadow effect */
+        }
+    </style>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+
+    <!-- External Custom CSS -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons/css/boxicons.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <div class="navbar-left">
+                    <img src="@Url.Content("~/images/templeTlogo.png")" alt="Temple Logo" class="logo">
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-right">
+                    <a class="nav-link" asp-controller="Client" asp-action="ClientDashboard">
+                        <img class="icon-home default" src="@Url.Content("~/images/home.png")" alt="Home icon" />
+                        <img class="icon-home hover" src="@Url.Content("~/images/redhome.png")" alt="Home icon hover" />
+                        <span class="nav-text">Home</span>
+                    </a>
+                    <div class="divider"></div>
+                    <div class="profile-dropdown">
+                        <div class="profile">
+                            <img class="profile-pic"
+                                 src="https://avatar.iran.liara.run/username?username=@($"{firstName}+{lastName}")"
+                                 alt="@($"{firstName} {lastName}")" />
+                            <div class="profile-text">
+                                <p class="name">@($"{firstName} {lastName}")</p>
+                                <p class="role">
+                                    @ViewBag.UserType
+                                    <span class="dropdown-indicator">▼</span>
+                                </p>
+                            </div>
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a asp-controller="Client" asp-action="EditClientProfile">
+                                    <img class="nav-icon edit-icon me-2 default" src="@Url.Content("~/images/editprofile.png")" alt="View Profile icon" />
+                                    <img class="nav-icon edit-icon me-2 hover" src="@Url.Content("~/images/rededitprofile.png")" alt="Edit Profile icon hover" />
+                                    <span>View Profile</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-controller="Account" asp-action="Logout">
+                                    <img class="nav-icon logout-icon me-2 default" src="@Url.Content("~/images/logout.png")" alt="Logout icon" />
+                                    <img class="nav-icon logout-icon me-2 hover" src="@Url.Content("~/images/redlogout.png")" alt="Logout icon hover" />
+                                    <span>Logout</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+        </nav>
+    </header>
+
+    <main class="container pb-3">
+        @RenderBody()
+    </main>
+
+    <footer id="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 footer-contact">
+                        <h3>Temple University</h3>
+                        <p>
+                            1801 N Broad St <br>
+                            Philadelphia, PA 19122<br>
+                            United States <br><br>
+                            <strong>Phone:</strong> +1 (215) 204-7000<br>
+                            <strong>Email:</strong> help@temple.edu<br>
+                        </p>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6 footer-links">
+                        <h4>Useful Links</h4>
+                        <ul>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://www.temple.edu/">Home</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://www.temple.edu/about">About us</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://secretary.temple.edu/policies">Policies</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://www.temple.edu/about/ethics-compliance">Ethics & compliance</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://www.temple.edu/privacy-statement/">Privacy Statement</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 footer-links">
+                        <br>
+                        <br>
+                        <ul>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://tuportal.temple.edu/">TUPortal</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://tumail.temple.edu/">TUmail</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://www.temple.edu/about/accessibility-statement">Accessibility</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://temple.edu/hr/departments/employment/jobs_within.htm">Careers at Temple</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://www.temple.edu/contact/">Contact Us</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 footer-newsletter">
+                        <p>Please note that what you see here may reflect Temple under more normal circumstances. In the event of a COVID-19 outbreak or other emergencies, public health measures like face coverings and physical distancing requirements may be implemented to protect the health and safety of our community.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

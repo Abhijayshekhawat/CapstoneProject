@@ -1,0 +1,51 @@
+﻿@using CapstoneProject.Models.ClassLibrary
+
+@{
+
+    Layout = null;
+
+}
+
+@model NewProjects
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create an Account</title>
+    <link rel="stylesheet" href="@Url.Content("/css/CreateAccountStyles.css")">
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <img src="@Url.Content("/images/Brainstorm.jpg")" alt="Temple Bell Tower">
+        </div>
+        <div class="right">
+            <div class="create-account-box">
+                <img src="@Url.Content("/images/Brainstorm.jpg")" alt="Temple Logo" class="logo">
+                <h2>Edit Project</h2>
+                <p></p>
+
+
+
+
+                <form asp-controller="Client" asp-action="UpdateClientProject" asp-route-ProjectID="@Model.ProjectID" method="POST">
+                        <div class="name-fields">
+                            <input type="text" name="ProjectName" value="@Model.ProjectName" placeholder="Project Name" required>
+
+                        </div>
+
+                        <input type="text" name="ProjectDescription" value="@Model.ProjectDescription" placeholder="Project Description" required>
+                        <button type="submit">Save</button>
+                    </form>
+                    <p class="note">Welcome Back! @ViewBag.FirstName</p>
+
+                
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

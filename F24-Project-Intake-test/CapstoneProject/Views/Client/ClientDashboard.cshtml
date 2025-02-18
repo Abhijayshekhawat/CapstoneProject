@@ -1,0 +1,619 @@
+﻿@using CapstoneProject.Models.ClassLibrary
+@{
+    ViewData["Title"] = "User Dashboard";
+    Layout = "_LimitedClientLayout";
+    var firstName = ViewBag.FirstName;
+    var lastName = ViewBag.LastName;
+    var userType = ViewBag.UserType;
+    var today = DateTime.Now.ToString("D");
+}
+
+@model List<NewProjects>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Dashboard - CapstoneProject</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" />
+
+    <style>
+        .bg-warning {
+            font-weight: 600;
+            color: black;
+        }
+
+        .bg-success {
+            font-weight: 600;
+        }
+
+        .bg-danger {
+            font-weight: 600;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .section-header {
+            font-size: 1.5rem; /* Slightly larger than body text */
+            font-weight: 600; /* Bold for emphasis */
+            color: #A41E35; /* Consistent with theme */
+            margin-bottom: 20px; /* Add spacing below the header */
+            border-bottom: 2px solid #dee2e6; /* Subtle underline */
+            padding-bottom: 5px; /* Space between text and border */
+        }
+
+        .table {
+            margin: 0; /* Ensure no extra margin */
+            border-collapse: separate;
+            border-spacing: 0; /* Remove cell spacing */
+            border-radius: 10px; /* Round table edges */
+            overflow: hidden; /* Ensure rounded corners work */
+        }
+            /* Header Styling */
+            .table thead th {
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: 0.95rem;
+                background-color: #A41E35;
+                color: #f1f3f5;
+                border-bottom: 2px solid #dee2e6;
+            }
+
+            /* Cell Styling */
+            .table tbody td {
+                font-size: 0.95rem;
+                padding: 12px 15px;
+                vertical-align: middle; /* Center-align content */
+            }
+
+            /* Hover Effects */
+            .table tbody tr:hover {
+                background-color: #f1f3f5; /* Subtle hover effect */
+            }
+
+        /* Hover effect for sortable columns */
+        /* Sortable Column Styling */
+        th.sortable {
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            color: #f1f3f5;
+        }
+
+            th.sortable:hover {
+                background-color: #e9ecef; /* Light gray */
+                color: #A41E35;
+            }
+
+        .sort-icon {
+            margin-left: 5px;
+            font-size: 0.8em;
+            color: #f1f3f5;
+        }
+
+        .sort-icon {
+            display: inline-block; /* Isolates the icon from inheriting text underline */
+            margin-left: 5px;
+            font-size: 0.9em;
+            color: inherit; /* Matches the text color by default */
+            text-decoration: none;
+        }
+
+        .sort-asc::after {
+            content: "▲"; /* Up arrow */
+            color: #A41E35;
+        }
+
+        .sort-desc::after {
+            content: "▼"; /* Down arrow */
+            color: #A41E35;
+        }
+
+
+        .user-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            transition: transform 0.2s;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+            .card:hover {
+                transform: scale(1.05);
+                box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            }
+
+        /* Status Badges */
+        .badge {
+            font-size: 0.85rem;
+            padding: 5px 10px;
+            border-radius: 12px;
+        }
+
+        /* Button Styles */
+        .btn-translucent {
+            background-color: #A41E35;
+            color: white;
+            padding: 5px 10px;
+            font-size: 0.85rem;
+            border: none;
+            border-radius: 5px;
+        }
+
+            .btn-translucent:hover {
+                background-color: #8b132e;
+                color: #fff;
+            }
+        /* Shadow for Tables */
+        .table-responsive {
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Center text in header and rows */
+        .text-center {
+            text-align: center;
+        }
+
+        /* Subtle text for empty rows */
+        .text-muted {
+            color: #6c757d;
+        }
+
+        .padding-top {
+            padding-top: 30px;
+        }
+
+        .padding-bottom {
+            padding-bottom: 150px;
+        }
+
+        h1 {
+            color: #A41E35;
+        }
+
+        .card-title {
+            color: #A41E35;
+        }
+
+        .card-text {
+            color: #333;
+        }
+
+        .number-text {
+            font-size: 0.95rem;
+        }
+
+        .date-text {
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .title-text {
+            font-size: 1.3rem;
+        }
+
+        .main-container {
+            padding-top: 50px;
+        }
+
+        .half-doughnut {
+            max-width: 200px;
+            max-height: 200px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .legend {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 20px 0px 0px 10px;
+        }
+
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+            margin-right: 10px;
+        }
+
+        #projectsChart {
+            position: relative;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chart-total {
+            position: absolute;
+            top: 50%; /* Aligns vertically */
+            transform: translate(calc(-50% - 15px), calc(-50% + 5px));
+            text-align: center; /* Ensures the text is centered */
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .projectslabel span {
+            display: block; /* Ensures the total appears above "Total Projects" */
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 40px;
+            color: black;
+        }
+
+        .projectslabel {
+            font-size: 0.9rem;
+            color: #666; /* Subtle color for the label */
+        }
+
+        .top-rowcard {
+            justify-content: space-evenly;
+        }
+
+        .chartcard {
+            justify-content: space-evenly;
+        }
+
+        .filter-form {
+            border-radius: 8px;
+            background-color: #f7f7f7;
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+        }
+
+        .filter-label {
+            font-weight: 500;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .filter-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d0d0d0;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+            .filter-input:focus {
+                outline: none;
+                border-color: #a50034;
+                box-shadow: 0 0 5px rgba(165, 0, 52, 0.3);
+            }
+
+        .custom-date-inputs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .date-input {
+            flex: 1;
+        }
+
+        .filter-button {
+            padding: 8px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .apply-button {
+            background-color: #a50034;
+            color: #fff;
+        }
+
+            .apply-button:hover {
+                background-color: #850029;
+            }
+
+        .reset-button {
+            background-color: #ccc;
+            color: #333;
+            margin-left: 8px;
+        }
+
+            .reset-button:hover {
+                background-color: #bbb;
+            }
+    </style>
+</head>
+<body>
+    <main class="container pb-3 padding-bottom main-container">
+        <div class="container d-flex top-rowcard">
+            <div class="p-4 bg-light rounded shadow" style="width: 64%;display: flex;justify-content: space-evenly;flex-direction: column;">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted date-text">@today</p>
+                        <h1 class="h2 fw-bold">Good Evening! @firstName,</h1>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start align-items-center">
+                    <div class="me-4">
+                        <span class="h5 title-text fw-bold">@ViewBag.ApprovedProjects</span>
+                        <span class="number-text text-muted">Approved Projects</span>
+                    </div>
+                    <div class="me-4">
+                        <span class="h5 title-text fw-bold">@Model.Count</span>
+                        <span class="number-text text-muted">Total Projects</span>
+                    </div>
+                    <div class="me-4">
+                        <span class="h5 title-text fw-bold">@ViewBag.RejectedProjects</span>
+                        <span class="number-text text-muted">Pending Projects</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-light rounded shadow ms-3" style="width: 36%;">
+                <div class="chart-container" style="position: relative;">
+                    <!-- Half Doughnut Chart -->
+                    <canvas id="projectsChart" class="half-doughnut"></canvas>
+                    <!-- Total in Doughnut -->
+                    <div class="chart-total">
+                        <div class="projectslabel">
+                            <span>@Model.Count</span> <!-- Dynamically inject the total -->
+                            Total Projects
+                        </div>
+                    </div>
+                    <!-- Legend -->
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #28a745;"></div>
+                            <span>Approved: @ViewBag.ApprovedProjects</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #ffc107;"></div>
+                            <span>Pending: @ViewBag.PendingProjects</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #dc3545;"></div>
+                            <span>Rejected: @ViewBag.RejectedProjects</span>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="padding-top">
+            <div class="row justify-content-center">
+                <!-- Project Creation Card -->
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Projects</h5>
+                            <p class="card-text">Add a new project idea.</p>
+                            <a class="btn btn-translucent" asp-area="" asp-controller="Account" asp-action="CreateNewProject">Create Project</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- edit Profiles Card -->
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">View Profile</h5>
+                            <p class="card-text"> View @firstName Profile Details</p>
+
+
+
+
+                            <a class="btn btn-translucent" asp-area="" asp-controller="Client" asp-action="EditClientProfile">View Profile</a>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h3 class="mb-3">Submitted Projects</h3>
+            <form asp-action="ClientDashboard" method="get" class="filter-form row mb-4 p-3 shadow-sm">
+                <div class="col-4">
+                    <label for="searchText" class="form-label filter-label">Search Projects</label>
+                    <input type="text" name="searchText" id="searchText" class="filter-input" placeholder="Search by Project Name..."
+                           value="@Context.Request.Query["searchText"]">
+                </div>
+
+                <div class="col-3">
+                    <label for="statusFilter" class="form-label filter-label">Status</label>
+                    <select name="statusFilter" id="statusFilter" class="filter-input">
+                        <option value="" class="btn btn-light">Filter by Status</option>
+                        <option value="Pending" class="btn btn-warning" selected="@(Context.Request.Query["statusFilter"] == "Pending" ? "selected" : null)">Pending</option>
+                        <option value="Approved" class="btn btn-success" selected="@(Context.Request.Query["statusFilter"] == "Approved" ? "selected" : null)">Approved</option>
+                        <option value="Rejected" class="btn btn-danger" selected="@(Context.Request.Query["statusFilter"] == "Rejected" ? "selected" : null)">Rejected</option>
+                    </select>
+                </div>
+
+                <div class="col-5">
+                    <label for="dateRangeFilter" class="form-label filter-label">Date Range</label>
+                    <select id="dateRangeFilter" name="dateRangeFilter" class="filter-input">
+                        <option value="">All Dates</option>
+                        <option value="today" selected="@(Context.Request.Query["dateRangeFilter"] == "today" ? "selected" : null)">Today</option>
+                        <option value="week" selected="@(Context.Request.Query["dateRangeFilter"] == "week" ? "selected" : null)">This Week</option>
+                        <option value="month" selected="@(Context.Request.Query["dateRangeFilter"] == "month" ? "selected" : null)">This Month</option>
+                        <option value="custom" selected="@(Context.Request.Query["dateRangeFilter"] == "custom" ? "selected" : null)">Custom Range</option>
+                    </select>
+
+                    @* Custom date inputs for start and end date *@
+                    <div class="custom-date-inputs mt-2">
+                        <input type="date" name="dateStart" class="filter-input date-input" placeholder="Start Date" value="@Context.Request.Query["dateStart"]">
+                        <input type="date" name="dateEnd" class="filter-input date-input mt-2" placeholder="End Date" value="@Context.Request.Query["dateEnd"]">
+                    </div>
+                </div>
+
+                <div class="col-12 d-flex justify-content-end mt-3">
+                    <button type="submit" class="filter-button apply-button">Apply Filters</button>
+                    <a href="@Url.Action("ClientDashboard")" class="filter-button reset-button">Reset</a>
+                </div>
+            </form>
+            <div class="table-responsive shadow-sm rounded">
+                <table id="projectsTable" class="table table-striped table-hover align-middle text-center">
+                    <thead class="table-primary">
+                        <tr>
+                            <th class="sortable" onclick="sortProjectsTable(0)">Name <span class="sort-icon sort-asc" id="sort-icon-projects-0"></span></th>
+                            <th>Short Description</th>
+                            <th class="sortable" onclick="sortProjectsTable(2)">Project Status <span class="sort-icon" id="sort-icon-projects-2"></th>
+                            <th class="sortable" onclick="sortProjectsTable(3)">Date Submitted <span class="sort-icon" id="sort-icon-projects-3"></span></th>
+                            <th class="sortable" onclick="sortProjectsTable(4)">Reviewed By<span class="sort-icon" id="sort-icon-projects-4"></span></th>
+                            <th class="sortable" onclick="sortProjectsTable(5)">Reviewed On<span class="sort-icon" id="sort-icon-projects-5"></span></th>
+
+
+                            <th>View Project</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (NewProjects newproject in Model)
+                        {
+                            <tr>
+                                <td data-value="@newproject.ProjectName">@newproject.ProjectName</td>
+                                <td data-value="@newproject.ProjectDescription">@newproject.ProjectDescription</td>
+                                <td data-value="@newproject.ProjectStatus">
+                                    @* Conditionally set Bootstrap button styles based on project status *@
+                                    @{
+                                        string statusClass = newproject.ProjectStatus switch
+                                        {
+                                            "Approved" => "badge bg-success",
+                                            "Rejected" => "badge bg-danger",
+                                            "Pending" => "badge bg-warning"
+                                        };
+                                    }
+                                    <span class="@statusClass">@newproject.ProjectStatus</span>
+                                </td>
+                                <td data-value="@newproject.Submissiondate.ToString()">@newproject.Submissiondate.ToString()</td>
+                                <td data-value="@newproject.ReviewerName">@newproject.ReviewerName</td>
+                                <td data-value="@newproject.Reviewdate.ToString()">@newproject.Reviewdate.ToString()</td>
+
+                                <td>
+                                    @if (@newproject.ProjectStatus == "Rejected")
+                                    {
+                                        <a class="btn btn-translucent" asp-controller="Client" asp-action="EditClientProject" asp-route-ProjectID="@newproject.ProjectID">Edit Project</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-translucent" asp-area="" asp-controller="Client" asp-action="ReadOnlyProject" asp-route-ProjectID="@newproject.ProjectID">View Project</a>
+
+                                    }
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Pass ViewBag data to JavaScript
+        const approvedProjects = @ViewBag.ApprovedProjects;
+        const pendingProjects = @ViewBag.PendingProjects;
+        const rejectedProjects = @ViewBag.RejectedProjects;
+        const totalProjects = @Model.Count;
+
+        // Create the chart
+        const ctx = document.getElementById("projectsChart").getContext("2d");
+        const projectsChart = new Chart(ctx, {
+            type: "doughnut",
+            data: {
+                labels: ["Approved", "Pending", "Rejected"],
+                datasets: [
+                    {
+                        data: [approvedProjects, pendingProjects, rejectedProjects],
+                        backgroundColor: ["#28a745", "#ffc107", "#dc3545"],
+                        borderColor: ["#fff", "#fff", "#fff"],
+                        borderWidth: 2,
+                        borderRadius: 7, // Rounded corners
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false, // Custom legend
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                const total = approvedProjects + pendingProjects + rejectedProjects;
+                                const value = tooltipItem.raw;
+                                const percentage = ((value / total) * 100).toFixed(2);
+                                return `${tooltipItem.label}: ${value} (${percentage}%)`;
+                            },
+                        },
+                    },
+                },
+                cutout: "70%", // Makes the doughnut thinner
+                rotation: -90, // Rotates the chart to start from the top
+                circumference: 180, // Limits the chart to a half doughnut
+            },
+        });
+        let projectsSortOrder = {};
+
+        function sortProjectsTable(columnIndex) {
+            const table = document.getElementById("projectsTable");
+            const rows = Array.from(table.rows).slice(1);
+
+            const direction = projectsSortOrder[columnIndex] === "asc" ? "desc" : "asc";
+            projectsSortOrder[columnIndex] = direction;
+
+            document.querySelectorAll("#projectsTable .sort-icon").forEach(icon => {
+                icon.classList.remove("sort-asc", "sort-desc");
+            });
+
+            const currentIcon = document.getElementById(`sort-icon-projects-${columnIndex}`);
+            if (currentIcon) {
+                currentIcon.classList.add(direction === "asc" ? "sort-asc" : "sort-desc");
+            }
+
+            rows.sort((a, b) => {
+                const aValue = a.cells[columnIndex].getAttribute("data-value").toLowerCase();
+                const bValue = b.cells[columnIndex].getAttribute("data-value").toLowerCase();
+                return direction === "asc" ? (aValue > bValue ? 1 : -1) : (aValue < bValue ? 1 : -1);
+            });
+
+            const tbody = table.querySelector("tbody");
+            tbody.innerHTML = "";
+            rows.forEach(row => tbody.appendChild(row));
+
+
+
+        }
+        // Sort the projects and profiles tables by the first column on page load
+        window.onload = function () {
+            sortProjectsTable(0); // Sort projects table by the first column (Name) in ascending order
+        };
+    </script>
+</body>
+</html>
+

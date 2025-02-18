@@ -1,0 +1,152 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+.left {
+    flex: 1;
+    background-color: white;
+    overflow-y: hidden;
+}
+
+    .left img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        padding: 15px;
+        border-radius: 25px;
+    }
+
+.right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+}
+
+.login-box {
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.logo {
+    width: 100px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 32px;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 16px;
+}
+
+.login-button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 7px; /* Rounded corners */
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase; /* Capitalized text */
+    transition: background-color 0.3s ease;
+    border: 1px solid #000; /* Optional border */
+}
+
+    .login-button:hover {
+        color: #000;
+        background-color: #fff; /* Darker shade on hover */
+        border: 1px solid #000; /* Border color on hover */
+    }
+
+.or-divider {
+    margin: 10px 0;
+    color: #888;
+}
+
+.sso-button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 20px 0;
+    background-color: #A41E35;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    border: 1px solid #A41E35; /* Optional border */
+}
+
+    .sso-button:hover {
+        color: #A41E35;
+        background-color: #fff; /* Slightly darker red on hover */
+        border: 1px solid #A41E35; /* Border color on hover */
+    }
+
+.header p {
+    margin: 0 0 20px 0;
+}
+
+.header h2 {
+    margin: 0 0 10px 0;
+}
+
+p {
+    margin-top: 10px;
+    color: #888;
+}
+
+    p a {
+        color: #000;
+        text-decoration: underline;
+        transition: color 0.3s ease;
+    }
+
+        p a:hover {
+            color: #A41E35; /* Red on hover */
+        }
+
+.fields {
+    text-align: left;
+}
+
+.error-message {
+    color: #A41E35;
+    font-weight: bold;
+    font-size: 14px; /* Optional: Adjust font size for readability */
+    margin-top: 5px; /* Space between the error and input field */
+    padding: 5px; /* Optional padding */
+}

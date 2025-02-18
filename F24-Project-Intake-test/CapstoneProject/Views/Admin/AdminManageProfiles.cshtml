@@ -1,0 +1,400 @@
+﻿@model List<CapstoneProject.Models.ClassLibrary.Profile>
+@{
+    ViewData["Title"] = "Manage Profiles";
+    Layout = "_ClientLayout";
+}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/GridView.css" asp-append-version="true" />
+    <style>
+        .bg-warning {
+            font-weight: 600;
+            color: black;
+        }
+
+        .bg-success {
+            font-weight: 600;
+        }
+
+        .bg-danger {
+            font-weight: 600;
+        }
+
+        .section-header {
+            font-size: 1.5rem; /* Slightly larger than body text */
+            font-weight: 600; /* Bold for emphasis */
+            color: #A41E35; /* Consistent with theme */
+            margin-bottom: 20px; /* Add spacing below the header */
+            border-bottom: 2px solid #dee2e6; /* Subtle underline */
+            padding-bottom: 5px; /* Space between text and border */
+        }
+
+        .table {
+            margin: 0; /* Ensure no extra margin */
+            border-collapse: separate;
+            border-spacing: 0; /* Remove cell spacing */
+            border-radius: 10px; /* Round table edges */
+            overflow: hidden; /* Ensure rounded corners work */
+        }
+            /* Header Styling */
+            .table thead th {
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: 0.95rem;
+                background-color: #A41E35;
+                color: #f1f3f5;
+                border-bottom: 2px solid #dee2e6;
+            }
+
+            /* Cell Styling */
+            .table tbody td {
+                font-size: 0.95rem;
+                padding: 12px 15px;
+                vertical-align: middle; /* Center-align content */
+            }
+
+            /* Hover Effects */
+            .table tbody tr:hover {
+                background-color: #f1f3f5; /* Subtle hover effect */
+            }
+
+        /* Hover effect for sortable columns */
+        /* Sortable Column Styling */
+        th.sortable {
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            color: #f1f3f5;
+        }
+
+            th.sortable:hover {
+                background-color: #e9ecef; /* Light gray */
+                color: #A41E35;
+            }
+
+        .sort-icon {
+            margin-left: 5px;
+            font-size: 0.8em;
+            color: #f1f3f5;
+        }
+        /* Status Badges */
+        .badge {
+            font-size: 0.85rem;
+            padding: 5px 10px;
+            border-radius: 12px;
+        }
+
+        /* Button Styles */
+        .btn-translucent {
+            background-color: #A41E35;
+            color: white;
+            padding: 5px 10px;
+            font-size: 0.85rem;
+            border: none;
+            border-radius: 5px;
+        }
+
+            .btn-translucent:hover {
+                background-color: #8b132e;
+                color: #fff;
+            }
+        /* Shadow for Tables */
+        .table-responsive {
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Center text in header and rows */
+        .text-center {
+            text-align: center;
+        }
+
+        /* Subtle text for empty rows */
+        .text-muted {
+            color: #6c757d;
+        }
+        /* Sort icon styling */
+        .sort-icon {
+            display: inline-block; /* Isolates the icon from inheriting text underline */
+            margin-left: 5px;
+            font-size: 0.9em;
+            color: inherit; /* Matches the text color by default */
+            text-decoration: none;
+        }
+
+        .sort-asc::after {
+            content: "▲"; /* Up arrow */
+            text-decoration: none;
+        }
+
+        .sort-desc::after {
+            content: "▼"; /* Down arrow */
+            text-decoration: none;
+        }
+
+        .btn-success {
+            background-color: #198754;
+            border: none;
+        }
+
+        .table-container {
+            position: relative;
+        }
+
+        .scroll-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            cursor: pointer;
+            z-index: 3;
+        }
+
+            .scroll-button.left {
+                left: 0;
+            }
+
+            .scroll-button.right {
+                right: 0;
+            }
+
+        .filter-form {
+            border-radius: 8px;
+            background-color: #f7f7f7;
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+        }
+
+        .filter-label {
+            font-weight: 500;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .filter-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d0d0d0;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+            .filter-input:focus {
+                outline: none;
+                border-color: #a50034;
+                box-shadow: 0 0 5px rgba(165, 0, 52, 0.3);
+            }
+
+        .custom-date-inputs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .date-input {
+            flex: 1;
+        }
+
+        .filter-button {
+            padding: 8px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .apply-button {
+            background-color: #a50034;
+            color: #fff;
+        }
+
+            .apply-button:hover {
+                background-color: #850029;
+            }
+
+        .reset-button {
+            background-color: #ccc;
+            color: #333;
+            margin-left: 8px;
+        }
+
+            .reset-button:hover {
+                background-color: #bbb;
+            }
+
+        .btn-warning {
+            font-weight: 600;
+        }
+
+        .btn-success {
+            font-weight: 600;
+        }
+
+        .btn-danger {
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<div class="container mt-5">
+    <h3 class="text-center mb-4">Admin Manage Profiles</h3>
+    <form asp-action="ManageProfiles" method="get" class="filter-form row mb-4 p-3 shadow-sm">
+        <div class="col-2">
+            <label for="searchText" class="form-label filter-label">Search Profiles</label>
+            <input type="text" name="searchText" id="searchText" class="filter-input" placeholder="Search by Name or Org"
+                   value="@Context.Request.Query["searchText"]">
+        </div>
+
+        <div class="col-2">
+            <label for="statusFilter" class="form-label filter-label">Status</label>
+            <select name="statusFilter" id="statusFilter" class="filter-input">
+                <option value="" class="btn btn-light">Filter by Status</option>
+                <option value="Pending" selected="@(Context.Request.Query["statusFilter"] == "Pending" ? "selected" : null)">Pending</option>
+                <option value="Approved" selected="@(Context.Request.Query["statusFilter"] == "Approved" ? "selected" : null)">Approved</option>
+                <option value="Rejected" selected="@(Context.Request.Query["statusFilter"] == "Rejected" ? "selected" : null)">Rejected</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <label for="userTypeFilter" class="form-label filter-label">User Type</label>
+            <select name="userTypeFilter" id="userTypeFilter" class="filter-input">
+                <option value="" class="btn btn-light">Filter by User Type</option>
+                <option value="Admin" selected="@(Context.Request.Query["userTypeFilter"] == "Admin" ? "selected" : null)">Admin</option>
+                <option value="Client" selected="@(Context.Request.Query["userTypeFilter"] == "Client" ? "selected" : null)">Client</option>
+                <option value="Reviewer" selected="@(Context.Request.Query["userTypeFilter"] == "Reviewer" ? "selected" : null)">Reviewer</option>
+                <option value="Unassigned" selected="@(Context.Request.Query["userTypeFilter"] == "Unassigned" ? "selected" : null)">Unassigned</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <label for="userActiveFilter" class="form-label filter-label">Activation Status</label>
+            <select name="userActiveFilter" id="userActiveFilter" class="filter-input">
+                <option value="" class="btn btn-light">Filter by Activation</option>
+                <option value="Active" selected="@(Context.Request.Query["userActiveFilter"] == "Active" ? "selected" : null)">Active</option>
+                <option value="Inactive" selected="@(Context.Request.Query["userActiveFilter"] == "Inactive" ? "selected" : null)">Inactive</option>
+                <option value="User not created" selected="@(Context.Request.Query["userActiveFilter"] == "User not created" ? "selected" : null)">User not created</option>
+            </select>
+        </div>
+        <div class="col-4">
+            <label for="dateRangeFilter" class="form-label filter-label">Date Range</label>
+            <select id="dateRangeFilter" name="dateRangeFilter" class="filter-input">
+                <option value="">All Dates</option>
+                <option value="today" selected="@(Context.Request.Query["dateRangeFilter"] == "today" ? "selected" : null)">Today</option>
+                <option value="week" selected="@(Context.Request.Query["dateRangeFilter"] == "week" ? "selected" : null)">This Week</option>
+                <option value="month" selected="@(Context.Request.Query["dateRangeFilter"] == "month" ? "selected" : null)">This Month</option>
+                <option value="custom" selected="@(Context.Request.Query["dateRangeFilter"] == "custom" ? "selected" : null)">Custom Range</option>
+            </select>
+
+            @* Custom date inputs for start and end date *@
+            <div class="custom-date-inputs mt-2">
+                <input type="date" name="dateStart" class="filter-input date-input" placeholder="Start Date" value="@Context.Request.Query["dateStart"]">
+                <input type="date" name="dateEnd" class="filter-input date-input mt-2" placeholder="End Date" value="@Context.Request.Query["dateEnd"]">
+            </div>
+        </div>
+
+
+
+        <div class="col-12 d-flex justify-content-end mt-3">
+            <button type="submit" class="filter-button apply-button">Apply Filters</button>
+            <a href="@Url.Action("ManageProfiles")" class="filter-button reset-button">Reset</a>
+        </div>
+    </form>
+    <div class="row">
+        <div class="table-responsive shadow-sm rounded" style="padding: 0;">
+            <table id="profilesTable" class="table table-striped table-hover align-middle text-center">
+                <thead class="table-primary" style="padding: 0;">
+                    <tr>
+                        <th class="sortable" onclick="sortProfilesTable(0)">First Name   <span class="sort-icon sort-asc" id="sort-icon-profiles-0"></span></th>
+                        <th class="sortable" onclick="sortProfilesTable(1)">Last Name   <span class="sort-icon" id="sort-icon-profiles-1"></span></th>
+                        <th class="sortable" onclick="sortProfilesTable(2)">Organization   <span class="sort-icon" id="sort-icon-profiles-2"></span></th>
+                        <th class="sortable" onclick="sortProfilesTable(3)">Status   <span class="sort-icon" id="sort-icon-profiles-3"></span></th>
+                        <th class="sortable" onclick="sortProfilesTable(4)">User Type   <span class="sort-icon" id="sort-icon-profiles-4"></span></th>
+                        <th class="sortable" onclick="sortProfilesTable(5)">Active   <span class="sort-icon" id="sort-icon-profiles-5"></span></th>
+                        <th class="sortable" onclick="sortProfilesTable(6)">Date Submitted   <span class="sort-icon" id="sort-icon-profiles-6"></span></th>
+                        <th>View Profile</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @* Iterate database data here into table rows *@
+                    @* Iterate Database data into table rows *@
+                    @* Check if there are any new profiles to display *@
+                    @if (ViewBag.AdminViewProfiles != null)
+                    {
+                        @foreach (var profile in ViewBag.AdminViewProfiles)
+                        {
+                            <tr>
+                                <td data-value="@profile.FirstName">@profile.FirstName</td>
+                                <td data-value="@profile.LastName">@profile.LastName</td>
+                                <td data-value="@profile.Organization">@profile.Organization</td>
+                                <td data-value="@profile.Status">
+                                    @* Conditionally set Bootstrap button styles based on project status *@
+                                    @{
+                                        string statusClass = profile.Status switch
+                                        {
+                                            "Approved" => "badge bg-success",
+                                            "Rejected" => "badge bg-danger",
+                                            "Pending" => "badge bg-warning"
+                                        };
+                                    }
+                                    <span class="@statusClass">@profile.Status</span>
+                                </td>
+                                <td data-value="@profile.UserType">@profile.UserType</td>
+                                <td data-value="@profile.IsActive">@profile.IsActive</td>
+                                <td data-value="@profile.SubmissionDate.ToString()">@profile.SubmissionDate.ToString()</td>
+                                <td><a class="btn btn-translucent" asp-area="" asp-controller="AdminProfiles" asp-action="ViewAProfile" asp-route-ProfileID="@profile.ProfileID">View Details</a></td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center">There are no profiles</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    let profilesSortOrder = {};
+    function sortProfilesTable(columnIndex) {
+        const table = document.getElementById("profilesTable");
+        const rows = Array.from(table.rows).slice(1);
+
+        const direction = profilesSortOrder[columnIndex] === "asc" ? "desc" : "asc";
+        profilesSortOrder[columnIndex] = direction;
+
+        document.querySelectorAll("#profilesTable .sort-icon").forEach(icon => {
+            icon.classList.remove("sort-asc", "sort-desc");
+        });
+
+        const currentIcon = document.getElementById(`sort-icon-profiles-${columnIndex}`);
+        if (currentIcon) {
+            currentIcon.classList.add(direction === "asc" ? "sort-asc" : "sort-desc");
+        }
+
+        rows.sort((a, b) => {
+            const aValue = a.cells[columnIndex].getAttribute("data-value").toLowerCase();
+            const bValue = b.cells[columnIndex].getAttribute("data-value").toLowerCase();
+            return direction === "asc" ? (aValue > bValue ? 1 : -1) : (aValue < bValue ? 1 : -1);
+        });
+
+        const tbody = table.querySelector("tbody");
+        tbody.innerHTML = "";
+        rows.forEach(row => tbody.appendChild(row));
+    }
+    // Sort the projects and profiles tables by the first column on page load
+    window.onload = function () {
+        sortProfilesTable(0);  // Sort profiles table by the first column (First Name) in ascending order
+    };
+</script>

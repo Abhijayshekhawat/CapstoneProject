@@ -1,0 +1,62 @@
+﻿@model CapstoneProject.Models.LoginModel
+@{
+    Layout = null; //no layout
+    string routePrefix = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development" ? "/cis4396-f04" : "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="@Url.Content("~/css/LoginStyles.css")"> <!-- Correct CSS path resolution -->
+
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <img class="main-left-img" src="@Url.Content("~/images/bell_tower.jpg")" alt="Temple Bell Tower">
+        </div>
+        <div class="right">
+            <div class="login-box">
+                <img src="@Url.Content("~/images/templeTlogo.png")" alt="Temple Logo" class="logo">
+                <div class="header">
+                    <h2>Welcome Back</h2>
+                    <p>Please enter your details to continue</p>
+                </div>
+                <form asp-controller="Login" asp-action="Login" method="post">
+                    <div class="fields">
+                        <span asp-validation-for="Email" class="error-message"></span>
+                        <br />
+                        <input type="email" asp-for="Email" class="form-control input__field" placeholder="email@temple.edu" value="@ViewBag.Email" />
+                        <span asp-validation-for="Password" class="error-message"></span>
+                        <br />
+
+                        <input type="password" asp-for="Password" class="form-control input__field" placeholder="Password" value="@ViewBag.Pwd" />
+                    </div>
+                    <p class="error-message">@ViewBag.ErrorMessage</p>
+
+                    <button type="submit" name="action" value="login" class="login-button">LOG IN</button>
+                    <div class="or-divider">- OR -</div>
+                    <button type="button" class="sso-button" id="ssoButton">Continue with Temple SSO</button>
+                </form>
+                <p>New User? <a asp-controller="Account" asp-action="Index">Register</a></p>
+                <p>Forgot Password? <a asp-controller="Account" asp-action="ResetPassword">Reset Password</a></p>
+
+                <p>By signing in, you agree to our <a href="https://www.temple.edu/privacy-statement">Privacy Policy</a></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const routePrefix = "@(routePrefix)";
+        document.getElementById("ssoButton").addEventListener("click", function () {
+            const redirectUrl = routePrefix + "/Secure/Index";
+            console.log("Redirecting to:", redirectUrl);
+            // Redirect to the Secure Index action
+            window.location.href = redirectUrl;
+        });
+    </script>
+</body>
+</html>
+

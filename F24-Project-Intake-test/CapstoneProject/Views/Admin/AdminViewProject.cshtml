@@ -1,0 +1,336 @@
+﻿@{
+    ViewData["Title"] = "Admin Project Details";
+    var project = ViewBag.AdminViewedProject;
+    Layout = "_ClientLayout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Project Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .table-responsive {
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            background: #ffffff;
+        }
+
+        .card-header {
+            background-color: #A41E35;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            padding: 15px;
+        }
+
+        .field-title {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+
+        .field-value {
+            color: #212529;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            font-size: 0.85rem;
+            padding: 5px 10px;
+            border-radius: 12px;
+        }
+
+            .badge.approved {
+                background-color: #28a745;
+                color: white;
+            }
+
+            .badge.pending {
+                background-color: #ffc107;
+                color: black;
+            }
+
+            .badge.rejected {
+                background-color: #dc3545;
+                color: white;
+            }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .btn-translucent {
+            background-color: #A41E35;
+            color: white;
+            padding: 5px 10px;
+            font-size: 0.85rem;
+            border: none;
+            border-radius: 5px;
+        }
+
+            .btn-translucent:hover {
+                background-color: #8b132e;
+            }
+
+        .table {
+            margin: 0; /* Ensure no extra margin */
+            border-collapse: separate;
+            border-spacing: 0; /* Remove cell spacing */
+            border-radius: 10px; /* Round table edges */
+            overflow: hidden; /* Ensure rounded corners work */
+        }
+            /* Header Styling */
+            .table thead th {
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: 0.95rem;
+                background-color: #A41E35;
+                color: #f1f3f5;
+                border-bottom: 2px solid #dee2e6;
+            }
+
+            /* Cell Styling */
+            .table tbody td {
+                font-size: 0.95rem;
+                padding: 12px 15px;
+                vertical-align: middle; /* Center-align content */
+            }
+
+            /* Hover Effects */
+            .table tbody tr:hover {
+                background-color: #f1f3f5; /* Subtle hover effect */
+            }
+
+        /* Hover effect for sortable columns */
+        /* Sortable Column Styling */
+        th.sortable {
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            color: #f1f3f5;
+        }
+
+            th.sortable:hover {
+                background-color: #e9ecef; /* Light gray */
+                color: #A41E35;
+            }
+
+        .sort-icon {
+            margin-left: 5px;
+            font-size: 0.8em;
+            color: #f1f3f5;
+        }
+
+        .sort-icon {
+            display: inline-block; /* Isolates the icon from inheriting text underline */
+            margin-left: 5px;
+            font-size: 0.9em;
+            color: inherit; /* Matches the text color by default */
+            text-decoration: none;
+        }
+
+        .sort-asc::after {
+            content: "▲"; /* Up arrow */
+            color: #A41E35;
+        }
+
+        .sort-desc::after {
+            content: "▼"; /* Down arrow */
+            color: #A41E35;
+        }
+
+
+
+        /* Add a vertical divider between the two columns */
+        .vertical-line {
+            border-left: 2px solid #dee2e6;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-5">
+        <!-- Project Overview -->
+        <div class="card">
+            <div class="card-header">Project Overview</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="field">
+                            <div class="field-title">Project Name:</div>
+                            <div class="field-value">@project.ProjectName</div>
+                        </div>
+                        <div class="field">
+                            <div class="field-title">Description:</div>
+                            <div class="field-value">@project.ProjectDesc</div>
+                        </div>
+                        <div class="field">
+                            <div class="field-title">Project Owner:</div>
+                            <div class="field-value">@project.ProjectOwner</div>
+                        </div>
+                        <div class="field">
+                            <div class="field-title">Email:</div>
+                            <div class="field-value">@project.Email</div>
+                        </div>
+                    </div>
+                    <div class="col-md-1 d-none d-md-block vertical-line"></div> <!-- Vertical line divider -->
+                    <div class="col-md-5">
+                        <div class="field">
+                            <div class="field-title">Current Status:</div>
+                            <div class="field-value">
+                                <span class="badge @(project.Status.ToLower())">@project.Status</span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="field-title">Submitted On:</div>
+                            <div class="field-value">@project.SubmissionDate</div>
+                        </div>
+                        <div class="field">
+                            <div class="field-title">Last Reviewed On:</div>
+                            <div class="field-value">@(!string.IsNullOrEmpty(project.LastReviewed?.ToString()) ? project.LastReviewed.ToString() : "-")</div>
+                        </div>
+                        <div class="field">
+                            <div class="field-title">Last Reviewed By:</div>
+                            <div class="field-value">
+                                @(!string.IsNullOrEmpty(ViewBag.ReviewerDetails?.FirstName)
+                                    ? $"{ViewBag.ReviewerDetails.FirstName} {ViewBag.ReviewerDetails.LastName} ({ViewBag.ReviewerDetails.UserType})"
+                                    : "-")
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <hr class="my-4" />
+                <h4 class="section-header">Project Status History</h4>
+                @if (project.Comment != null && project.Comment.Count > 0)
+                {
+                    <div class="table-responsive shadow-sm rounded">
+                        <table id="commentsTable" class="table table-striped table-hover align-middle text-center">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th class="sortable" onclick="sortCommentsTable(0)">
+                                        Status
+                                        <span class="sort-icon" id="sort-icon-comments-0"></span>
+                                    </th>
+                                    <th class="sortable" onclick="sortCommentsTable(1)">
+                                        Commenter
+                                        <span class="sort-icon" id="sort-icon-comments-1"></span>
+                                    </th>
+                                    <th>
+                                        Comment
+                                    </th>
+                                    <th class="sortable" onclick="sortCommentsTable(3)">
+                                        Date
+                                        <span class="sort-icon" id="sort-icon-comments-3"></span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var comment in project.Comment)
+                                {
+                                    <tr>
+                                        <td data-value="@comment.LastUpdatedStatus">
+                                            <span class="badge @(comment.LastUpdatedStatus.ToLower())">
+                                                @comment.LastUpdatedStatus
+                                            </span>
+                                        </td>
+                                        <td data-value="@comment.CommenterName">@comment.CommenterName</td>
+                                        <td data-value="@comment.Description">@comment.Description</td>
+                                        <td data-value="@Convert.ToDateTime(comment.StatusChangeDateTime).ToString("o")">@comment.StatusChangeDateTime</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No status history available.</p>
+                }
+            </div>
+        </div>
+
+        <!-- Update Status Form -->
+        <div class="card">
+            <div class="card-header">Update Project Status</div>
+            <div class="card-body">
+                <form asp-action="UpdateProjectStatus" asp-controller="AdminProject" method="post">
+                    <input type="hidden" name="ProjectID" value="@project.ProjectID" />
+                    <div class="mb-3">
+                        <label for="status" class="form-label">New Status</label>
+                        <select name="Status" id="status" class="form-select">
+                            <option value="Approved" selected="@(project.Status == "Approved")">Approved</option>
+                            <option value="Pending" selected="@(project.Status == "Pending")">Pending</option>
+                            <option value="Rejected" selected="@(project.Status == "Rejected")">Rejected</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Add Comment</label>
+                        <textarea name="Comment" id="comment" rows="3" class="form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-translucent">Update Status</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        let commentsSortOrder = {};
+
+        function sortCommentsTable(columnIndex) {
+            const table = document.getElementById("commentsTable");
+            const rows = Array.from(table.rows).slice(1); // Skip the header row
+
+            // Toggle the sort direction
+            const direction = commentsSortOrder[columnIndex] === "desc" ? "asc" : "desc";
+            commentsSortOrder[columnIndex] = direction;
+
+            // Clear previous sort icons
+            document.querySelectorAll("#commentsTable .sort-icon").forEach(icon => {
+                icon.classList.remove("sort-asc", "sort-desc");
+            });
+
+            // Update the current column's sort icon
+            const currentIcon = document.getElementById(`sort-icon-comments-${columnIndex}`);
+            if (currentIcon) {
+                currentIcon.classList.add(direction === "asc" ? "sort-asc" : "sort-desc");
+            }
+
+            // Sort the rows based on the selected column
+            rows.sort((a, b) => {
+                const aValue = a.cells[columnIndex].getAttribute("data-value").toLowerCase();
+                const bValue = b.cells[columnIndex].getAttribute("data-value").toLowerCase();
+                return direction === "asc" ? (aValue > bValue ? 1 : -1) : (aValue < bValue ? 1 : -1);
+            });
+
+            // Re-attach the sorted rows to the table body
+            const tbody = table.querySelector("tbody");
+            tbody.innerHTML = "";
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
+        // Sort the comments table by the first column (Status) on page load
+        window.onload = function () {
+            sortCommentsTable(3); // Default sort by Status
+        };
+    </script>
+
+</body>
+</html>

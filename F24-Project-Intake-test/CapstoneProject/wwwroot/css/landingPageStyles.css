@@ -1,0 +1,37 @@
+﻿/* Full page container styling */
+.container-fluid {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Left section styling */
+.left {
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+/* Right section styling */
+.right {
+    padding: 2rem;
+    text-align: center;
+}
+
+/* Custom button styling */
+.btn-custom {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 2rem;
+    margin-top: 1rem;
+}
+
+/* Note text styling */
+.note {
+    margin-top: 1rem;
+    color: #6c757d;
+}

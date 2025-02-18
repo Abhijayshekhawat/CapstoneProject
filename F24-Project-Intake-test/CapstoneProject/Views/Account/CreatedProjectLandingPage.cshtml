@@ -1,0 +1,38 @@
+﻿@model CapstoneProject.Models.CreateAccountModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Submission Confirmation</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="@Url.Content("/css/landingPageStyles.css")">
+</head>
+<body>
+    <div class="container-fluid d-flex">
+        <div class="row w-100">
+            
+            <div class="col-md-6 left">
+                <img src="@Url.Content("/images/Thinking_With_Blueprint_Logo.jpg")" alt="Thinking With Blueprint" class="img-fluid">
+            </div>
+           
+            <div class="col-md-6 right d-flex flex-column align-items-center justify-content-center">
+                <img src="@Url.Content("/images/templeTlogo.png")" alt="Temple Logo" class="mb-4" style="width: 80px;">
+                <h2>Project Has Been Submitted</h2>
+                <form asp-controller="Client" asp-action="ClientDashboard" method="post">
+                    <button type="submit" name="action" value="createAccount" class="btn btn-custom">Home Page</button>
+                </form>
+                <p class="note">Thank you for your project proposal!</p>
+                <p>@ViewBag.ErrorMessage</p>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

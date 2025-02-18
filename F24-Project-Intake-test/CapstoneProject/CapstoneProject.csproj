@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>b58783cf-8392-4618-8e40-7287e20278db</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="secure\**" />
+    <Content Remove="secure\**" />
+    <EmbeddedResource Remove="secure\**" />
+    <None Remove="secure\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\css\LoginStyles.css" />
+    <Content Remove="wwwroot\Images\templeTlogo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\LoginStyles.css" />
+    <None Include="wwwroot\Images\templeTlogo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.Security" Version="6.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Secure\Admin\Dashboard.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,57 @@
+﻿@model CapstoneProject.Models.CreateAccountModel
+@{
+    Layout = null;
+    string routePrefix = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development" ? "/cis4396-f04" : "";
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create an Account</title>
+    <link rel="stylesheet" href="@Url.Content(routePrefix + "/css/CreateAccountStyles.css")">
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <img src="@Url.Content(routePrefix + "/images/bell_tower.jpg")" alt="Temple Bell Tower">
+        </div>
+        <div class="right">
+            <div class="create-account-box">
+                <img src="@Url.Content(routePrefix + "/images/templeTlogo.png")" alt="Temple Logo" class="logo">
+                <div class="header">
+                    <h2>Create an Account</h2>
+                    <p>Fill in the following information to be reviewed.</p>
+                </div>
+                <form asp-controller="Account" asp-action="CreateAccount" method="post">
+                    <span asp-validation-for="FirstName" class="error-message"></span>
+                    <span asp-validation-for="LastName" class="error-message"></span>
+
+                    <div class="name-fields">
+                        <input type="text" asp-for="FirstName" name="firstName" placeholder="First name" required>
+                        <input type="text" asp-for="LastName" placeholder="Last name" required>
+                    </div>
+                    <span asp-validation-for="Email" class="error-message"></span>
+                    <br />
+                    <input type="email" asp-for="Email" placeholder="Email address" required>
+
+                    <span asp-validation-for="Organization" class="error-message"></span>
+                    <br />
+                    <input type="text" asp-for="Organization" placeholder="Organization" required>
+
+                    <p>@ViewBag.ErrorMessage</p>
+                    <button type="submit" name="action" value="createAccount">Submit</button>
+                </form>
+                <p class="note">Please note that your information must be reviewed and approved by an administrator before you can proceed.</p>
+                <a asp-controller="Login" asp-action="Login" class="button">Return to Login</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        const routePrefix = "@(routePrefix)";
+    </script>
+</body>
+</html>
+

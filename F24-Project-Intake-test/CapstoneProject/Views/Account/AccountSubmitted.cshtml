@@ -1,0 +1,30 @@
+﻿@{
+    Layout = null;
+    string routePrefix = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development" ? "/cis4396-f04" : "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Submitted</title>
+    <link rel="stylesheet" href="@Url.Content(routePrefix + "/css/CreateAccountStyles.css")">
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <img src="@Url.Content(routePrefix + "/images/bell_tower.jpg")" alt="Temple Bell Tower">
+        </div>
+        <div class="right">
+            <div class="create-account-box">
+                <img src="@Url.Content(routePrefix + "/images/templeTlogo.png")" alt="Temple Logo" class="logo">
+                <h2>Your Account is Currently Under Review</h2>
+                <p>Please be on the lookout for an approval email. Don't forget to check your junk.'</p>
+                <a asp-controller="Login" asp-action="Login" class="button">Return to Login</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,298 @@
+﻿@using CapstoneProject.Models;
+@model CapstoneProject.Models.ClassLibrary.AdminViewProject
+@{
+    ViewData["Title"] = "Admin View Project";
+    Layout = "_ReviewerLayout"; // Make sure this layout exists or change accordingly
+}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #eef2f3;
+        color: #333;
+    }
+
+    .profile-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-title {
+        text-align: center;
+        color: #000;
+        font-size: 2.5em;
+        margin-bottom: 30px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .no-info {
+        text-align: center;
+        color: #888;
+        font-size: 1.5em;
+        margin-top: 20px;
+    }
+
+    .profile-card {
+        border: 1px solid #ccc;
+        border-left: 5px solid #dc3545;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: #f8f9fc;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .profile-card h2 {
+            font-size: 1.3em;
+            color: #333;
+            margin: 10px 0;
+        }
+
+    .status {
+        font-weight: bold;
+    }
+
+    .comment {
+        color: #dc3545;
+    }
+
+    .table {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+        .table th, .table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+        }
+
+    .btn-link {
+        color: #dc3545;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.7);
+        padding-top: 60px;
+    }
+
+    .modal-content {
+        background-color: #ffffff;
+        margin: 5% auto;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #dc3545; /* Red color for hover effect */
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    h2 {
+        color: #333;
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    select, input[type="text"], input[type="date"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        transition: border 0.2s;
+    }
+
+        select:focus, input[type="text"]:focus, input[type="date"]:focus {
+            border-color: #dc3545; /* Highlight border on focus */
+            outline: none;
+        }
+
+    .btn-save {
+        background-color: #dc3545; /* Red color for the button */
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+        .btn-save:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
+</style>
+
+<div class="profile-container">
+    <h1 class="profile-title">Project Information</h1>
+
+    @if (ViewBag.AdminViewedProject == null || ViewBag.AdminViewedProject.Count == 0)
+    {
+        <h2 class="no-info">There is no information about this project</h2>
+    }
+    else
+    {
+        foreach (var project in ViewBag.AdminViewedProject)
+        {
+            <div class="profile-card">
+                <h2>Project Name: @project.ProjectName</h2>
+                <h2>Description: @project.ProjectDesc</h2>
+                <h2>Project Owner: @project.ProjectOwner</h2>
+                <h2>Email: @project.Email</h2>
+                <h2>Current Status: @project.Status</h2>
+                <h2>Submitted On: @project.SubmissionDate</h2>
+                <h2>Last Reviewed On: @project.LastReviewed</h2>
+                <h2>Reviewed By: @project.Reviewer</h2>
+
+                <h2>Project Status History</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Comment</th>
+                            <th>Status</th>
+                            <th>Date Of Change</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var comment in project.Comment)
+                        {
+                            <tr>
+                                <td class="comment">@comment.Description</td>
+                                <td class="status">@comment.LastUpdatedStatus</td>
+                                <td>@comment.StatusChangeDateTime.ToString()</td>
+                                <td></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <span class="btn-link" onclick="openModal('Add comment here...', 'Approved')">Change Status</span>
+            </div>
+        }
+    }
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Update Information</h2>
+        <div class="form-group">
+            <label for="comment">Comment</label>
+            <input type="text" id="comment" />
+        </div>
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select id="status">
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+                <option value="Pending">Pending</option>
+            </select>
+        </div>
+
+        <button type="button" onclick="saveChanges()" class="btn-save">Save Changes</button>
+
+    </div>
+</div>
+
+<script>
+    function openModal(comment, status) {
+        document.getElementById("comment").value = comment;
+        document.getElementById("status").value = status;
+        document.getElementById("myModal").style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
+    function saveChanges() {
+        const ProjectID = getQueryParam("ProjectID");
+        const Comment = document.getElementById("comment").value;
+        const Status = document.getElementById("status").value;
+        //const Date = document.getElementById("date").value;
+
+        $.ajax({
+            url: '@Url.Action("UpdateProjectStatus", "AdminProject")',
+            type: 'POST',
+            data: {
+                ProjectID: ProjectID,
+                comment: Comment,
+                status: Status
+                //date: Date
+            },
+            success: function (response) {
+                // Refresh the page
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.error("An error occurred: " + error);
+            }
+        });
+    }
+
+    window.onclick = function (event) {
+        if (event.target == document.getElementById("myModal")) {
+            closeModal();
+        }
+    }
+</script>

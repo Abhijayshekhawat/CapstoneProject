@@ -1,0 +1,132 @@
+/* General layout styling for background and structure */
+html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background-image: url('/images/bg1.jpeg');
+    background-size: cover;
+}
+
+body {
+    min-height: 100%;
+}
+
+/* Main content area (occupies remaining space between header and footer) */
+main {
+    flex-grow: 1; /* Ensures the main content grows to fill available space */
+}
+
+/* Navbar styling */
+.navbar {
+    padding: 10px 20px; /* Adjust padding to reduce size */
+    background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for a cleaner look */
+}
+
+/* Adjust logo size within the navbar */
+.navbar-brand img {
+    width: 40px; /* Set the width of the logo */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Navbar link styles */
+.navbar-nav .nav-link {
+    font-size: 1.1rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.nav-link:hover {
+    color: #800000; /* Dark red hover color */
+}
+
+.user-img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+/* Footer styling */
+footer {
+    background: #f8f9fa;
+    padding: 10px 0 0 0; /* Adjust footer padding */
+    color: #333;
+    font-size: 14px;
+    flex-shrink: 0; /* Ensures footer stays at the bottom */
+}
+
+#footer .footer-top {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+#footer h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #800000;
+    margin-bottom: 20px;
+}
+
+#footer .footer-links ul {
+    list-style: none;
+    padding: 0;
+    line-height: 1.5;
+}
+
+    #footer .footer-links ul li {
+        padding-bottom: 10px;
+    }
+
+        #footer .footer-links ul li i {
+            color: #800000;
+            margin-right: 5px;
+        }
+
+        #footer .footer-links ul li a {
+            color: #333;
+            text-decoration: none;
+        }
+
+            #footer .footer-links ul li a:hover {
+                color: #800000;
+            }
+
+#footer .footer-newsletter {
+    font-size: 14px;
+    color: #666;
+}
+
+#footer .social-links a {
+    font-size: 18px;
+    display: inline-block;
+    background: #800000;
+    color: #fff;
+    line-height: 1;
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+    #footer .social-links a:hover {
+        background: #333;
+    }
+
+#footer .copyright {
+    text-align: left;
+    font-size: 14px;
+}
+
+/* Media queries for responsive design */
+@media (min-width: 768px) {
+    .navbar {
+        padding: 15px 30px; /* Increase padding for larger screens */
+    }
+
+    footer {
+        padding: 5px 0 0 0; /* Adjust footer padding for larger screens */
+    }
+}

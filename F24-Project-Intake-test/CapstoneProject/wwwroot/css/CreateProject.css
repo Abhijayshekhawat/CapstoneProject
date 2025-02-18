@@ -1,0 +1,50 @@
+﻿html,
+body,
+.intro {
+    height: 100%;
+}
+
+.bg-image-vertical {
+    position: relative;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: auto 100%;
+}
+
+.form-outline {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+    .form-outline input,
+    .form-outline textarea {
+        width: 100%;
+        padding: 1rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        font-size: 1rem;
+    }
+
+    .form-outline label {
+        position: absolute;
+        top: 50%;
+        left: 1rem;
+        transform: translateY(-50%);
+        transition: 0.2s ease all;
+        background-color: white;
+        padding: 0 0.25rem;
+        pointer-events: none;
+        font-size: 1rem;
+        color: #6c757d;
+    }
+
+    .form-outline input:focus + label,
+    .form-outline textarea:focus + label,
+    .form-outline input:not(:placeholder-shown) + label,
+    .form-outline textarea:not(:placeholder-shown) + label {
+        top: -0.5rem;
+        font-size: 0.8rem;
+        color: #495057;
+    }
+
